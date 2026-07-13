@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="midnight">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endocrine Bri-gest — CPD Feed</title>
+<style>
+/* ── System font stacks — no external dependencies ───────────────────────── */
+:root{
+  --ff-serif: Georgia,'Times New Roman',Times,serif;
+  --ff-mono: ui-monospace,'SF Mono','Cascadia Mono','Segoe UI Mono',Menlo,Monaco,Consolas,'Courier New',monospace;
+  --ff-sans: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Themes ─────────────────────────────────────────────────────────────── */
+[data-theme="midnight"]{
+  --bg:#050c18;--bg2:#090f1d;--bg3:#0a1628;
+  --border:#0d1625;--border2:#1a2d45;
+  --text:#c8d8e8;--text2:#8aa0ba;--muted:#3a5570;
+  --faint:#1a2d45;--vfaint:#0d1a2c;
+  --heading:#ddeeff;--read-left:#1a2540;--skel:#0a1628;
+  --err-bg:#160808;--err-bd:#4a1010;--err-tx:#f87171;
+  --sel-bg:#080f1c;--sel-bd:#0d1a2c;
+  --foot-bg:#050c18;--tab-off:#1e3050;
+  --logo-sub:#1a2d45;--ts:#162030;--abs:#8aa0ba;
+  --panel-bg:#0a1220;--panel-bd:#1a2d45;
+  --logo-accent:#5b9cf6;
+}
+[data-theme="clinical"]{
+  --bg:#f4f7fc;--bg2:#ffffff;--bg3:#eaf0f8;
+  --border:#dde6f0;--border2:#c0ced8;
+  --text:#1e3a5a;--text2:#475569;--muted:#64748b;
+  --faint:#dde6f0;--vfaint:#edf1f8;
+  --heading:#0c1f35;--read-left:#c8d8e8;--skel:#e4ecf5;
+  --err-bg:#fff5f5;--err-bd:#fca5a5;--err-tx:#dc2626;
+  --sel-bg:#edf1f8;--sel-bd:#dde6f0;
+  --foot-bg:#eaf0f8;--tab-off:#94a3b8;
+  --logo-sub:#94a3b8;--ts:#94a3b8;--abs:#475569;
+  --panel-bg:#ffffff;--panel-bd:#c0ced8;
+  --logo-accent:#1d6bb8;
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .25s,color .25s;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+/* Prevent iOS viewport zoom on select focus — font-size must be ≥16px on mobile */
+@media(max-width:768px){select{font-size:16px!important}}
+
+/* ── Storage warning banner ───────────────────────────────────────────────── */
+.storage-warn{display:flex;align-items:center;gap:10px;padding:7px 16px;background:#1a0808;border-bottom:1px solid #5a1010;color:#f87171;font-family:var(--ff-mono);font-size:11px;flex-wrap:wrap;line-height:1.5}
+.storage-warn button{background:none;border:none;color:#f87171;cursor:pointer;padding:0 6px;font-size:16px;flex-shrink:0;line-height:1}
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+header{display:flex;justify-content:space-between;align-items:center;padding:13px 24px;border-bottom:1px solid var(--vfaint);background:var(--bg);position:sticky;top:0;z-index:200;gap:10px;flex-wrap:wrap}
+.logo-row{display:flex;align-items:center;gap:13px;flex-shrink:0}
+.logo-hex{font-size:24px;color:var(--logo-accent);line-height:1;transition:color .25s}
+h1{font-family:var(--ff-serif);font-size:18px;font-weight:600;color:var(--heading);letter-spacing:.18em}
+.logo-sub{font-family:var(--ff-mono);font-size:9px;color:var(--logo-sub);letter-spacing:.07em;margin-top:2px}
+.controls{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+
+select{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);padding:5px 22px 5px 8px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%231e3050'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:background .25s,border-color .25s,color .25s}
+select option{background:var(--sel-bg)}
+
+.icon-btn{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);width:30px;height:30px;border-radius:5px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.icon-btn:hover{color:var(--text);border-color:var(--border2)}
+.icon-btn.active{border-color:var(--logo-accent);color:var(--logo-accent)}
+
+#btn-refresh{background:var(--sel-bg);border:1px solid var(--border2);color:var(--logo-accent);padding:5px 14px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;transition:all .15s;flex-shrink:0}
+#btn-refresh:hover{background:var(--bg3)}
+#btn-refresh:disabled{color:var(--muted);cursor:wait}
+.ctrl-divider{width:1px;height:20px;background:var(--border2);flex-shrink:0}
+
+/* ── Floating panels ─────────────────────────────────────────────────────── */
+.f-panel{position:fixed;top:60px;right:8px;background:var(--panel-bg);border:1px solid var(--panel-bd);border-radius:8px;z-index:300;display:none;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.55);overflow:hidden;max-width:calc(100vw - 16px)}
+.f-panel.open{display:flex}
+#journal-panel{width:340px;max-height:500px}
+#theme-panel{width:200px;padding:8px;gap:4px;right:52px}
+#audit-panel{width:480px;max-height:80vh}
+/* On narrow screens let audit panel go full-width and scroll its query boxes */
+@media(max-width:520px){
+  #audit-panel{width:calc(100vw - 16px);right:8px}
+  .audit-query-box,.audit-translation-box{font-size:9.5px}
+  .audit-topic-head{gap:5px}
+}
+
+.jp-head{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+#journal-search{flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:5px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);outline:none}
+.jp-count{font-family:var(--ff-mono);font-size:10px;color:var(--logo-accent);white-space:nowrap}
+.jp-clear-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 8px;border-radius:4px;font-size:10px;font-family:var(--ff-mono);cursor:pointer}
+.jp-body{overflow-y:auto;padding:8px 0;flex:1}
+.jp-group-label{font-family:var(--ff-mono);font-size:9px;color:var(--muted);letter-spacing:.1em;padding:8px 12px 4px;text-transform:uppercase}
+.jp-item{display:flex;align-items:center;gap:9px;padding:5px 12px;cursor:pointer;transition:background .1s}
+.jp-item:hover{background:var(--bg3)}
+.jp-item input[type=checkbox]{accent-color:var(--logo-accent);width:13px;height:13px;flex-shrink:0;cursor:pointer}
+.jp-item-name{font-size:12px;color:var(--text2);flex:1}
+.if-badge,.jp-item-if,.study-badge,.corr-badge{font-family:var(--ff-mono);font-size:10px;padding:2px 7px;border-radius:3px;font-weight:500}
+
+.theme-opt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:5px;cursor:pointer;transition:background .1s}
+.theme-opt:hover{background:var(--bg3)}
+.theme-swatch{width:28px;height:18px;border-radius:4px;flex-shrink:0;border:1px solid rgba(255,255,255,.1)}
+.theme-name{font-size:12px;color:var(--text)}
+.theme-opt.active .theme-name{color:var(--logo-accent);font-weight:500}
+
+.audit-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
+.audit-head h3{font-family:var(--ff-serif);font-weight:300;font-size:16px;color:var(--heading);flex:1}
+.audit-close{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0 4px}
+.audit-body{overflow-y:auto;padding:12px 14px;flex:1;display:flex;flex-direction:column;gap:10px}
+.audit-topic{border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.audit-topic-head{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg3);cursor:pointer;flex-wrap:wrap}
+.audit-topic-label{font-family:var(--ff-mono);font-size:11px;font-weight:500;flex:1}
+.audit-count{font-family:var(--ff-mono);font-size:10px;padding:2px 7px;border-radius:3px}
+.audit-verify-btn{font-family:var(--ff-mono);font-size:10px;background:none;border:1px solid var(--border2);color:var(--muted);padding:2px 8px;border-radius:3px;cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .15s}
+.audit-verify-btn:hover{opacity:.7}
+.audit-topic-body{padding:10px 12px;display:none;border-top:1px solid var(--border)}
+.audit-topic-body.open{display:block}
+.audit-section-label{font-family:var(--ff-mono);font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;margin-top:10px}
+.audit-section-label:first-child{margin-top:0}
+.audit-query-box{font-family:var(--ff-mono);font-size:10.5px;color:var(--text2);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 10px;line-height:1.6;white-space:pre-wrap;word-break:break-all;max-height:120px;overflow-y:auto}
+.audit-translation-box{font-family:var(--ff-mono);font-size:10px;color:var(--logo-accent);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 10px;line-height:1.6;white-space:pre-wrap;word-break:break-all;max-height:100px;overflow-y:auto}
+.audit-pending{font-family:var(--ff-mono);font-size:10px;color:var(--muted);font-style:italic}
+.audit-warning{font-family:var(--ff-mono);font-size:10px;color:#fb923c;margin-top:5px;line-height:1.5}
+
+/* ── Tab bar ─────────────────────────────────────────────────────────────── */
+nav{display:flex;overflow-x:auto;padding:0 24px;border-bottom:1px solid var(--vfaint);background:var(--bg);gap:1px;scrollbar-width:none;position:sticky;top:54px;z-index:100}
+nav::-webkit-scrollbar{display:none}
+.tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--tab-off);padding:10px 13px;font-size:11px;font-family:var(--ff-mono);font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
+.tab:hover{color:var(--text2)}
+.tab.active{border-bottom-color:var(--tc,#5b9cf6);color:var(--tc,#5b9cf6)}
+.tab-bm{margin-left:auto}
+.badge{background:var(--tc,#5b9cf6);color:#000;border-radius:10px;padding:1px 5px;font-size:9px;font-weight:700;min-width:15px;text-align:center}
+.tab-divider{width:1px;background:var(--border);margin:8px 2px;flex-shrink:0;align-self:stretch}
+
+/* ── Subdomain pills ─────────────────────────────────────────────────────── */
+.sd-pills{display:flex;overflow-x:auto;gap:6px;margin-bottom:18px;padding-bottom:2px;scrollbar-width:none;flex-wrap:nowrap}
+.sd-pills::-webkit-scrollbar{display:none}
+.sd-pill{background:none;border:1px solid var(--border2);color:var(--muted);padding:4px 13px;border-radius:20px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.sd-pill:hover{border-color:var(--tc,#5b9cf6);color:var(--text2)}
+.sd-pill.active{background:var(--pill-active-bg,rgba(91,156,246,.12));border-color:var(--tc,#5b9cf6);color:var(--tc,#5b9cf6)}
+
+/* ── Main ────────────────────────────────────────────────────────────────── */
+main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
+.topic-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;gap:12px;flex-wrap:wrap}
+.topic-title{font-family:var(--ff-serif);font-size:24px;font-weight:300;letter-spacing:.01em}
+.fetch-time{font-family:var(--ff-mono);font-size:10px;color:var(--ts)}
+.if-notice{font-family:var(--ff-mono);font-size:10px;color:var(--muted);margin-bottom:12px;padding:6px 10px;background:var(--bg3);border-radius:4px;border-left:2px solid var(--logo-accent)}
+
+@keyframes pulse{0%,100%{opacity:.28}50%{opacity:.5}}
+.skeleton{background:var(--skel);border-radius:8px;margin-bottom:10px;animation:pulse 1.8s ease-in-out infinite}
+
+/* ── Article card ────────────────────────────────────────────────────────── */
+.article{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tc,#5b9cf6);border-radius:8px;padding:17px 19px;margin-bottom:9px;transition:opacity .2s,border-color .2s}
+.article.read{opacity:.58;border-left-color:var(--read-left)}
+.article.read.open{opacity:1;border-left-color:var(--tc,#5b9cf6)}
+.article.correspondence{border-left-style:dashed;opacity:.82}
+.article.correspondence.open{opacity:1}
+
+.meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.journal{font-family:var(--ff-mono);font-size:11px;letter-spacing:.04em;color:var(--tc,#5b9cf6)}
+.pub-date{font-family:var(--ff-mono);font-size:10px;color:var(--muted)}
+.pmid-label{font-family:var(--ff-mono);font-size:10px;color:var(--faint);margin-left:auto}
+.corr-badge{background:#78716c18;color:#a8a29e;border:1px solid #a8a29e44}
+
+.art-title{font-family:var(--ff-serif);font-weight:300;font-size:16px;color:var(--text);line-height:1.48;margin-bottom:6px;cursor:pointer;transition:color .15s}
+.art-title:hover{color:var(--heading)}
+.authors{font-family:var(--ff-mono);font-size:10.5px;color:var(--muted);margin-bottom:12px}
+
+.abstract-body{border-left:2px solid var(--border2);padding-left:15px;margin-bottom:13px;display:none}
+.abstract-body.open{display:block}
+.abstract-para{font-size:12.5px;line-height:1.68;color:var(--abs);margin-bottom:9px}
+.abstract-label{font-family:var(--ff-mono);font-size:10.5px;margin-right:3px;color:var(--tc,#5b9cf6)}
+
+.actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.act-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .15s}
+.act-btn:hover{opacity:.7}
+.act-btn.pubmed{color:var(--tc,#5b9cf6)}
+.act-btn.save{border:none;margin-left:auto;color:var(--faint)}
+.act-btn.saved{border:none;margin-left:auto;color:#fbbf24}
+
+.error-box{display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--err-bg);border:1px solid var(--err-bd);border-radius:8px;color:var(--err-tx);font-size:12px;font-family:var(--ff-mono);line-height:1.7}
+.retry-btn{flex-shrink:0;background:none;border:1px solid var(--err-bd);color:var(--err-tx);padding:3px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-family:var(--ff-mono)}
+.empty-state{text-align:center;padding:50px 20px;color:var(--faint)}
+.empty-state h3{font-family:var(--ff-serif);font-size:20px;font-weight:300;margin-bottom:8px;color:var(--muted)}
+.empty-state p{font-family:var(--ff-mono);font-size:11px;line-height:1.7}
+
+footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foot-bg);text-align:center;font-family:var(--ff-mono);font-size:10px;color:var(--faint);line-height:1.9}
+.clear-btn{color:var(--faint);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:inherit;font-size:inherit}
+
+/* ── v5.7 mode switch + journal chips ──────────────────────────────────────── */
+#mode-switch{display:flex;gap:0;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:3px;margin:12px 24px 0;width:-webkit-fit-content;width:fit-content}
+#mode-switch button{font-family:var(--ff-sans);font-size:12px;font-weight:500;letter-spacing:.03em;color:var(--text2);background:transparent;border:none;border-radius:6px;padding:7px 18px;cursor:pointer;transition:background .15s,color .15s}
+#mode-switch button.active{background:var(--logo-accent);color:#fff}
+#jchip-row{align-items:center}
+.jchip{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-sans);font-size:12px;color:var(--text);background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:4px 6px 4px 11px;white-space:nowrap}
+.jchip button{background:none;border:none;color:var(--text2);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
+.jchip button:hover{color:var(--err-tx)}
+.jpick-btn{font-family:var(--ff-sans);font-size:12px;font-weight:500;color:var(--logo-accent);background:var(--bg3);border:1px dashed var(--logo-accent);border-radius:14px;padding:5px 13px;cursor:pointer;white-space:nowrap}
+.jpick-btn:hover{background:var(--bg2)}
+.saved-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:0 0 14px;border-bottom:1px solid var(--faint);margin-bottom:16px}
+.saved-count{font-family:var(--ff-mono);font-size:12px;color:var(--text2)}
+.saved-actions{display:flex;gap:8px;flex-wrap:wrap}
+.saved-btn{font-family:var(--ff-sans);font-size:12px;color:var(--text);background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:6px 12px;cursor:pointer;transition:background .12s}
+.saved-btn:hover{background:var(--bg2)}
+.saved-btn-danger{color:var(--err-tx);border-color:var(--err-bd)}
+</style>
+</head>
+<body>
+
+<div id="storage-warn" class="storage-warn" style="display:none">
+  <span id="storage-warn-msg">&#9888; Storage unavailable — saved articles &amp; settings won't persist between sessions. Private Mode or restricted storage?</span>
+  <button onclick="document.getElementById('storage-warn').style.display='none'" title="Dismiss">&#215;</button>
+</div>
+
+<header>
+  <div class="logo-row">
+    <div class="logo-hex">&#x2B21;</div>
+    <div>
+      <h1>Endocrine Bri-gest <span style="letter-spacing:normal;font-size:17px;vertical-align:middle" role="img" aria-label="bespectacled researcher">🤓</span> <span id="ver-badge" style="font-family:var(--ff-mono);font-size:10px;font-weight:400;color:var(--logo-accent);letter-spacing:.05em;vertical-align:middle;opacity:.7"></span></h1>
+      <div class="logo-sub" id="logo-sub">ENDOCRINE &amp; DIABETES &middot; CPD FEED &middot; PUBMED</div>
+    </div>
+  </div>
+  <div class="controls">
+    <select id="sel-days" title="Date range">
+      <option value="7">Past week</option>
+      <option value="14">Past 2 weeks</option>
+      <option value="30">Past month</option>
+    </select>
+    <select id="sel-study" title="Study type">
+      <option value="">All study types</option>
+      <option value=' AND "randomized controlled trial"[pt]'>RCT only</option>
+      <option value=' AND "systematic review"[pt]'>Systematic review</option>
+      <option value=' AND "meta-analysis"[pt]'>Meta-analysis</option>
+      <option value=' AND "practice guideline"[pt]'>Guidelines</option>
+      <option value=' AND review[pt]'>Review (all)</option>
+    </select>
+    <select id="sel-if" title="Min impact factor">
+      <option value="0">Any IF</option>
+      <option value="5">IF &ge; 5</option>
+      <option value="10">IF &ge; 10</option>
+      <option value="20">IF &ge; 20</option>
+      <option value="40">IF &ge; 40 (flagship)</option>
+    </select>
+    <div class="ctrl-divider"></div>
+    <button class="icon-btn" id="btn-journals" title="Filter by journal">&#128300;</button>
+    <button class="icon-btn" id="btn-theme"   title="Change theme">&#127912;</button>
+    <button class="icon-btn" id="btn-audit"   title="Search strategy audit">&#128269;</button>
+    <div class="ctrl-divider"></div>
+    <button id="btn-refresh">&#8635; Refresh</button>
+  </div>
+</header>
+
+<!-- Journal panel -->
+<div id="journal-panel" class="f-panel">
+  <div class="jp-head">
+    <input type="text" id="journal-search" placeholder="Search journals&hellip;">
+    <span class="jp-count" id="jp-count">All journals</span>
+    <button class="jp-clear-btn" id="jp-clear">Clear</button>
+  </div>
+  <div class="jp-body" id="jp-body"></div>
+</div>
+
+<!-- Theme panel -->
+<div id="theme-panel" class="f-panel">
+  <div class="theme-opt" data-theme="midnight"><div class="theme-swatch" style="background:linear-gradient(135deg,#050c18 50%,#5b9cf6 100%)"></div><span class="theme-name">Midnight</span></div>
+  <div class="theme-opt" data-theme="clinical"><div class="theme-swatch" style="background:linear-gradient(135deg,#f4f7fc 50%,#1d6bb8 100%)"></div><span class="theme-name">Clinical</span></div>
+</div>
+
+<!-- Audit panel -->
+<div id="audit-panel" class="f-panel">
+  <div class="audit-head"><h3>Search Strategy Audit</h3><button class="audit-close" id="audit-close">&#x2715;</button></div>
+  <div class="audit-body" id="audit-body"></div>
+</div>
+
+<div id="mode-switch">
+  <button id="mode-domain" class="active">Domain</button>
+  <button id="mode-journal">Journal</button>
+</div>
+<nav id="tabs"></nav>
+
+<main>
+  <div class="topic-hdr">
+    <div class="topic-title" id="topic-title">&mdash;</div>
+    <div class="fetch-time" id="fetch-time"></div>
+  </div>
+  <div id="sd-pill-row" class="sd-pills"></div>
+  <div id="jchip-row" class="sd-pills" style="display:none"></div>
+  <div id="if-notice" class="if-notice" style="display:none"></div>
+  <div id="content"></div>
+</main>
+
+<footer>
+  <span id="footer-ver"></span> &nbsp;&middot;&nbsp; PubMed / NCBI E-utilities &nbsp;&middot;&nbsp; Abstracts verbatim &nbsp;&middot;&nbsp; No AI-generated content &nbsp;&middot;&nbsp; Cached 6 h &nbsp;&middot;&nbsp; Up to 50 results per lane &nbsp;&middot;&nbsp; IF: approx 2024 JCR (&gt;100 journals) &nbsp;&middot;&nbsp; RACP Advanced Training domains
+  &nbsp;&middot;&nbsp; <button class="clear-btn" onclick="clearAll()">Clear history &amp; saved</button>
+  <br>&copy; 2026 Brian Corley &nbsp;&middot;&nbsp; Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Creative Commons BY-NC-SA 4.0</a>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// 0. STORAGE AVAILABILITY CHECK
+// ═══════════════════════════════════════════════════════════════════════════
+const STORAGE_OK = (function(){
+  try{const k='__ed_t__';localStorage.setItem(k,'1');localStorage.removeItem(k);return true;
+  catch(_){return false;}
+})();
+if(!STORAGE_OK){
+  document.addEventListener('DOMContentLoaded',function(){
+    const w=document.getElementById('storage-warn');
+    if(w)w.style.display='flex';
+  });
+}
+document.addEventListener('DOMContentLoaded',function(){
+  document.title='Endocrine Bri-gest v'+VERSION+' \u2014 CPD Feed';
+  var vb=document.getElementById('ver-badge');if(vb)vb.textContent='v'+VERSION;
+  var fv=document.getElementById('footer-ver');if(fv)fv.textContent='Endocrine Bri-gest v'+VERSION;
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 1. VERSION — single source of truth; all UI references derive from this
+// ═══════════════════════════════════════════════════════════════════════════
+const VERSION = '5.8';
+//    Each has a broad domain query (union) + subdomains array
+//    Query sources cited in endo-digest-queries.html reference document
+// ═══════════════════════════════════════════════════════════════════════════
+const TOPICS = [
+// ── Core RACP domains ───────────────────────────────────────────────────
+{
+  id:'dm', section:'core', color:'#5b9cf6', label:'Diabetes Mellitus', short:'Diabetes',
+  query:'("diabetes mellitus"[MH] OR "diabetic ketoacidosis"[MH] OR "hypoglycemia"[MH] OR "prediabetic state"[MH] OR "insulin resistance"[MH])',
+  subdomains:[
+    { label:'Type 1 Diabetes',
+      query:'("diabetes mellitus, type 1"[MH] OR "type 1 diabetes"[tiab] OR "T1D"[tiab] OR "T1DM"[tiab] OR "autoimmune diabetes"[tiab] OR "LADA"[tiab] OR "latent autoimmune diabetes in adults"[tiab]) NOT ("type 2 diabetes"[tiab] OR "gestational diabetes"[tiab])' },
+    { label:'Type 2 Diabetes',
+      query:'("diabetes mellitus, type 2"[MH] OR "type 2 diabetes"[tiab] OR "T2DM"[tiab]) AND ("hypoglycemic agents"[MH] OR "metformin"[tiab] OR "SGLT2 inhibitor"[tiab] OR "DPP-4 inhibitor"[tiab] OR "glycaemic control"[tiab] OR "HbA1c"[tiab] OR ("GLP-1"[tiab] AND "type 2"[tiab])) NOT ("diabetes mellitus, type 1"[MH] OR "gestational diabetes"[tiab])' },
+    { label:'Diabetes in Pregnancy',
+      query:'("diabetes, gestational"[MH] OR "gestational diabetes mellitus"[tiab] OR "GDM"[tiab] OR "gestational diabetes"[tiab] OR "hyperglycaemia in pregnancy"[tiab] OR "hyperglycemia in pregnancy"[tiab] OR ("diabetes mellitus"[MH] AND "pregnancy complications"[MH]) OR ("pre-existing diabetes"[tiab] AND "pregnancy"[MH]))' },
+    { label:'Youth & Paediatric',
+      query:'(("diabetes mellitus"[MH] OR "diabetes"[tiab]) AND ("child"[MH] OR "adolescent"[MH] OR "pediatrics"[MH] OR "paediatric"[tiab] OR "childhood"[tiab] OR "youth"[tiab])) OR "youth-onset diabetes"[tiab] OR "paediatric diabetes"[tiab] OR "young-onset type 2 diabetes"[tiab] OR "ISPAD"[tiab]' },
+    { label:'Glucose Technology',
+      query:'("blood glucose self-monitoring"[MH] OR "continuous glucose monitor"[tiab] OR "CGM"[tiab] OR "flash glucose monitoring"[tiab] OR "FreeStyle Libre"[tiab] OR "automated insulin delivery"[tiab] OR "AID system"[tiab] OR "artificial pancreas"[tiab] OR "closed-loop"[tiab] OR "hybrid closed loop"[tiab] OR "insulin pump"[tiab] OR "CSII"[tiab] OR "time in range"[tiab])' },
+    { label:'Hypoglycaemia',
+      query:'("hypoglycemia"[MH] OR "hypoglycaemia"[tiab] OR "severe hypoglycaemia"[tiab] OR "nocturnal hypoglycaemia"[tiab] OR "hypoglycaemia unawareness"[tiab] OR "impaired awareness of hypoglycaemia"[tiab] OR "glucagon rescue"[tiab] OR "dasiglucagon"[tiab]) AND ("diabetes"[tiab] OR "diabetes mellitus"[MH])' },
+    { label:'Diabetic Complications',
+      query:'("diabetic nephropathies"[MH] OR "diabetic neuropathies"[MH] OR "diabetic retinopathy"[MH] OR "diabetic foot"[MH] OR "diabetic nephropathy"[tiab] OR "diabetic neuropathy"[tiab] OR "diabetic retinopathy"[tiab] OR "diabetic kidney disease"[tiab] OR "DKD"[tiab] OR ("albuminuria"[tiab] AND "diabetes"[MH]) OR ("cardiovascular disease"[tiab] AND "diabetes mellitus"[MH]))' },
+    { label:'Inpatient & Perioperative',
+      query:'(("hyperglycemia"[MH] OR "hyperglycaemia"[tiab]) AND ("inpatients"[MH] OR "hospitalization"[MH] OR "perioperative"[tiab] OR "surgical"[tiab])) OR "inpatient hyperglycaemia"[tiab] OR "steroid-induced hyperglycaemia"[tiab] OR "enteral nutrition hyperglycaemia"[tiab] OR "insulin infusion protocol"[tiab]' },
+  ]
+},
+{
+  id:'ob', section:'core', color:'#f87171', label:'Obesity & Metabolic Syndrome', short:'Obesity',
+  query:'("obesity"[MH] OR "overweight"[MH] OR "metabolic syndrome"[MH]) AND ("weight loss"[MH] OR "anti-obesity"[tiab] OR "weight management"[tiab] OR "obesity management"[tiab])',
+  subdomains:[
+    { label:'Pharmacotherapy',
+      query:'(semaglutide[tiab] OR tirzepatide[tiab] OR liraglutide[tiab] OR orforglipron[tiab] OR retatrutide[tiab] OR "GLP-1 receptor agonist"[tiab] OR "GIP receptor"[tiab] OR "dual agonist"[tiab] OR (naltrexone[tiab] AND bupropion[tiab]) OR (phentermine[tiab] AND topiramate[tiab]) OR "anti-obesity medication"[tiab]) AND ("obesity"[MH] OR "overweight"[MH] OR "weight reduction"[tiab])' },
+    { label:'Bariatric Surgery',
+      query:'("bariatric surgery"[MH] OR "gastric bypass"[MH] OR "bariatric surgery"[tiab] OR "sleeve gastrectomy"[tiab] OR "Roux-en-Y gastric bypass"[tiab] OR "RYGB"[tiab] OR "adjustable gastric band"[tiab] OR "metabolic surgery"[tiab] OR "revisional bariatric"[tiab] OR "biliopancreatic diversion"[tiab])' },
+    { label:'Metabolic Syndrome',
+      query:'("metabolic syndrome"[MH] OR "metabolic syndrome"[tiab] OR "insulin resistance syndrome"[tiab] OR "cardiometabolic risk"[tiab] OR "visceral adiposity"[tiab] OR ("abdominal obesity"[tiab] AND "metabolic"[tiab])) NOT ("bariatric surgery"[tiab])' },
+    { label:'MASLD / Metabolic Liver',
+      query:'("non-alcoholic fatty liver disease"[MH] OR "NAFLD"[tiab] OR "non-alcoholic steatohepatitis"[tiab] OR "NASH"[tiab] OR "MASLD"[tiab] OR "metabolic associated steatotic liver disease"[tiab] OR "MAFLD"[tiab] OR "metabolic associated fatty liver"[tiab] OR resmetirom[tiab] OR (semaglutide[tiab] AND "MASLD"[tiab]))' },
+    { label:'Special Populations',
+      query:'("obesity"[MH] AND ("pregnancy complications"[MH] OR "child"[MH] OR "adolescent"[MH])) OR "maternal obesity"[tiab] OR "obesity in pregnancy"[tiab] OR "childhood obesity"[tiab] OR "paediatric obesity"[tiab] OR "Prader-Willi"[tiab]' },
+  ]
+},
+{
+  id:'thy', section:'core', color:'#a78bfa', label:'Thyroid Disorders', short:'Thyroid',
+  query:'("thyroid diseases"[MH] OR "thyroid neoplasms"[MH] OR thyroiditis[MH])',
+  subdomains:[
+    { label:'Hypothyroidism',
+      query:'("hypothyroidism"[MH] OR "hypothyroidism"[tiab] OR "subclinical hypothyroidism"[tiab] OR "overt hypothyroidism"[tiab] OR levothyroxine[tiab] OR liothyronine[tiab] OR "thyroid hormone replacement"[tiab] OR "thyroxine replacement"[tiab] OR ("TSH"[tiab] AND "thyroid hormone replacement"[tiab]))' },
+    { label:'Hyperthyroidism & Graves',
+      query:'("hyperthyroidism"[MH] OR "Graves disease"[MH] OR "thyrotoxicosis"[MH] OR "hyperthyroidism"[tiab] OR "Graves disease"[tiab] OR "Graves\' disease"[tiab] OR "toxic multinodular goitre"[tiab] OR "antithyroid drug"[tiab] OR carbimazole[tiab] OR methimazole[tiab] OR propylthiouracil[tiab] OR ("radioiodine"[tiab] AND "hyperthyroidism"[tiab]))' },
+    { label:'Nodule & Differentiated Cancer',
+      query:'("thyroid neoplasms"[MH] OR "thyroid nodule"[MH] OR "thyroid cancer"[tiab] OR "papillary thyroid carcinoma"[tiab] OR "follicular thyroid carcinoma"[tiab] OR "differentiated thyroid cancer"[tiab] OR "thyroid nodule"[tiab] OR "Bethesda classification"[tiab] OR ("fine needle aspiration"[tiab] AND "thyroid"[tiab]) OR "radioiodine remnant ablation"[tiab] OR (lenvatinib[tiab] AND "thyroid"[tiab]))' },
+    { label:'Medullary & Anaplastic Cancer',
+      query:'((("thyroid neoplasms"[MH] OR "thyroid cancer"[tiab]) AND ("carcinoma, medullary"[MH] OR "medullary"[tiab] OR "anaplastic"[tiab])) OR ("MTC"[tiab] AND "thyroid"[tiab]) OR ("calcitonin"[tiab] AND "thyroid cancer"[tiab]) OR vandetanib[tiab] OR cabozantinib[tiab] OR selpercatinib[tiab] OR ("RET"[tiab] AND "thyroid"[tiab]))' },
+    { label:'Thyroid Eye Disease',
+      query:'("graves ophthalmopathy"[MH] OR "thyroid eye disease"[tiab] OR "thyroid-associated ophthalmopathy"[tiab] OR "Graves orbitopathy"[tiab] OR ("TAO"[tiab] AND "thyroid"[tiab]) OR teprotumumab[tiab] OR ("orbital decompression"[tiab] AND "thyroid"[tiab]) OR ("IGF-1 receptor"[tiab] AND "orbitopathy"[tiab]))' },
+    { label:'Thyroid in Pregnancy',
+      query:'(("thyroid diseases"[MH] AND "pregnancy"[MH]) OR "thyroid in pregnancy"[tiab] OR "maternal thyroid"[tiab] OR "gestational thyrotoxicosis"[tiab] OR "postpartum thyroiditis"[tiab] OR "hypothyroidism in pregnancy"[tiab] OR ("thyroid antibodies"[tiab] AND "pregnancy"[tiab]))' },
+    { label:'Thyroiditis',
+      query:'(thyroiditis[MH] OR "Hashimoto thyroiditis"[tiab] OR "Hashimoto\'s thyroiditis"[tiab] OR "autoimmune thyroiditis"[tiab] OR "subacute thyroiditis"[tiab] OR "de Quervain thyroiditis"[tiab] OR "painless thyroiditis"[tiab] OR "postpartum thyroiditis"[tiab]) NOT "thyroid cancer"[tiab]' },
+  ]
+},
+{
+  id:'ad', section:'core', color:'#fbbf24', label:'Adrenal Disorders', short:'Adrenal',
+  query:'("adrenal gland diseases"[MH] OR pheochromocytoma[MH] OR "Cushing syndrome"[MH] OR "adrenocortical insufficiency"[MH] OR paraganglioma[MH] OR "hyperaldosteronism"[MH])',
+  subdomains:[
+    { label:'Cushing Syndrome & Disease',
+      query:'("Cushing syndrome"[MH] OR "Cushing syndrome"[tiab] OR "Cushing\'s syndrome"[tiab] OR "Cushing disease"[tiab] OR "hypercortisolism"[tiab] OR "ACTH-dependent Cushing"[tiab] OR osilodrostat[tiab] OR (pasireotide[tiab] AND "Cushing"[tiab]) OR (mifepristone[tiab] AND "Cushing"[tiab]) OR (metyrapone[tiab] AND "Cushing"[tiab]) OR levoketoconazole[tiab])' },
+    { label:'Adrenal Insufficiency',
+      query:'("adrenocortical insufficiency"[MH] OR "Addison disease"[MH] OR "adrenal insufficiency"[tiab] OR "Addison\'s disease"[tiab] OR "primary adrenal insufficiency"[tiab] OR "secondary adrenal insufficiency"[tiab] OR "adrenal crisis"[tiab] OR (hydrocortisone[tiab] AND "adrenal insufficiency"[tiab]) OR "glucocorticoid replacement"[tiab] OR "modified-release hydrocortisone"[tiab])' },
+    { label:'Primary Aldosteronism',
+      query:'("hyperaldosteronism"[MH] OR "primary aldosteronism"[tiab] OR "primary hyperaldosteronism"[tiab] OR "Conn syndrome"[tiab] OR "aldosterone-producing adenoma"[tiab] OR "adrenal vein sampling"[tiab] OR "aldosterone-renin ratio"[tiab] OR ("mineralocorticoid"[tiab] AND "hypertension"[tiab]) OR "bilateral adrenal hyperplasia"[tiab])' },
+    { label:'Phaeochromocytoma & PGL',
+      query:'(pheochromocytoma[MH] OR paraganglioma[MH] OR "phaeochromocytoma"[tiab] OR "pheochromocytoma"[tiab] OR "paraganglioma"[tiab] OR "PPGL"[tiab] OR "catecholamine-secreting"[tiab] OR ("metaiodobenzylguanidine"[tiab] AND ("phaeochromocytoma"[tiab] OR "paraganglioma"[tiab])) OR "SDHB"[tiab] OR "SDHD"[tiab] OR ("succinate dehydrogenase"[tiab] AND "paraganglioma"[tiab]))' },
+    { label:'Adrenal Incidentaloma',
+      query:'("adrenal gland neoplasms"[MH] OR "adrenal incidentaloma"[tiab] OR "incidentally discovered adrenal mass"[tiab] OR ("adrenal adenoma"[tiab] AND "incidental"[tiab]) OR "mild autonomous cortisol secretion"[tiab] OR ("MACS"[tiab] AND "adrenal"[tiab]) OR ("subclinical Cushing"[tiab] AND "adrenal"[tiab])) NOT (pheochromocytoma[MH] OR "adrenocortical carcinoma"[tiab])' },
+    { label:'Congenital Adrenal Hyperplasia',
+      query:'("adrenal hyperplasia, congenital"[MH] OR "congenital adrenal hyperplasia"[tiab] OR ("CAH"[tiab] AND "21-hydroxylase"[tiab]) OR "21-hydroxylase deficiency"[tiab] OR "CYP21A2"[tiab] OR "11-beta hydroxylase deficiency"[tiab] OR crinecerfont[tiab] OR ("glucocorticoid optimization"[tiab] AND "CAH"[tiab]) OR ("androstenedione"[tiab] AND "CAH"[tiab]))' },
+  ]
+},
+{
+  id:'pit', section:'core', color:'#e879f9', label:'Pituitary & Hypothalamic', short:'Pituitary',
+  query:'("pituitary diseases"[MH] OR "hypothalamic diseases"[MH] OR "pituitary neoplasms"[MH])',
+  subdomains:[
+    { label:'Acromegaly',
+      query:'(acromegaly[MH] OR "acromegaly"[tiab] OR "growth hormone excess"[tiab] OR "GH-secreting adenoma"[tiab] OR "somatotroph adenoma"[tiab] OR (octreotide[tiab] AND "acromegaly"[tiab]) OR (lanreotide[tiab] AND "acromegaly"[tiab]) OR (pasireotide[tiab] AND "acromegaly"[tiab]) OR pegvisomant[tiab] OR ("stereotactic radiosurgery"[tiab] AND "acromegaly"[tiab]))' },
+    { label:'Hyperprolactinaemia',
+      query:'(hyperprolactinemia[MH] OR "hyperprolactinaemia"[tiab] OR "hyperprolactinemia"[tiab] OR "prolactinoma"[tiab] OR "macroprolactinoma"[tiab] OR "microprolactinoma"[tiab] OR (cabergoline[tiab] AND "prolactin"[tiab]) OR (bromocriptine[tiab] AND "prolactinoma"[tiab]) OR "drug-induced hyperprolactinaemia"[tiab])' },
+    { label:'Non-functioning Adenoma',
+      query:'("pituitary neoplasms"[MH] OR "non-functioning pituitary adenoma"[tiab] OR "NFPA"[tiab] OR "clinically non-functioning pituitary adenoma"[tiab] OR "pituitary incidentaloma"[tiab] OR "pituitary apoplexy"[tiab] OR "gonadotroph adenoma"[tiab] OR "silent corticotroph adenoma"[tiab] OR (temozolomide[tiab] AND "pituitary"[tiab]) OR "aggressive pituitary tumour"[tiab])' },
+    { label:'Hypopituitarism & GHD',
+      query:'(hypopituitarism[MH] OR "hypopituitarism"[tiab] OR "panhypopituitarism"[tiab] OR ("growth hormone deficiency"[MH] AND "adult"[tiab]) OR "adult growth hormone deficiency"[tiab] OR "GH replacement"[tiab] OR ("somatropin"[tiab] AND ("deficiency"[tiab] OR "replacement"[tiab])) OR "pituitary hormone deficiency"[tiab])' },
+    { label:'AVP Deficiency & Hyponatraemia',
+      query:'("diabetes insipidus"[MH] OR "inappropriate ADH syndrome"[MH] OR "AVP deficiency"[tiab] OR "arginine vasopressin deficiency"[tiab] OR "cranial diabetes insipidus"[tiab] OR (desmopressin[tiab] AND "diabetes insipidus"[tiab]) OR "SIADH"[tiab] OR "hyponatraemia"[tiab] OR "hyponatremia"[tiab] OR tolvaptan[tiab] OR "syndrome of inappropriate antidiuresis"[tiab])' },
+    { label:'Nelson & Craniopharyngioma',
+      query:'("Nelson syndrome"[tiab] OR "Nelson\'s syndrome"[tiab] OR "post-adrenalectomy ACTH"[tiab] OR ("bilateral adrenalectomy"[tiab] AND "Cushing"[tiab]) OR "craniopharyngioma"[MH] OR "craniopharyngioma"[tiab] OR "Rathke cleft cyst"[tiab] OR "hypothalamic obesity"[tiab] OR "pituitary Cushing disease"[tiab])' },
+  ]
+},
+{
+  id:'bone', section:'core', color:'#38bdf8', label:'Bone & Mineral Metabolism', short:'Bone',
+  query:'("bone diseases"[MH] OR osteoporosis[MH] OR "hyperparathyroidism"[MH] OR "calcium metabolism disorders"[MH])',
+  subdomains:[
+    { label:'Osteoporosis',
+      query:'(osteoporosis[MH] OR "osteoporosis"[tiab] OR "osteopenia"[tiab] OR "osteoporotic fracture"[tiab] OR "fragility fracture"[tiab] OR "bone mineral density"[tiab] OR "FRAX"[tiab] OR denosumab[tiab] OR romosozumab[tiab] OR teriparatide[tiab] OR abaloparatide[tiab] OR bisphosphonate[tiab] OR alendronate[tiab] OR zoledronate[tiab] OR "antiresorptive therapy"[tiab])' },
+    { label:'Primary Hyperparathyroidism',
+      query:'("hyperparathyroidism, primary"[MH] OR "primary hyperparathyroidism"[tiab] OR "PHPT"[tiab] OR "parathyroid adenoma"[tiab] OR "parathyroid carcinoma"[tiab] OR "parathyroidectomy"[tiab] OR (cinacalcet[tiab] AND "hyperparathyroidism"[tiab]) OR "asymptomatic hyperparathyroidism"[tiab] OR "normocalcaemic hyperparathyroidism"[tiab])' },
+    { label:'Hypoparathyroidism & CKD-MBD',
+      query:'("hypoparathyroidism"[MH] OR "hypoparathyroidism"[tiab] OR (("hypocalcaemia"[tiab] OR "hypocalcemia"[tiab]) AND "parathyroid"[tiab]) OR "palopegteriparatide"[tiab] OR "secondary hyperparathyroidism"[tiab] OR "tertiary hyperparathyroidism"[tiab] OR "renal osteodystrophy"[tiab] OR "CKD-MBD"[tiab])' },
+    { label:'Vitamin D Disorders',
+      query:'("vitamin D deficiency"[MH] OR "vitamin D deficiency"[tiab] OR "vitamin D insufficiency"[tiab] OR "25-hydroxyvitamin D"[tiab] OR "25(OH)D"[tiab] OR cholecalciferol[tiab] OR "vitamin D supplementation"[tiab] OR osteomalacia[MH] OR "osteomalacia"[tiab] OR rickets[MH] OR "nutritional rickets"[tiab])' },
+    { label:'Rare Bone Diseases',
+      query:'("Paget disease, bone"[MH] OR "Paget disease of bone"[tiab] OR "X-linked hypophosphataemia"[tiab] OR ("XLH"[tiab] AND "bone"[tiab]) OR burosumab[tiab] OR ("fibrous dysplasia"[tiab] AND "bone"[tiab]) OR "osteogenesis imperfecta"[tiab] OR "hypophosphatasia"[tiab] OR asfotase[tiab] OR "tumour-induced osteomalacia"[tiab])' },
+  ]
+},
+// ── Extended RACP domains ─────────────────────────────────────────────────
+{
+  id:'rep', section:'spec', color:'#fb7185', label:'Reproductive Endocrinology', short:'Repro',
+  query:'("gonadal disorders"[MH] OR "polycystic ovary syndrome"[MH] OR hypogonadism[MH] OR "sex chromosome disorders"[MH])',
+  subdomains:[
+    { label:'PCOS',
+      query:'("polycystic ovary syndrome"[MH] OR "polycystic ovary syndrome"[tiab] OR "PCOS"[tiab] OR "polycystic ovarian syndrome"[tiab] OR ("hyperandrogenism"[tiab] AND ("ovary"[tiab] OR "anovulation"[tiab])) OR ("letrozole"[tiab] AND "PCOS"[tiab]) OR ("metformin"[tiab] AND "PCOS"[tiab]) OR ("inositol"[tiab] AND "PCOS"[tiab]) OR ("anti-Mullerian hormone"[tiab] AND "PCOS"[tiab]))' },
+    { label:'Male Hypogonadism',
+      query:'(("hypogonadism"[MH] AND "male"[tiab]) OR "testosterone deficiency"[tiab] OR "male hypogonadism"[tiab] OR "androgen deficiency"[tiab] OR "late-onset hypogonadism"[tiab] OR "testosterone replacement therapy"[tiab] OR "Klinefelter syndrome"[MH] OR "Klinefelter syndrome"[tiab] OR ("Kallmann syndrome"[tiab] AND "male"[tiab]))' },
+    { label:'POI & Turner Syndrome',
+      query:'("primary ovarian insufficiency"[MH] OR "premature ovarian insufficiency"[tiab] OR ("POI"[tiab] AND ("ovary"[tiab] OR "ovarian"[tiab])) OR "premature ovarian failure"[tiab] OR "menopause, premature"[MH] OR "Turner syndrome"[MH] OR "Turner syndrome"[tiab] OR "45,X"[tiab] OR ("oestrogen replacement"[tiab] AND "POI"[tiab]))' },
+    { label:'Gender-Affirming Care',
+      query:'("transsexualism"[MH] OR "transgender"[tiab] OR "gender dysphoria"[tiab] OR "gender-affirming hormone therapy"[tiab] OR "GAHT"[tiab] OR "feminising hormone therapy"[tiab] OR "masculinising hormone therapy"[tiab] OR "gender incongruence"[tiab] OR "puberty suppression"[tiab] OR ("GnRH analogue"[tiab] AND "gender"[tiab]))' },
+    { label:'Menopause',
+      query:'("menopause"[MH] OR "climacteric"[MH] OR "hormone replacement therapy"[MH] OR "menopause"[tiab] OR "perimenopause"[tiab] OR "menopausal hormone therapy"[tiab] OR "MHT"[tiab] OR "vasomotor symptoms"[tiab] OR "hot flush"[tiab] OR "genitourinary syndrome of menopause"[tiab] OR ("oestradiol"[tiab] AND "menopause"[tiab]))' },
+  ]
+},
+{
+  id:'lip', section:'spec', color:'#fb923c', label:'Lipids & Cardiovascular Risk', short:'Lipids',
+  query:'("dyslipidemias"[MH] OR ("lipoproteins"[MH] AND "cardiovascular diseases"[MH]) OR ("cardiovascular risk"[tiab] AND "lipid"[tiab]))',
+  subdomains:[
+    { label:'Dyslipidaemia Management',
+      query:'("dyslipidemias"[MH] OR "dyslipidaemia"[tiab] OR "dyslipidemia"[tiab] OR "hypercholesterolaemia"[tiab] OR "LDL cholesterol"[tiab] OR "LDL-C"[tiab] OR statin[tiab] OR atorvastatin[tiab] OR rosuvastatin[tiab] OR ezetimibe[tiab] OR "lipid-lowering therapy"[tiab] OR ("cardiovascular risk reduction"[tiab] AND "lipid"[tiab]))' },
+    { label:'Familial Hypercholesterolaemia',
+      query:'("hyperlipoproteinemia type II"[MH] OR "familial hypercholesterolaemia"[tiab] OR "familial hypercholesterolemia"[tiab] OR ("FH"[tiab] AND "cholesterol"[tiab]) OR "heterozygous FH"[tiab] OR "homozygous FH"[tiab] OR "HoFH"[tiab] OR ("LDL receptor"[tiab] AND "mutation"[tiab]) OR ("cascade screening"[tiab] AND "cholesterol"[tiab]) OR "Dutch Lipid Clinic Network"[tiab] OR lomitapide[tiab] OR evinacumab[tiab])' },
+    { label:'Novel Lipid Therapies',
+      query:'("PCSK9 inhibitor"[tiab] OR "proprotein convertase subtilisin"[MH] OR evolocumab[tiab] OR alirocumab[tiab] OR inclisiran[tiab] OR "bempedoic acid"[tiab] OR ("icosapentaenoic acid"[tiab] AND "cardiovascular"[tiab]) OR "lipoprotein(a)"[tiab] OR ("Lp(a)"[tiab] AND "cardiovascular"[tiab]) OR pelacarsen[tiab] OR obicetrapib[tiab] OR "ANGPTL3 inhibitor"[tiab])' },
+    { label:'Hypertriglyceridaemia',
+      query:'("hypertriglyceridemia"[MH] OR "hypertriglyceridaemia"[tiab] OR "chylomicronemia"[tiab] OR "familial chylomicronemia syndrome"[tiab] OR (fenofibrate[tiab] AND "triglyceride"[tiab]) OR ("omega-3"[tiab] AND "triglyceride"[tiab]) OR volanesorsen[tiab] OR ("pancreatitis"[tiab] AND "hypertriglyceridaemia"[tiab]))' },
+  ]
+},
+{
+  id:'net', section:'spec', color:'#4ade80', label:'Neuroendocrine Tumours', short:'NETs',
+  query:'("neuroendocrine tumors"[MH] OR "carcinoid tumor"[MH] OR "neuroendocrine neoplasm"[tiab] OR ("NET"[tiab] AND "neuroendocrine"[tiab]))',
+  subdomains:[
+    { label:'Functioning GEP-NETs',
+      query:'(("neuroendocrine tumors"[MH] OR "carcinoid tumor"[MH]) AND ("gastrointestinal"[tiab] OR "pancreas"[tiab] OR "functional"[tiab])) OR "insulinoma"[tiab] OR "gastrinoma"[tiab] OR "Zollinger-Ellison syndrome"[tiab] OR "VIPoma"[tiab] OR "glucagonoma"[tiab] OR "carcinoid syndrome"[tiab] OR "carcinoid heart disease"[tiab] OR "telotristat"[tiab]' },
+    { label:'Non-functioning & Pancreatic',
+      query:'(("neuroendocrine tumors"[MH] AND ("pancreas"[tiab] OR "pancreatic"[tiab])) OR "pancreatic neuroendocrine tumour"[tiab] OR "pNET"[tiab] OR "non-functioning NET"[tiab] OR "Gallium-68 DOTATATE"[tiab] OR ("somatostatin receptor scintigraphy"[tiab] AND "NET"[tiab]) OR ("Ki-67"[tiab] AND "NET"[tiab]) OR "WHO 2022 NET classification"[tiab])' },
+    { label:'MEN Syndromes',
+      query:'("multiple endocrine neoplasia"[MH] OR "MEN1"[tiab] OR "MEN 1"[tiab] OR "multiple endocrine neoplasia type 1"[tiab] OR "MEN2"[tiab] OR "MEN2A"[tiab] OR "MEN2B"[tiab] OR "multiple endocrine neoplasia type 2"[tiab] OR "menin"[tiab] OR ("RET proto-oncogene"[tiab] AND "MEN"[tiab]) OR "MEN4"[tiab] OR ("CDKN1B"[tiab] AND "endocrine"[tiab]))' },
+    { label:'PRRT & Systemic Therapy',
+      query:'("peptide receptor radionuclide therapy"[tiab] OR "PRRT"[tiab] OR "lutetium-177 DOTATATE"[tiab] OR ("Lu-177"[tiab] AND "NET"[tiab]) OR "177Lu-DOTATATE"[tiab] OR (everolimus[tiab] AND ("NET"[tiab] OR "neuroendocrine"[tiab])) OR (sunitinib[tiab] AND ("NET"[tiab] OR "neuroendocrine"[tiab])) OR "NETTER-1"[tiab] OR "NETTER-2"[tiab])' },
+  ]
+},
+{
+  id:'eoc', section:'spec', color:'#f472b6', label:'Endocrine Oncology', short:'Endo-Onc',
+  query:'("adrenocortical carcinoma"[tiab] OR ("immune checkpoint"[tiab] AND "endocrinopathy"[tiab]) OR ("cancer treatment"[tiab] AND ("endocrine"[tiab] OR "gonadotoxicity"[tiab])) OR ("paraneoplastic"[tiab] AND "endocrine"[tiab]))',
+  subdomains:[
+    { label:'Adrenocortical Carcinoma',
+      query:'("adrenocortical carcinoma"[MH] OR "adrenocortical carcinoma"[tiab] OR ("ACC"[tiab] AND "adrenal"[tiab]) OR "adrenal cortex carcinoma"[tiab] OR mitotane[tiab] OR "ENSAT staging"[tiab] OR "adjuvant mitotane"[tiab] OR "adrenocortical malignancy"[tiab])' },
+    { label:'ICI Endocrinopathies',
+      query:'(("immune checkpoint inhibitor"[tiab] AND ("endocrinopathy"[tiab] OR "hypophysitis"[tiab] OR "thyroiditis"[tiab] OR "adrenalitis"[tiab] OR "diabetes mellitus"[tiab] OR "hyponatraemia"[tiab] OR "hypogonadism"[tiab])) OR "checkpoint inhibitor endocrinopathy"[tiab] OR ("irAE"[tiab] AND ("endocrine"[tiab] OR "thyroid"[tiab] OR "pituitary"[tiab] OR "adrenal"[tiab])) OR (ipilimumab[tiab] AND "hypophysitis"[tiab]))' },
+    { label:'Cancer Treatment Sequelae',
+      query:'("gonadotoxicity"[tiab] OR "chemotherapy-induced hypogonadism"[tiab] OR ("cancer treatment"[tiab] AND ("bone loss"[tiab] OR "osteoporosis"[tiab] OR "hypogonadism"[tiab])) OR ("aromatase inhibitor"[tiab] AND "bone"[tiab]) OR ("androgen deprivation therapy"[tiab] AND ("bone"[tiab] OR "metabolic"[tiab])) OR ("cancer survivor"[tiab] AND "endocrine"[tiab]) OR "radiation-induced hypothyroidism"[tiab] OR "radiation-induced hypopituitarism"[tiab])' },
+  ]
+},
+];
+
+// Journal-view virtual topic (activated when journals are selected)
+const JOURNAL_VIEW_TOPIC = {
+  id:'jv', section:'jv', color:'#94a3b8', label:'Journal View', short:'Journal View',
+  query:'("endocrinology"[MH] OR "diabetes mellitus"[MH] OR "thyroid diseases"[MH] OR "adrenal gland diseases"[MH] OR "pituitary diseases"[MH] OR "metabolic diseases"[MH] OR "bone diseases"[MH] OR "gonadal disorders"[MH] OR "neuroendocrine tumors"[MH] OR "dyslipidemias"[MH] OR "obesity"[MH])',
+  subdomains:[]
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 2. JOURNALS & IF
+// ═══════════════════════════════════════════════════════════════════════════
+const JOURNAL_GROUPS = [
+  { label:'General High-Impact', journals:[
+    {name:'NEJM', ta:'N Engl J Med', if:96.2},{name:'Lancet', ta:'Lancet', if:98.4},
+    {name:'JAMA', ta:'JAMA', if:63.1},{name:'BMJ', ta:'BMJ', if:39.0},
+    {name:'Nature Medicine', ta:'Nat Med', if:87.2},{name:'Ann Intern Med', ta:'Ann Intern Med', if:21.4},
+    {name:'JAMA Intern Med', ta:'JAMA Intern Med', if:22.5},
+  ]},
+  { label:'Diabetes & Metabolism', journals:[
+    {name:'Lancet Diabetes Endo', ta:'Lancet Diabetes Endocrinol', if:44.5},
+    {name:'Diabetes Care', ta:'Diabetes Care', if:16.2},{name:'Diabetologia', ta:'Diabetologia', if:8.4},
+    {name:'Diabetes', ta:'Diabetes', if:7.7},{name:'Metabolism', ta:'Metabolism', if:6.4},
+    {name:'JCEM', ta:'J Clin Endocrinol Metab', if:5.5},
+    {name:'Obesity Reviews', ta:'Obes Rev', if:8.9},{name:'Obesity', ta:'Obesity (Silver Spring)', if:5.2},
+  ]},
+  { label:'Endocrinology', journals:[
+    {name:'Endocrine Reviews', ta:'Endocr Rev', if:22.0},{name:'Eur J Endocrinol', ta:'Eur J Endocrinol', if:5.0},
+    {name:'Clin Endocrinol', ta:'Clin Endocrinol (Oxf)', if:3.4},{name:'Endocrinology', ta:'Endocrinology', if:4.0},
+    {name:'Front Endocrinol', ta:'Front Endocrinol (Lausanne)', if:5.2},{name:'Thyroid', ta:'Thyroid', if:5.3},
+    {name:'Neuroendocrinology', ta:'Neuroendocrinology', if:4.5},
+  ]},
+  { label:'Bone & Mineral', journals:[
+    {name:'J Bone Miner Res', ta:'J Bone Miner Res', if:5.4},{name:'Osteoporos Int', ta:'Osteoporos Int', if:4.3},
+    {name:'Bone', ta:'Bone', if:4.0},{name:'Calcif Tissue Int', ta:'Calcif Tissue Int', if:4.0},
+  ]},
+  { label:'Cardiovascular', journals:[
+    {name:'Eur Heart J', ta:'Eur Heart J', if:39.3},{name:'Circulation', ta:'Circulation', if:35.5},
+    {name:'JACC', ta:'J Am Coll Cardiol', if:24.0},
+  ]},
+  { label:'Oncology', journals:[
+    {name:'J Clin Oncol', ta:'J Clin Oncol', if:45.3},{name:'JAMA Oncol', ta:'JAMA Oncol', if:28.4},
+    {name:'Ann Oncol', ta:'Ann Oncol', if:51.8},
+  ]},
+];
+
+const IF_MAP = (function(){
+const T = {
+// GENERAL HIGH-IMPACT
+'n engl j med':96.2,'lancet':98.4,'jama':63.1,'bmj':39.0,
+'nat med':87.2,'nature':50.5,'science':44.7,'cell':64.5,
+'nat commun':14.7,'sci transl med':15.8,'sci adv':13.6,
+'elife':6.4,'plos med':10.5,'jama netw open':13.8,'bmj open':3.4,
+'ann intern med':21.4,'jama intern med':22.5,
+'j clin invest':15.9,'jci insight':6.0,'cell rep':8.8,
+'proc natl acad sci u s a':10.7,'cell rep med':14.3,
+// ENDOCRINOLOGY & METABOLISM FLAGSHIP
+'lancet diabetes endocrinol':44.5,
+'nat rev endocrinol':28.0,'cell metab':27.7,'nat metab':20.8,
+'endocr rev':22.0,
+// ENDOCRINOLOGY
+'eur j endocrinol':5.0,'clin endocrinol (oxf)':3.4,
+'endocrinology':4.0,'endocrine':3.3,
+'endocr connect':3.1,'endocr pract':3.7,
+'endocr relat cancer':4.1,'endocr j':2.3,
+'j endocrinol':4.0,'j mol endocrinol':3.2,
+'mol cell endocrinol':3.8,'j endocr soc':3.5,
+'int j endocrinol':2.8,'bmc endocr disord':2.8,
+'endocrinol diabetes metab':2.3,'clin diabetes endocrinol':2.0,
+'endocrinol metab (seoul)':4.1,'endocrinol metab':4.1,
+'hormones (athens)':2.8,'rev endocr metab disord':6.5,
+'best pract res clin endocrinol metab':7.5,
+'exp clin endocrinol diabetes':2.5,'ann endocrinol (paris)':2.8,
+'horm res paediatr':3.2,'horm metab res':2.6,
+'neuroendocrinology':4.5,'pituitary':3.8,
+'front endocrinol (lausanne)':5.2,
+// THYROID
+'thyroid':5.3,'eur thyroid j':3.9,'thyroid res':2.8,
+// DIABETES
+'diabetes care':16.2,'diabetologia':8.4,'diabetes':7.7,
+'j clin endocrinol metab':5.5,
+'diabetes obes metab':5.8,'diabet med':3.9,
+'diabetes metab':5.3,'diabetes metab res rev':4.7,
+'diabetes res clin pract':6.7,'j diabetes':3.6,
+'j diabetes investig':3.5,'j diabetes complications':3.0,
+'acta diabetol':3.7,'pediatr diabetes':3.8,
+'prim care diabetes':2.8,'diabetes technol ther':5.4,
+'j diabetes sci technol':4.2,'nutr diabetes':4.5,
+'can j diabetes':2.5,
+// OBESITY & METABOLISM
+'obes rev':8.9,'obesity (silver spring)':5.2,'int j obes (lond)':4.6,
+'metabolism':6.4,'mol metab':7.0,'cardiovasc diabetol':8.5,
+'metab syndr relat disord':2.8,'adipocyte':3.5,
+'obes surg':3.6,'surg obes relat dis':3.9,'obes facts':3.4,
+// LIVER / MASLD
+'j hepatol':26.8,'hepatology':13.3,'gut':24.5,
+'liver int':7.0,'aliment pharmacol ther':7.5,
+'clin gastroenterol hepatol':13.4,'jhep rep':8.2,
+'liver cancer':11.6,'hepatol commun':5.0,'hepatol res':4.5,
+'j gastroenterol hepatol':4.0,'scand j gastroenterol':3.2,
+// BONE & MINERAL
+'j bone miner res':5.4,'osteoporos int':4.3,'bone':4.0,
+'calcif tissue int':4.0,'arch osteoporos':3.4,
+'j clin densitom':2.5,'bone rep':2.8,'jbmr plus':3.5,
+// LIPIDS & CARDIOVASCULAR
+'eur heart j':39.3,'circulation':35.5,'j am coll cardiol':24.0,
+'jama cardiol':24.0,'j am heart assoc':5.5,'heart':5.7,
+'hypertension':8.3,'arterioscler thromb vasc biol':8.4,
+'atherosclerosis':4.9,'j lipid res':5.0,'j hypertens':4.9,
+'int j cardiol':3.2,'cardiovasc res':10.8,'am j cardiol':2.9,
+'am j hypertens':3.3,'eur j prev cardiol':8.9,
+'lipids health dis':3.2,'curr atheroscler rep':6.5,
+'j clin lipidol':4.5,'circ res':20.1,'eur j heart fail':18.2,
+'prog cardiovasc dis':8.0,'lancet reg health eur':13.6,
+'int j cardiol cardiovasc risk prev':2.1,
+// NEPHROLOGY
+'kidney int':14.8,'am j kidney dis':10.0,
+'nephrol dial transplant':5.4,'clin j am soc nephrol':8.0,
+'j am soc nephrol':10.3,'kidney int rep':5.5,
+'kidney med':4.0,'nephron':3.0,'clin kidney j':4.5,
+// REPRODUCTIVE ENDOCRINOLOGY
+'hum reprod':6.1,'hum reprod update':14.8,'fertil steril':7.2,
+'reprod biol endocrinol':4.6,'gynecol endocrinol':2.5,
+'am j obstet gynecol':9.8,'obstet gynecol':6.1,'bjog':5.8,
+'eur j obstet gynecol reprod biol':2.8,'menopause':3.5,
+'climacteric':3.3,'maturitas':4.1,'j steroid biochem mol biol':3.8,
+'andrology':4.5,'asian j androl':3.8,'j sex med':3.6,
+'reproduction':3.5,'steroids':2.5,
+// NEUROENDOCRINE / PANCREAS
+'pancreatology':3.8,'pancreas':3.2,
+// ONCOLOGY
+'lancet oncol':51.1,'j clin oncol':45.3,'jama oncol':28.4,
+'ann oncol':51.8,'nat cancer':23.5,'cancer':6.9,
+'br j cancer':9.1,'eur j cancer':8.4,'clin cancer res':11.5,
+'cancer res':11.2,'int j cancer':5.7,'j natl cancer inst':12.9,
+'oncologist':5.7,'cancer med':3.8,'front oncol':4.7,
+'cancers (basel)':5.2,'j surg oncol':2.8,'ann surg oncol':4.5,
+'eur j surg oncol':4.2,'head neck':3.4,'head neck pathol':3.2,
+'cancer treat rev':10.5,'target oncol':5.5,'oncol lett':3.0,
+'oral oncol':3.7,'cancer epidemiol biomarkers prev':4.3,
+// PAEDIATRICS
+'pediatrics':8.0,'j pediatr':4.7,'arch dis child':4.5,
+'eur j pediatr':3.3,'pediatr res':4.2,'pediatr obes':4.0,
+'j pediatr endocrinol metab':1.8,
+// GENERAL INTERNAL MEDICINE
+'ann med':9.1,'j intern med':9.0,'am j med':5.1,'qjm':3.8,
+'postgrad med j':3.1,'j gen intern med':5.7,
+'eur j intern med':5.2,'intern emerg med':3.4,
+'medicine (baltimore)':1.6,'mayo clin proc':8.5,
+'cleve clin j med':3.7,'j investig med':3.0,
+// PHARMACOLOGY
+'clin pharmacol ther':7.5,'drugs':10.2,'drug saf':4.5,
+'eur j pharmacol':4.4,'drug discov today':6.5,
+'expert opin drug saf':4.0,'expert opin pharmacother':3.5,
+'br j clin pharmacol':3.3,'clin ther':3.2,'drugs aging':3.6,
+// PATHOLOGY & LABORATORY
+'virchows arch':3.8,'clin chem':9.3,'clin chim acta':3.6,
+'ann clin biochem':2.8,'clin biochem':2.8,'j clin pathol':3.0,
+'pathology':3.5,'am j clin pathol':3.8,'histopathology':4.5,
+'mod pathol':6.6,'diagn pathol':3.0,'endocr pathol':3.5,
+// SURGERY
+'ann surg':9.8,'surgery':4.0,'world j surg':3.4,
+'surg endosc':3.8,'am j surg':2.8,'langenbecks arch surg':3.0,
+'bjs open':3.5,'br j surg':8.6,'updates surg':2.5,'j surg res':2.8,
+// RADIOLOGY / NUCLEAR MEDICINE
+'radiology':12.1,'eur radiol':5.9,'ajr am j roentgenol':3.9,
+'j nucl med':9.9,'eur j nucl med mol imaging':9.1,
+'bmc med imaging':2.3,'insights imaging':4.3,'acad radiol':3.9,
+// NUTRITION & PUBLIC HEALTH
+'am j clin nutr':7.6,'clin nutr':6.6,'nutr metab cardiovasc dis':3.6,
+'eur j clin nutr':3.7,'br j nutr':3.6,'j nutr':4.5,
+'nutr res':3.4,'nutrients':5.9,'public health nutr':3.0,
+'am j epidemiol':5.0,'int j epidemiol':7.7,'epidemiology':5.7,
+'j epidemiol community health':4.9,'ann nutr metab':3.7,
+// GENETICS & MOLECULAR
+'nat genet':41.3,'am j hum genet':11.0,'hum mol genet':4.5,
+'hum genet':3.8,'genet med':9.8,'eur j hum genet':3.8,
+'genome med':10.4,'genome biol':12.3,'j med genet':4.8,
+'genes (basel)':3.5,'genomics':3.8,'mol genet metab':3.5,
+// IMMUNOLOGY
+'j autoimmun':7.5,'autoimmun rev':9.8,'front immunol':7.3,
+'clin immunol':5.5,'autoimmunity':3.0,
+// FRONTIERS SERIES
+'front pharmacol':5.6,'front physiol':4.0,'front neurol':3.4,
+'front genet':3.7,'front cell dev biol':4.6,'front nutr':5.2,
+'front aging':3.3,'front med (lausanne)':3.9,'front public health':5.2,
+'front psychiatry':4.7,'front neurosci':4.3,'front cardiovasc med':3.6,
+// BMC SERIES
+'bmc med':9.3,'bmc cancer':4.9,'bmc cardiovasc disord':2.5,
+'bmc nephrol':2.6,'bmc geriatr':3.5,'bmc musculoskelet disord':2.5,
+'bmc public health':4.5,'bmc pregnancy childbirth':3.5,
+'bmc pediatr':2.7,'bmc health serv res':2.7,'bmc res notes':1.6,
+'bmc bioinformatics':3.0,'bmc surg':1.8,
+// MDPI SERIES
+'int j mol sci':5.6,'j clin med':3.9,'cells':6.0,
+'biomedicines':3.9,'pharmaceuticals (basel)':4.6,
+'int j environ res public health':3.8,'medicina (kaunas)':2.6,
+'diagnostics (basel)':3.6,'life (basel)':3.2,'biology (basel)':3.6,
+'metabolites':3.9,'antioxidants (basel)':7.0,'biomolecules':4.8,
+'pharmaceutics':5.4,
+// HIGH-VOLUME OPEN ACCESS
+'sci rep':4.6,'plos one':3.0,
+// NATURE REVIEWS
+'nat rev drug discov':84.3,'nat rev cancer':72.5,
+'nat rev cardiol':38.7,'nat rev nephrol':27.6,'nat rev dis primers':76.9,
+'nat rev mol cell biol':113.0,'nat rev immunol':100.3,
+// LANCET GROUP
+'the lancet':98.4,'lancet glob health':34.3,'lancet infect dis':60.9,
+'lancet respir med':76.2,'lancet psychiatry':64.3,'eclinicalmedicine':9.6,
+// JAMA SERIES
+'jama neurol':29.0,'jama psychiatry':25.8,'jama surg':16.9,
+'jama dermatol':14.2,'jama pediatr':26.5,
+// FULL-NAME ALIASES
+'the bmj':39.0,'nature medicine':87.2,'endocrine reviews':22.0,
+'journal of clinical endocrinology & metabolism':5.5,
+'journal of clinical endocrinology and metabolism':5.5,
+'european journal of endocrinology':5.0,
+'clinical endocrinology':3.4,
+'journal of bone and mineral research':5.4,
+'osteoporosis international':4.3,'obesity reviews':8.9,
+'the lancet. diabetes & endocrinology':44.5,
+'the lancet diabetes & endocrinology':44.5,
+'arteriosclerosis, thrombosis, and vascular biology':8.4,
+'hypertension (dallas, tex. : 1979)':8.3,
+'kidney international':14.8,'human reproduction':6.1,
+'human reproduction update':14.8,'fertility and sterility':7.2,
+'nature communications':14.7,'nature reviews endocrinology':28.0,
+'cell metabolism':27.7,'science translational medicine':15.8,
+'the lancet oncology':51.1,'cardiovascular diabetology':8.5,
+'molecular metabolism':7.0,'scientific reports':4.6,
+'journal of clinical medicine':3.9,
+'international journal of molecular sciences':5.6,
+'medicine':1.6,'journal of clinical investigation':15.9,
+'proceedings of the national academy of sciences of the united states of america':10.7,
+'journal of the american college of cardiology':24.0,
+'european heart journal':39.3,'the new england journal of medicine':96.2,
+'journal of clinical oncology':45.3,'annals of oncology':51.8,
+'journal of the endocrine society':3.5,
+'endocrinology and metabolism':4.1,
+'endocrinology and metabolism (seoul)':4.1,
+'european thyroid journal':3.9,'thyroid research':2.8,
+'endocrine connections':3.1,'international journal of endocrinology':2.8,
+'diabetic medicine':3.9,'acta diabetologica':3.7,
+'diabetes research and clinical practice':6.7,
+'obesity surgery':3.6,'surgery for obesity and related diseases':3.9,
+'journal of hepatology':26.8,'hepatology':13.3,'gut':24.5,
+'liver international':7.0,'kidney international reports':5.5,
+'american journal of obstetrics and gynecology':9.8,
+'menopause':3.5,'climacteric':3.3,'maturitas':4.1,
+'frontiers in endocrinology':5.2,
+'journal of the american heart association':5.5,
+'lipids in health and disease':3.2,'cardiovascular research':10.8,
+'american journal of hypertension':3.3,
+'nephrology, dialysis, transplantation':5.4,
+'clinical journal of the american society of nephrology':8.0,
+'american journal of kidney diseases':10.0,
+'annals of medicine':9.1,'postgraduate medical journal':3.1,
+'annals of internal medicine':21.4,'journal of internal medicine':9.0,
+'mayo clinic proceedings':8.5,'virchows archiv':3.8,
+'clinical chemistry':9.3,'modern pathology':6.6,
+'endocrine pathology':3.5,'annals of surgical oncology':4.5,
+'journal of surgical oncology':2.8,
+'european journal of surgical oncology':4.2,
+'british journal of cancer':9.1,'the oncologist':5.7,
+'journal of the national cancer institute':12.9,
+'cancer medicine':3.8,'radiology':12.1,'european radiology':5.9,
+'journal of nuclear medicine':9.9,
+'european journal of nuclear medicine and molecular imaging':9.1,
+'clinical nutrition':6.6,'the british journal of nutrition':3.6,
+'american journal of clinical nutrition':7.6,
+'nutrients':5.9,'european journal of clinical nutrition':3.7,
+'human genetics':3.8,'genetics in medicine':9.8,
+'journal of medical genetics':4.8,'american journal of human genetics':11.0,
+'drugs':10.2,'clinical pharmacology and therapeutics':7.5,
+'annals of surgery':9.8,'british journal of surgery':8.6,
+'world journal of surgery':3.4,'surgical endoscopy':3.8,
+'frontiers in pharmacology':5.6,'frontiers in physiology':4.0,
+'frontiers in oncology':4.7,'frontiers in immunology':7.3,
+'frontiers in neurology':3.4,'frontiers in genetics':3.7,
+'frontiers in nutrition':5.2,'frontiers in medicine':3.9,
+'frontiers in public health':5.2,
+'frontiers in cell and developmental biology':4.6,
+'bmc medicine':9.3,'bmc cancer':4.9,'bmc public health':4.5,
+'bmc cardiovascular disorders':2.5,'bmc nephrology':2.6,
+'bmc geriatrics':3.5,'bmc musculoskeletal disorders':2.5,
+'bmc endocrine disorders':2.8,'biology':3.6,'biomolecules':4.8,
+'antioxidants':7.0,'metabolites':3.9,'pharmaceutics':5.4,
+'diagnostics':3.6,'cancers':5.2,'cells':6.0,'biomedicines':3.9,
+'life':3.2,'medicina':2.6,'genes':3.5,
+'nature metabolism':20.8,'circulation research':20.1,
+'european journal of heart failure':18.2,
+'journal of the american society of nephrology':10.3,
+'jama neurology':29.0,'jama psychiatry':25.8,'jama surgery':16.9,
+'jama pediatrics':26.5,'eclinicalmedicine':9.6,
+// ── v5.5 EXPANSION: endocrine-adjacent & high-frequency gaps ──
+// Endocrinology (additional)
+'j endocrinol invest':5.4,'journal of endocrinological investigation':5.4,
+'endocrine practice':3.7,'j clin transl endocrinol':4.0,
+'journal of clinical & translational endocrinology':4.0,
+'case rep endocrinol':1.2,'acta endocrinol (buchar)':1.0,
+'minerva endocrinol':2.5,'horm cancer':3.5,
+'am j physiol endocrinol metab':4.2,
+'american journal of physiology endocrinology and metabolism':4.2,
+'mol cell endocrinol':3.8,'j thyroid res':2.0,
+'clin thyroidol':1.0,
+// Diabetes (additional)
+'bmj open diabetes res care':4.0,'bmj open diabetes research & care':4.0,
+'diabetes spectr':2.0,'clin diabetes':3.5,'clinical diabetes':3.5,
+'j diabetes res':3.6,'journal of diabetes research':3.6,
+'curr diab rep':5.0,'current diabetes reports':5.0,
+'diabetes ther':3.8,'diabetes therapy':3.8,
+'diabetol metab syndr':3.4,'diabetology & metabolic syndrome':3.4,
+// Bone (additional)
+'curr osteoporos rep':4.5,'current osteoporosis reports':4.5,
+'bonekey rep':2.0,'jbmr plus':3.5,'j musculoskelet neuronal interact':2.0,
+// Obesity (additional)
+'obes res clin pract':2.5,'obesity research & clinical practice':2.5,
+'clin obes':3.0,'clinical obesity':3.0,'int j obes suppl':3.0,
+// Reproductive (additional)
+'reprod sci':2.8,'reproductive sciences':2.8,'j ovarian res':3.8,
+'journal of ovarian research':3.8,'syst biol reprod med':2.5,
+'f s rep':1.5,'reprod biomed online':4.0,
+'reproductive biomedicine online':4.0,
+// Translational / general (additional)
+'j transl med':6.1,'journal of translational medicine':6.1,
+'clin transl med':10.6,'clinical and translational medicine':10.6,
+'ebiomedicine':9.7,'eur j med res':2.8,
+'european journal of medical research':2.8,'physiol rep':2.2,
+'gland surg':2.0,'front surg':2.0,
+// Aging / longevity (endocrine-relevant: frailty, sarcopenia, menopause)
+'lancet healthy longev':13.4,'the lancet healthy longevity':13.4,
+'nat aging':17.0,'nature aging':17.0,'aging cell':8.0,
+'geroscience':5.3,'j am geriatr soc':4.3,
+'journal of the american geriatrics society':4.3,
+'age ageing':6.0,'age and ageing':6.0,
+'j cachexia sarcopenia muscle':9.4,
+'journal of cachexia, sarcopenia and muscle':9.4,
+'j gerontol a biol sci med sci':4.3,
+// Health informatics (relevant to digital diabetes tools)
+'j am med inform assoc':6.4,'j med internet res':5.8,
+'journal of medical internet research':5.8,
+'npj digit med':12.4,'npj digital medicine':12.4,
+};
+// Normalise keys: strip trailing dots/spaces, collapse whitespace,
+// and also provide a parenthetical-stripped version for matching
+Object.keys(T).forEach(k=>{
+  const kn=k.replace(/\./g,'').replace(/\s+/g,' ').trim();
+  if(kn!==k) T[kn]=T[k];
+});
+return T;
+})();
+const getIF = j => {
+  if(!j)return null;
+  const norm=s=>s.toLowerCase().replace(/\./g,'').replace(/\s+/g,' ').trim();
+  const k=norm(j);
+  if(IF_MAP[k]!==undefined) return IF_MAP[k];
+  // Try stripping parenthetical qualifiers e.g. "Obesity (Silver Spring)" -> "Obesity"
+  const stripped=k.replace(/\\s*\\([^)]+\\)$/,'').trim();
+  return IF_MAP[stripped]||null;
+};
+
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 3. UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function clean(s) {
+  return Array.from(s||'').filter(ch=>{
+    const c=ch.codePointAt(0);
+    return c===0x09||c===0x0A||c===0x0D||(c>=0x20&&c!==0x7F&&c!==0x85&&c!==0x2028&&c!==0x2029);
+  }).join('').replace(/ {2,}/g,' ').trim();
+}
+function safeJSON(s) {
+  if (!s) return null;
+  try { return JSON.parse(s); } catch(_) {}
+  try { return JSON.parse(Array.from(s).filter(ch=>{const c=ch.codePointAt(0);return c===0x09||c===0x0A||c===0x0D||(c>=0x20&&c!==0x7F&&c!==0x85&&c!==0x2028&&c!==0x2029);}).join('')); }
+  catch(e) { console.warn('safeJSON:',e.message); return null; }
+}
+function localStore(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(_){}}
+function localLoad(k){try{const r=localStorage.getItem(k);if(!r)return null;const v=safeJSON(r);if(v===null)localStorage.removeItem(k);return v;}catch(_){try{localStorage.removeItem(k);}catch(_2){}return null;}}
+
+function isCorr(pt){return(pt||[]).some(x=>/^(letter|comment|editorial|erratum|expression of concern|retraction of publication|published erratum)$/i.test(x.trim()));}
+
+function ifBadge(v,journal){
+  if(v===null||v===undefined){
+    if(!journal||journal=='—')return'';
+    return`<span style="display:inline-block;font-family:var(--ff-mono);font-size:10px;font-weight:400;padding:2px 6px;border-radius:3px;background:rgba(148,163,184,.1);color:rgba(148,163,184,.5);border:1px solid rgba(148,163,184,.22)">IF ?</span>`;
+  }
+  let c,bg,bd;
+  if(v>=40)     {c='#fbbf24';bg='rgba(251,191,36,.18)'; bd='rgba(251,191,36,.45)';}
+  else if(v>=10){c='#60a5fa';bg='rgba(96,165,250,.18)'; bd='rgba(96,165,250,.45)';}
+  else if(v>=5) {c='#34d399';bg='rgba(52,211,153,.18)'; bd='rgba(52,211,153,.45)';}
+  else          {c='#94a3b8';bg='rgba(148,163,184,.15)';bd='rgba(148,163,184,.4)';}
+  return`<span style="display:inline-block;font-family:var(--ff-mono);font-size:10px;font-weight:500;padding:2px 7px;border-radius:3px;background:${bg};color:${c};border:1px solid ${bd}">IF ${v.toFixed(1)}</span>`;
+}
+function studyBadge(pt){
+  if(isCorr(pt))return'<span class="corr-badge">Correspondence</span>';
+  const t=pt||[];let label,color;
+  if(t.some(x=>/randomized controlled trial/i.test(x))){label='RCT';color='#22c55e';}
+  else if(t.some(x=>/meta.?analysis/i.test(x))){label='Meta-analysis';color='#a78bfa';}
+  else if(t.some(x=>/systematic review/i.test(x))){label='Syst Review';color='#60a5fa';}
+  else if(t.some(x=>/guideline/i.test(x))){label='Guideline';color='#fbbf24';}
+  else if(t.some(x=>/clinical trial/i.test(x))){label='Clin Trial';color='#34d399';}
+  else if(t.some(x=>/review/i.test(x))){label='Review';color='#94a3b8';}
+  else return'';
+  return`<span class="study-badge" style="background:${color}18;color:${color};border:1px solid ${color}44">${label}</span>`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 4. STATE
+// ═══════════════════════════════════════════════════════════════════════════
+let activeId = 'dm', showBM = false;
+let cache = {};
+let savedPool = {}, readSet = new Set(), openSet = new Set();
+var poolWarned = false;
+let selJournals = new Set();
+let jvJournals = new Set();
+let mode = 'domain';
+let lastDomainId = 'dm';
+let theme = 'midnight';
+let auditOpen = new Set();
+let subSel = {};   // topic id → subdomain index (null = all/broad)
+
+const CACHE_TTL = 6*3600*1000;
+const PM = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/';
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 5. PERSISTENCE
+// ═══════════════════════════════════════════════════════════════════════════
+function isSaved(p){return Object.prototype.hasOwnProperty.call(savedPool,p);}
+function savedCount(){return Object.keys(savedPool).length;}
+function findArticle(pmid){for(var k in cache){if(!Object.prototype.hasOwnProperty.call(cache,k))continue;var arr=cache[k].articles||[];for(var i=0;i<arr.length;i++){if(arr[i].pmid===pmid)return arr[i];}}return null;}
+function yearOf(a){var d=(a&&a.pubDate)||'';var m=d.match(/\d{4}/);return m?m[0]:((a&&a.year)||'');}
+function showStorageWarn(msg){var w=document.getElementById('storage-warn');var m=document.getElementById('storage-warn-msg');if(m&&msg)m.innerHTML=msg;if(w)w.style.display='flex';}
+function persistPool(){try{localStorage.setItem('e_pool',JSON.stringify(savedPool));return true;}catch(e){if(!poolWarned){poolWarned=true;showStorageWarn('\u26a0 Saved-article storage is full. Export your pool as JSON to back it up \u2014 new saves may not persist.');}return false;}}
+function persist(){
+  persistPool();localStore('e_rd',[...readSet]);
+  localStore('e_jf',[...selJournals]);localStore('e_jvf',[...jvJournals]);localStore('e_mode',mode);localStore('e_th',theme);
+  localStore('e_ss',subSel);
+}
+function loadPersisted(){
+  const pool=localLoad('e_pool');
+  if(pool&&typeof pool==='object'&&!Array.isArray(pool)){savedPool=pool;}
+  else{const legacy=localLoad('e_bm');if(Array.isArray(legacy))legacy.forEach(function(p){savedPool[p]={pmid:p,savedAt:null,_min:true};});}
+  const rd=localLoad('e_rd');if(Array.isArray(rd))readSet=new Set(rd);
+  const jf=localLoad('e_jf');if(Array.isArray(jf))selJournals=new Set(jf);
+  const jvf=localLoad('e_jvf');if(Array.isArray(jvf))jvJournals=new Set(jvf);
+  const md=localLoad('e_mode');mode=(md==='journal')?'journal':'domain';
+  const th=localLoad('e_th');theme=(th==='midnight'||th==='clinical')?th:'midnight';if(th!==theme)localStore('e_th',theme);
+  const ss=localLoad('e_ss');if(ss&&typeof ss==='object')subSel=ss;
+}
+function clearAll(){
+  savedPool={};readSet=new Set();cache={};subSel={};
+  try{['e_pool','e_bm','e_rd'].forEach(k=>localStorage.removeItem(k));}catch(_){}
+  renderTabs();renderContent();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 6. QUERY RESOLUTION
+// ═══════════════════════════════════════════════════════════════════════════
+function selV(id){return document.getElementById(id).value;}
+
+function curJournals(){return mode==='journal'?jvJournals:selJournals;}
+function getActiveTopic(){
+  if(activeId==='jv')return JOURNAL_VIEW_TOPIC;
+  return TOPICS.find(t=>t.id===activeId)||TOPICS[0];
+}
+
+function getActiveQuery(id){
+  if(id==='jv')return JOURNAL_VIEW_TOPIC.query;
+  const t=TOPICS.find(x=>x.id===id);if(!t)return'';
+  const si=subSel[id];
+  if(si!==null&&si!==undefined&&t.subdomains[si]){return t.subdomains[si].query;}
+  return t.query;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 7. PUBMED API
+// ═══════════════════════════════════════════════════════════════════════════
+async function pmSearch(query,days,study,jFilter){
+  const term=query+study+jFilter;
+  const url=PM+'esearch.fcgi?db=pubmed&term='+encodeURIComponent(term)+'&reldate='+days+'&datetype=pdat&retmax=50&retmode=json&sort=pub+date';
+  const r=await fetch(url);if(!r.ok)throw new Error('esearch '+r.status);
+  const d=safeJSON(await r.text());if(!d)throw new Error('PubMed returned unparseable response');
+  const res=d.esearchresult||{};
+  return{idlist:res.idlist||[],count:parseInt(res.count)||0,querytranslation:res.querytranslation||''};
+}
+async function pmFetch(ids){
+  if(!ids.length)return[];
+  const r=await fetch(PM+'efetch.fcgi?db=pubmed&id='+ids.join(',')+'&rettype=abstract&retmode=xml');
+  if(!r.ok)throw new Error('efetch '+r.status);
+  return parseXML(await r.text());
+}
+function parseXML(xml){
+  const doc=new DOMParser().parseFromString(xml,'text/xml');
+  return[...doc.querySelectorAll('PubmedArticle')].map(n=>{
+    const tx=function(s){return clean((s&&s.textContent)||'');};
+    const pmid=tx(n.querySelector('PMID'));
+    const title=tx(n.querySelector('ArticleTitle'))||'Untitled';
+    const _iso=n.querySelector('ISOAbbreviation'),_jt=n.querySelector('Journal > Title');
+    const journal=clean((_iso&&_iso.textContent)||(_jt&&_jt.textContent)||'');
+    const pd=n.querySelector('PubDate');
+    const _pdm=pd&&pd.querySelector('Month'),_pdy=pd&&pd.querySelector('Year');
+    const pubDate=[(_pdm&&_pdm.textContent),(_pdy&&_pdy.textContent)].filter(Boolean).join(' ');
+    const aels=[...n.querySelectorAll('Author')];
+    const names=aels.slice(0,4).map(function(a){const _ln=a.querySelector('LastName'),_in=a.querySelector('Initials');return clean(((_ln&&_ln.textContent)||'')+' '+((_in&&_in.textContent)||''));}).filter(Boolean);
+    const authors=aels.length>4?names.join(', ')+' et al.':names.join(', ');
+    const abNodes=[...n.querySelectorAll('AbstractText')];
+    let abstract='';
+    abNodes.forEach(ab=>{const label=clean(ab.getAttribute('Label')),text=clean(ab.textContent);if(!text)return;abstract+=label?label+': '+text+'\n\n':text+' ';});
+    const pubTypes=[...n.querySelectorAll('PublicationType')].map(p=>clean(p.textContent));
+    const doiEl=[...n.querySelectorAll('ArticleId')].find(e=>e.getAttribute('IdType')==='doi');
+    const doi=clean((doiEl&&doiEl.textContent)||'');
+    return{pmid,title,journal,pubDate,authors,abstract:abstract.trim()||null,pubTypes,doi};
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 8. CACHE
+// ═══════════════════════════════════════════════════════════════════════════
+function cKey(id){
+  const si=subSel[id]!==undefined&&subSel[id]!==null?subSel[id]:'all';
+  return id+':'+selV('sel-days')+':'+selV('sel-study')+':'+[...curJournals()].sort().join('|')+':'+si;
+}
+function getCached(id){const e=cache[cKey(id)];if(!e)return null;if(Date.now()-e.ts>CACHE_TTL){delete cache[cKey(id)];return null;}return e;}
+function setCached(id,articles,audit){cache[cKey(id)]={articles,ts:Date.now(),audit:audit||{}};}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 9. LOAD
+// ═══════════════════════════════════════════════════════════════════════════
+async function loadTopic(id,force=false){
+  if(id==='jv'&&jvJournals.size===0){renderContent();return;}
+  const c=getCached(id);
+  if(!force&&c){renderContent();return;}
+  renderLoading();
+  const days=selV('sel-days'),study=selV('sel-study');
+  let query,jf;
+  if(id==='jv'){query='('+[...jvJournals].map(ta=>`"${ta}"[ta]`).join(' OR ')+')';jf='';}
+  else{query=getActiveQuery(id);jf=selJournals.size?' AND ('+[...selJournals].map(ta=>`"${ta}"[ta]`).join(' OR ')+')':'';}
+  try{
+    const res=await pmSearch(query,days,study,jf);
+    const arts=res.idlist.length?await pmFetch(res.idlist):[];
+    const si=subSel[id];
+    const _topicForSub=si!==null&&si!==undefined?TOPICS.find(function(t){return t.id===id;}):null;
+    const subLabel=_topicForSub&&_topicForSub.subdomains&&_topicForSub.subdomains[si]?_topicForSub.subdomains[si].label:null;
+    setCached(id,arts,{count:res.count,querytranslation:res.querytranslation,query,days,jf,subLabel});
+    renderContent();
+  }catch(e){renderError(e.message,id);}
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 10. RENDER
+// ═══════════════════════════════════════════════════════════════════════════
+function renderLoading(){
+  document.getElementById('content').innerHTML=[130,100,150,110,120].map(h=>`<div class="skeleton" style="height:${h}px"></div>`).join('');
+  document.getElementById('fetch-time').textContent='';
+  document.getElementById('if-notice').style.display='none';
+  document.getElementById('sd-pill-row').innerHTML='';
+}
+function renderError(msg,id){
+  document.getElementById('content').innerHTML=`<div class="error-box"><span>&#9888; ${esc(msg||'PubMed fetch failed.')}</span><button class="retry-btn" onclick="loadTopic('${esc(id)}',true)">Retry</button></div>`;
+  document.getElementById('if-notice').style.display='none';
+}
+function unread(id){const c=getCached(id);return c?c.articles.filter(a=>!readSet.has(a.pmid)).length:0;}
+
+function renderPills(t){
+  const row=document.getElementById('sd-pill-row');
+  row.innerHTML='';
+  if(!t||!t.subdomains||!t.subdomains.length){row.style.display='none';return;}
+  row.style.display='flex';
+  row.style.setProperty('--tc',t.color);
+  const si=subSel[t.id];
+  // All pill
+  const allPill=document.createElement('button');
+  allPill.className='sd-pill'+(si===null||si===undefined?' active':'');
+  allPill.textContent='All subdomains';
+  allPill.onclick=()=>{subSel[t.id]=null;persist();loadTopic(t.id,true);};
+  row.appendChild(allPill);
+  // Subdomain pills
+  t.subdomains.forEach((s,i)=>{
+    const p=document.createElement('button');
+    p.className='sd-pill'+(si===i?' active':'');
+    p.textContent=s.label;
+    p.onclick=()=>{subSel[t.id]=i;persist();loadTopic(t.id,true);};
+    row.appendChild(p);
+  });
+}
+
+function renderTabs(){
+  const nav=document.getElementById('tabs');
+  nav.innerHTML='';
+  if(mode==='domain'){
+    let lastSec=null;
+    TOPICS.forEach(t=>{
+      if(t.section!==lastSec&&lastSec!==null){const d=document.createElement('div');d.className='tab-divider';nav.appendChild(d);}
+      lastSec=t.section;
+      const active=t.id===activeId&&!showBM;
+      const cnt=getCached(t.id)?unread(t.id):null;
+      const btn=document.createElement('button');
+      btn.className='tab'+(active?' active':'');
+      btn.style.setProperty('--tc',t.color);
+      btn.title=t.label;
+      btn.innerHTML=esc(t.short)+(cnt>0?`<span class="badge" style="--tc:${t.color}">${cnt}</span>`:'');
+      btn.onclick=()=>{activeId=t.id;showBM=false;renderTabs();renderPills(t);renderContent();loadTopic(t.id);};
+      nav.appendChild(btn);
+    });
+    const dv=document.createElement('div');dv.className='tab-divider';nav.appendChild(dv);
+  }
+  // Bookmarks (both modes)
+  const bm=document.createElement('button');
+  bm.className='tab tab-bm'+(showBM?' active':'');
+  bm.style.setProperty('--tc','#fbbf24');
+  bm.title='Saved articles';
+  bm.innerHTML='&#9733;'+(savedCount()>0?`<span class="badge" style="--tc:#fbbf24">${savedCount()}</span>`:'');
+  bm.onclick=()=>{showBM=true;renderTabs();document.getElementById('sd-pill-row').innerHTML='';document.getElementById('jchip-row').style.display='none';renderContent();};
+  nav.appendChild(bm);
+  // Subtitle
+  if(!showBM){
+    const t=getActiveTopic();
+    const sec=t.section==='spec'?' \u00b7 RACP Extended':mode==='journal'?' \u00b7 Journal View':'';
+    document.getElementById('logo-sub').textContent='ENDOCRINE & DIABETES \u00b7 CPD FEED \u00b7 PUBMED'+sec;
+  }
+}
+
+function articleHTML(a,tc){
+  const ifV=getIF(a.journal);
+  const read=readSet.has(a.pmid),open=openSet.has(a.pmid),saved=isSaved(a.pmid),corr=isCorr(a.pubTypes);
+  const sp=esc(a.pmid),st=esc(a.title||'Untitled'),sj=esc(a.journal||'\u2014'),sa=esc(a.authors||'Authors unavailable'),sd=esc(a.pubDate);
+  const doi=(a.doi&&/^[\w./:;()\-]+$/.test(a.doi))?'https://doi.org/'+encodeURIComponent(a.doi):'';
+  let abHTML='';
+  if(a.abstract){
+    abHTML=a.abstract.split(/\n\n+/).filter(Boolean).map(para=>{
+      const ci=para.indexOf(':');
+      if(ci>0&&ci<32)return`<p class="abstract-para"><span class="abstract-label">${esc(para.slice(0,ci))}:</span>${esc(para.slice(ci+1))}</p>`;
+      return`<p class="abstract-para">${esc(para)}</p>`;
+    }).join('');
+  }else{abHTML='<p class="abstract-para" style="font-style:italic;opacity:.5">Abstract not available \u2014 view on PubMed.</p>';}
+  return`
+<article class="article${read&&!open?' read':''}${open?' open':''}${corr?' correspondence':''}" id="art-${sp}" style="--tc:${tc}">
+  <div class="meta">
+    <span class="journal">${sj}</span>${ifBadge(ifV,a.journal)}${studyBadge(a.pubTypes)}
+    <span class="pub-date">${sd}</span><span class="pmid-label">PMID ${sp}</span>
+  </div>
+  <h3 class="art-title" data-action="toggle" data-pmid="${sp}">${st}</h3>
+  <p class="authors">${sa}</p>
+  <div class="abstract-body${open?' open':''}" id="ab-${sp}">${abHTML}</div>
+  <div class="actions">
+    <button class="act-btn" data-action="toggle" data-pmid="${sp}" id="tog-${sp}">${open?'\u25b2 Collapse':'\u25bc Abstract'}</button>
+    <a class="act-btn pubmed" href="https://pubmed.ncbi.nlm.nih.gov/${sp}/" target="_blank" rel="noopener noreferrer" data-action="read" data-pmid="${sp}" style="color:${tc};border-color:${tc}44">PubMed \u2197</a>
+    ${doi?`<a class="act-btn" href="${doi}" target="_blank" rel="noopener noreferrer" data-action="read" data-pmid="${sp}">Full text \u2197</a>`:''}
+    <button class="act-btn ${saved?'saved':'save'}" id="bm-${sp}" data-action="bookmark" data-pmid="${sp}">${saved?'\u2605 Saved':'\u2606 Save'}</button>
+  </div>
+</article>`;
+}
+
+function renderJChips(){
+  const row=document.getElementById('jchip-row');
+  row.style.display='flex';
+  row.style.setProperty('--tc',JOURNAL_VIEW_TOPIC.color);
+  row.innerHTML='';
+  jvJournals.forEach(function(ta){
+    const chip=document.createElement('span');chip.className='jchip';
+    const name=document.createElement('span');name.textContent=ta;
+    const x=document.createElement('button');x.innerHTML='&times;';x.title='Remove journal';
+    x.onclick=function(){jvJournals.delete(ta);persist();cache={};updateJPcount();renderContent();loadTopic('jv',true);};
+    chip.appendChild(name);chip.appendChild(x);row.appendChild(chip);
+  });
+  const add=document.createElement('button');add.className='jpick-btn';
+  add.textContent=jvJournals.size?'+ Edit journals':'Choose journals \u2192';
+  add.onclick=function(){openJournalPanel();};
+  row.appendChild(add);
+}
+function renderContent(){
+  const titleEl=document.getElementById('topic-title');
+  const timeEl=document.getElementById('fetch-time');
+  const noticeEl=document.getElementById('if-notice');
+  const el=document.getElementById('content');
+
+  if(showBM){
+    titleEl.textContent='Saved articles';titleEl.style.color='#fbbf24';
+    timeEl.textContent='';noticeEl.style.display='none';
+    var recs=Object.keys(savedPool).map(function(p){var r=savedPool[p];if(r&&r._min){var f=findArticle(p);if(f)return f;}r=r||{pmid:p};if(!r.pubTypes)r.pubTypes=[];return r;});
+    recs.sort(function(a,b){return String(b.savedAt||'').localeCompare(String(a.savedAt||''));});
+    var bar='<div class="saved-bar"><span class="saved-count">'+recs.length+' saved article'+(recs.length===1?'':'s')+'</span><div class="saved-actions"><button class="saved-btn" data-exp="csv">Export CSV</button><button class="saved-btn" data-exp="ris">Export RIS</button><button class="saved-btn" data-exp="json">Export JSON</button><button class="saved-btn" data-imp="1">Import JSON</button>'+(recs.length?'<button class="saved-btn saved-btn-danger" data-clearpool="1">Clear pool</button>':'')+'</div></div>';
+    el.innerHTML=bar+(recs.length?recs.map(function(a){return articleHTML(a,'#fbbf24');}).join(''):'<div class="empty-state"><h3>No saved articles</h3><p>Browse topics and use &#9734; Save. Your pool persists across sessions and can be exported.</p></div>');
+    return;
+  }
+
+  const t=getActiveTopic();
+  const c=getCached(activeId);
+  // Subdomain label in title
+  const si=subSel[activeId];
+  const subLabel=si!==null&&si!==undefined&&t.subdomains&&t.subdomains[si]&&t.subdomains[si].label;
+  titleEl.textContent=subLabel?`${t.label} \u2014 ${subLabel}`:t.label;
+  titleEl.style.color=t.color;
+  if(mode==='journal'){document.getElementById('sd-pill-row').style.display='none';renderJChips();}
+  else{document.getElementById('jchip-row').style.display='none';renderPills(t);}
+
+  if(mode==='journal'&&jvJournals.size===0){timeEl.textContent='';noticeEl.style.display='none';el.innerHTML='<div class="empty-state"><h3>No journals selected</h3><p>Choose journals to browse their latest articles.</p></div>';return;}
+  if(!c){renderLoading();return;}
+  timeEl.textContent='PubMed \u00b7 '+new Date(c.ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+
+  const minIF=parseFloat(selV('sel-if'))||0;
+  let arts=c.articles,hidden=0;
+  if(minIF>0){const before=arts.length;arts=arts.filter(a=>{const v=getIF(a.journal);return v===null||v>=minIF;});hidden=before-arts.length;}
+
+  if(hidden>0){noticeEl.style.display='block';noticeEl.textContent=`${hidden} article${hidden>1?'s':''} hidden (IF \u003c ${minIF}). Journals not in IF database always shown.`;}
+  else if(minIF>0&&arts.length>0){noticeEl.style.display='block';noticeEl.textContent=`IF \u2265 ${minIF} filter active. Unlisted journals always included.`;}
+  else{noticeEl.style.display='none';}
+
+  el.innerHTML=arts.length?arts.map(a=>articleHTML(a,t.color)).join(''):'<div class="empty-state"><h3>No articles found</h3><p>Try extending the date range, changing the study type,<br>or selecting a different subdomain.</p></div>';
+  renderTabs();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 11. INTERACTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+document.getElementById('content').addEventListener('click',e=>{
+  const el=e.target.closest('[data-action]');if(!el)return;
+  const{action,pmid}=el.dataset;if(!pmid)return;
+  if(action==='toggle')toggleAbs(pmid);
+  if(action==='bookmark')toggleBM(pmid);
+  if(action==='read')markRead(pmid);
+});
+document.getElementById('content').addEventListener('click',function(e){
+  var ex=e.target.closest('[data-exp]');if(ex){exportPool(ex.getAttribute('data-exp'));return;}
+  var im=e.target.closest('[data-imp]');if(im){importPoolPrompt();return;}
+  var cp=e.target.closest('[data-clearpool]');if(cp){if(window.confirm('Remove all '+savedCount()+' saved articles from the pool? This cannot be undone.')){savedPool={};persist();renderTabs();renderContent();}return;}
+});
+function download(filename,text,mime){try{var blob=new Blob([text],{type:mime+';charset=utf-8'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},0);}catch(e){alert('Download failed: '+e.message);}}
+function poolRecords(){return Object.keys(savedPool).map(function(p){var r=savedPool[p];if(r&&r._min){var f=findArticle(p);if(f){var m={};for(var k in f){if(Object.prototype.hasOwnProperty.call(f,k))m[k]=f[k];}m.savedAt=r.savedAt;return m;}}return r;});}
+function csvCell(s){s=(s==null?'':String(s));return '"'+s.replace(/"/g,'""')+'"';}
+function exportPool(fmt){
+  var recs=poolRecords();if(!recs.length){alert('No saved articles to export.');return;}
+  var stamp=new Date().toISOString().slice(0,10).replace(/-/g,'');
+  if(fmt==='csv'){
+    var cols=['PMID','Title','Authors','Journal','Year','DOI','URL','SavedAt','Abstract'];
+    var rows=[cols.map(csvCell).join(',')];
+    recs.forEach(function(a){rows.push([a.pmid,a.title,a.authors,a.journal,yearOf(a),a.doi,'https://pubmed.ncbi.nlm.nih.gov/'+a.pmid+'/',a.savedAt,a.abstract].map(csvCell).join(','));});
+    download('endo-digest-saved-'+stamp+'.csv','\ufeff'+rows.join('\r\n'),'text/csv');
+  }else if(fmt==='ris'){
+    var out=[];
+    recs.forEach(function(a){
+      out.push('TY  - JOUR');
+      var au=(a.authors||'').replace(/ et al\.?$/,'').split(/,\s*/);
+      au.forEach(function(n){if(n)out.push('AU  - '+n);});
+      if(a.title)out.push('TI  - '+a.title);
+      if(a.journal)out.push('JO  - '+a.journal);
+      var y=yearOf(a);if(y)out.push('PY  - '+y);
+      if(a.doi)out.push('DO  - '+a.doi);
+      if(a.abstract)out.push('AB  - '+String(a.abstract).replace(/\r?\n+/g,' '));
+      out.push('UR  - https://pubmed.ncbi.nlm.nih.gov/'+a.pmid+'/');
+      out.push('ID  - '+a.pmid);out.push('ER  - ');out.push('');
+    });
+    download('endo-digest-saved-'+stamp+'.ris',out.join('\r\n'),'application/x-research-info-systems');
+  }else{
+    download('endo-digest-saved-'+stamp+'.json',JSON.stringify(savedPool,null,2),'application/json');
+  }
+}
+function importPoolPrompt(){
+  var inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';
+  inp.onchange=function(){
+    var file=inp.files&&inp.files[0];if(!file)return;
+    var rd=new FileReader();
+    rd.onload=function(){
+      try{
+        var data=JSON.parse(rd.result);
+        var items=Array.isArray(data)?data:Object.keys(data).map(function(k){return data[k];});
+        var added=0,present=0,bad=0;
+        items.forEach(function(r){if(!r||!r.pmid){bad++;return;}if(isSaved(r.pmid)){present++;return;}if(!r.pubTypes)r.pubTypes=[];savedPool[r.pmid]=r;added++;});
+        persist();renderTabs();renderContent();
+        alert('Import complete: '+added+' added, '+present+' already in pool'+(bad?', '+bad+' skipped (no PMID)':'')+'.');
+      }catch(e){alert('Import failed \u2014 not a valid Endo Digest JSON file. ('+e.message+')');}
+    };
+    rd.onerror=function(){alert('Could not read the file.');};
+    rd.readAsText(file);
+  };
+  inp.click();
+}
+function toggleAbs(pmid){
+  markRead(pmid);openSet.has(pmid)?openSet.delete(pmid):openSet.add(pmid);
+  const art=document.getElementById('art-'+pmid),ab=document.getElementById('ab-'+pmid),tog=document.getElementById('tog-'+pmid);
+  if(!art)return;const open=openSet.has(pmid);
+  art.classList.toggle('open',open);art.classList.toggle('read',readSet.has(pmid)&&!open);
+  if(ab)ab.classList.toggle('open',open);if(tog)tog.textContent=open?'\u25b2 Collapse':'\u25bc Abstract';
+}
+function markRead(pmid){
+  if(readSet.has(pmid))return;readSet.add(pmid);persist();
+  const art=document.getElementById('art-'+pmid);if(art&&!openSet.has(pmid))art.classList.add('read');renderTabs();
+}
+function toggleBM(pmid){
+  if(isSaved(pmid)){delete savedPool[pmid];}
+  else{var a=findArticle(pmid)||{pmid:pmid};var rec={};for(var k in a){if(Object.prototype.hasOwnProperty.call(a,k))rec[k]=a[k];}rec.savedAt=new Date().toISOString();rec._min=false;savedPool[pmid]=rec;}
+  persist();
+  const el=document.getElementById('bm-'+pmid);
+  if(el){const s=isSaved(pmid);el.className='act-btn '+(s?'saved':'save');el.textContent=s?'\u2605 Saved':'\u2606 Save';}
+  if(showBM)renderContent();
+  renderTabs();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 12. JOURNAL PANEL
+// ═══════════════════════════════════════════════════════════════════════════
+function buildJP(){
+  const body=document.getElementById('jp-body');body.innerHTML='';
+  const q=document.getElementById('journal-search').value.toLowerCase();
+  JOURNAL_GROUPS.forEach(g=>{
+    const ms=g.journals.filter(j=>!q||j.name.toLowerCase().includes(q)||j.ta.toLowerCase().includes(q));
+    if(!ms.length)return;
+    const gl=document.createElement('div');gl.className='jp-group-label';gl.textContent=g.label;body.appendChild(gl);
+    ms.forEach(j=>{
+      const row=document.createElement('div');row.className='jp-item';
+      const c=curJournals().has(j.ta);
+      const ic=j.if>=40?'#fbbf24':j.if>=10?'#60a5fa':j.if>=5?'#34d399':'#94a3b8';
+      row.innerHTML=`<input type="checkbox" ${c?'checked':''} data-ta="${esc(j.ta)}"><span class="jp-item-name">${esc(j.name)}</span><span class="jp-item-if" style="color:${ic};background:${ic}15;border:1px solid ${ic}44">IF ${j.if.toFixed(1)}</span>`;
+      row.querySelector('input').addEventListener('change',e=>{
+        e.target.checked?curJournals().add(j.ta):curJournals().delete(j.ta);
+        updateJPcount();persist();cache={};renderTabs();renderContent();loadTopic(activeId);
+      });
+      body.appendChild(row);
+    });
+  });
+}
+function updateJPcount(){
+  const n=curJournals().size;
+  document.getElementById('jp-count').textContent=n?`${n} journal${n>1?'s':''} selected`:'All journals';
+  document.getElementById('btn-journals').classList.toggle('active',n>0);
+}
+document.getElementById('btn-journals').addEventListener('click',e=>{
+  e.stopPropagation();const p=document.getElementById('journal-panel'),open=p.classList.contains('open');
+  closeAll();if(!open){p.classList.add('open');buildJP();}
+  document.getElementById('btn-journals').classList.toggle('active',!open||curJournals().size>0);
+});
+document.getElementById('journal-search').addEventListener('input',buildJP);
+document.getElementById('jp-clear').addEventListener('click',()=>{
+  curJournals().clear();persist();updateJPcount();buildJP();cache={};renderTabs();renderContent();loadTopic(activeId);
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 13. THEME
+// ═══════════════════════════════════════════════════════════════════════════
+function applyTheme(name){
+  theme=name;document.documentElement.setAttribute('data-theme',name);
+  document.querySelectorAll('.theme-opt').forEach(el=>el.classList.toggle('active',el.dataset.theme===name));
+  persist();
+}
+document.getElementById('btn-theme').addEventListener('click',e=>{
+  e.stopPropagation();const p=document.getElementById('theme-panel'),open=p.classList.contains('open');
+  closeAll();if(!open)p.classList.add('open');
+});
+document.querySelectorAll('.theme-opt').forEach(el=>el.addEventListener('click',()=>{applyTheme(el.dataset.theme);closeAll();}));
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 14. AUDIT PANEL
+// ═══════════════════════════════════════════════════════════════════════════
+function buildAudit(){
+  const body=document.getElementById('audit-body');body.innerHTML='';
+  const allTopics=[...TOPICS,...((selJournals.size>0||jvJournals.size>0)?[JOURNAL_VIEW_TOPIC]:[])];
+  allTopics.forEach(t=>{
+    const c=getCached(t.id);const audit=(c&&c.audit)||{};const open=auditOpen.has(t.id);
+    const count=audit.count;const showing=c?c.articles.length:0;
+    let cc='#94a3b8',cb='#94a3b815';
+    if(count!==undefined&&count>0){cc=count>showing+10?'#fb923c':'#34d399';cb=count>showing+10?'#fb923c15':'#34d39915';}
+    const rawQ=(audit.query||'')+(audit.jf||'');
+    const vurl=rawQ?'https://pubmed.ncbi.nlm.nih.gov/?term='+encodeURIComponent(rawQ):'';
+    const countH=count!==undefined?`<span class="audit-count" style="background:${cb};color:${cc};border:1px solid ${cc}44">${showing}&nbsp;/&nbsp;${count}</span>`:'<span class="audit-pending">not fetched</span>';
+    const vH=vurl?`<a class="audit-verify-btn" href="${vurl}" target="_blank" rel="noopener noreferrer">Verify on PubMed &#8599;</a>`:'';
+    const subH=audit.subLabel?`<div class="audit-section-label">Active subdomain</div><div class="audit-query-box" style="color:var(--logo-accent)">${esc(audit.subLabel)}</div>`:'';
+    const transH=audit.querytranslation?`<div class="audit-section-label">NCBI query translation</div><div class="audit-translation-box">${esc(audit.querytranslation)}</div>${count>showing+10?`<div class="audit-warning">&#9888; ${count-showing} further records exist beyond the ${showing} shown. Inspect translation for dropped terms.</div>`:''}`:'<div class="audit-pending" style="margin-top:6px">Load this topic to see NCBI query translation.</div>';
+    const w=document.createElement('div');w.className='audit-topic';
+    w.innerHTML=`<div class="audit-topic-head" style="border-left:3px solid ${t.color}"><span class="audit-topic-label" style="color:${t.color}">${esc(t.label)}</span>${countH}&nbsp;${vH}<span style="font-size:10px;color:var(--muted);margin-left:4px">${open?'&#9650;':'&#9660;'}</span></div>
+      <div class="audit-topic-body${open?' open':''}" id="ab-audit-${t.id}">${subH}<div class="audit-section-label">Query sent to PubMed</div><div class="audit-query-box">${esc(audit.query||t.query)}</div>${transH}</div>`;
+    w.querySelector('.audit-topic-head').addEventListener('click',()=>{auditOpen.has(t.id)?auditOpen.delete(t.id):auditOpen.add(t.id);buildAudit();});
+    body.appendChild(w);
+  });
+}
+document.getElementById('btn-audit').addEventListener('click',e=>{
+  e.stopPropagation();const p=document.getElementById('audit-panel'),open=p.classList.contains('open');
+  closeAll();if(!open){p.classList.add('open');buildAudit();}
+  document.getElementById('btn-audit').classList.toggle('active',!open);
+});
+document.getElementById('audit-close').addEventListener('click',()=>{
+  document.getElementById('audit-panel').classList.remove('open');
+  document.getElementById('btn-audit').classList.remove('active');
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 15. PANELS & CONTROLS
+// ═══════════════════════════════════════════════════════════════════════════
+function closeAll(){
+  ['journal-panel','theme-panel','audit-panel'].forEach(id=>document.getElementById(id).classList.remove('open'));
+  ['btn-journals','btn-audit'].forEach(id=>document.getElementById(id).classList.remove('active'));
+}
+document.addEventListener('click',e=>{
+  const inside=['journal-panel','theme-panel','audit-panel','btn-journals','btn-theme','btn-audit'];
+  if(!inside.some(id=>e.target.closest('#'+id)))closeAll();
+});
+document.getElementById('btn-refresh').addEventListener('click',()=>{
+  if(showBM)return;const btn=document.getElementById('btn-refresh');
+  btn.disabled=true;btn.textContent='\u2026';
+  loadTopic(activeId,true).finally(()=>{btn.disabled=false;btn.innerHTML='&#8635; Refresh';});
+});
+['sel-days','sel-study'].forEach(id=>{
+  document.getElementById(id).addEventListener('change',()=>{cache={};renderContent();loadTopic(activeId);});
+});
+document.getElementById('sel-if').addEventListener('change',renderContent);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 16. INIT
+// ═══════════════════════════════════════════════════════════════════════════
+function syncModeUI(){
+  document.getElementById('mode-domain').classList.toggle('active',mode==='domain');
+  document.getElementById('mode-journal').classList.toggle('active',mode==='journal');
+}
+function openJournalPanel(){
+  const p=document.getElementById('journal-panel');
+  closeAll();p.classList.add('open');buildJP();
+  document.getElementById('btn-journals').classList.add('active');
+}
+function setMode(m){
+  const same=(m===mode);
+  if(same&&!showBM)return;
+  showBM=false;mode=m;
+  if(m==='journal'){if(activeId!=='jv')lastDomainId=activeId;activeId='jv';}
+  else{activeId=lastDomainId||'dm';}
+  persist();syncModeUI();
+  document.getElementById('sd-pill-row').style.display=(m==='domain')?'flex':'none';
+  document.getElementById('jchip-row').style.display=(m==='journal')?'flex':'none';
+  buildJP();updateJPcount();renderTabs();renderContent();
+  if(m==='journal'&&jvJournals.size===0)openJournalPanel();
+  else loadTopic(activeId);
+}
+document.getElementById('mode-domain').addEventListener('click',function(){setMode('domain');});
+document.getElementById('mode-journal').addEventListener('click',function(){setMode('journal');});
+
+loadPersisted();
+if(mode==='journal')activeId='jv';else lastDomainId=activeId;
+applyTheme(theme);
+syncModeUI();
+updateJPcount();
+document.getElementById('sd-pill-row').style.display=(mode==='domain')?'flex':'none';
+document.getElementById('jchip-row').style.display=(mode==='journal')?'flex':'none';
+renderTabs();
+if(mode==='domain')renderPills(TOPICS.find(t=>t.id===activeId));
+renderContent();
+if(!(mode==='journal'&&jvJournals.size===0))loadTopic(activeId);
+</script>
+</body>
+</html>
