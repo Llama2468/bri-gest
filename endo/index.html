@@ -300,7 +300,7 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
 // 0. STORAGE AVAILABILITY CHECK
 // ═══════════════════════════════════════════════════════════════════════════
 const STORAGE_OK = (function(){
-  try{const k='__ed_t__';localStorage.setItem(k,'1');localStorage.removeItem(k);return true;
+  try{const k='__ed_t__';localStorage.setItem(k,'1');localStorage.removeItem(k);return true;}
   catch(_){return false;}
 })();
 if(!STORAGE_OK){
