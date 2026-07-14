@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body{margin:0}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{opacity:.75}
+  ::selection{background:var(--accent);color:var(--bg)}
+  ::-webkit-scrollbar{width:0;height:0}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</helmet>
+<div style="{{ rootStyle }}">
+<div style="min-height:100vh;background:var(--bg);color:var(--text);font-family:'Newsreader',Georgia,serif;transition:background .35s ease,color .35s ease;-webkit-tap-highlight-color:transparent;padding-bottom:calc(40px * var(--tsize))">
+
+  <header style="position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--border)">
+    <div style="max-width:760px;margin:0 auto;padding:calc(14px * var(--tsize)) calc(18px * var(--tsize)) calc(10px * var(--tsize));display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:calc(11px * var(--tsize))">
+        <div style="width:calc(30px * var(--tsize));height:calc(30px * var(--tsize));border-radius:50%;border:1.3px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <span style="font-family:'Newsreader',Georgia,serif;font-style:italic;font-weight:500;font-size:calc(14px * var(--tsize));color:var(--accent);line-height:1">B</span>
+        </div>
+        <div>
+          <div style="font-size:calc(15.5px * var(--tsize));font-weight:600;letter-spacing:.02em;color:var(--heading);line-height:1.15">Endocrine Bri&#8209;gest</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:calc(9px * var(--tsize));letter-spacing:.1em;color:var(--muted);margin-top:2px;text-transform:uppercase">v5.8 &middot; Endocrine &amp; Diabetes</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:calc(6px * var(--tsize))">
+        <button onclick="{{ openJournalSheet }}" aria-label="Filter by journal" title="Filter by journal" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);width:calc(29px * var(--tsize));height:calc(29px * var(--tsize));border-radius:6px;cursor:pointer;font-size:calc(13px * var(--tsize))" style-hover="border-color:var(--accent);color:var(--accent)">&#9776;</button>
+        <button onclick="{{ openAuditSheet }}" aria-label="Search strategy audit" title="Search strategy audit" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);width:calc(29px * var(--tsize));height:calc(29px * var(--tsize));border-radius:6px;cursor:pointer;font-size:calc(13px * var(--tsize))" style-hover="border-color:var(--accent);color:var(--accent)">&#128269;</button>
+        <button onclick="{{ cycleScale }}" aria-label="Text size" title="Text size" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:0 calc(9px * var(--tsize));height:calc(29px * var(--tsize));font-family:'IBM Plex Mono',monospace;font-size:calc(10.5px * var(--tsize));cursor:pointer;display:flex;align-items:center;gap:4px" style-hover="border-color:var(--accent);color:var(--accent)"><span style="font-family:'Newsreader',Georgia,serif;font-weight:600">Aa</span><span style="opacity:.6">{{ scaleStep }}/3</span></button>
+        <button onclick="{{ toggleTheme }}" aria-label="Switch theme" title="Toggle theme" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);width:calc(29px * var(--tsize));height:calc(29px * var(--tsize));border-radius:6px;cursor:pointer;font-size:calc(13px * var(--tsize))" style-hover="border-color:var(--accent);color:var(--accent)">{{ themeIcon }}</button>
+        <button onclick="{{ refresh }}" title="Refresh" style="background:var(--surface2);border:1px solid var(--border);color:var(--accent);border-radius:6px;padding:0 calc(13px * var(--tsize));height:calc(29px * var(--tsize));font-family:'IBM Plex Mono',monospace;font-size:calc(11px * var(--tsize));cursor:pointer" style-hover="background:var(--surface)">&#8635; Refresh</button>
+      </div>
+    </div>
+
+    <div style="max-width:760px;margin:0 auto;padding:0 calc(18px * var(--tsize)) calc(10px * var(--tsize));display:flex;gap:calc(7px * var(--tsize));flex-wrap:wrap">
+      <select onchange="{{ setIfMin }}" title="Minimum impact factor" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:calc(5px * var(--tsize)) calc(10px * var(--tsize));border-radius:5px;font-size:calc(11px * var(--tsize));font-family:'IBM Plex Mono',monospace">
+        <option value="0">Any IF</option>
+        <option value="5">IF &ge; 5</option>
+        <option value="10">IF &ge; 10</option>
+        <option value="20">IF &ge; 20</option>
+      </select>
+      <select title="Date range" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:calc(5px * var(--tsize)) calc(10px * var(--tsize));border-radius:5px;font-size:calc(11px * var(--tsize));font-family:'IBM Plex Mono',monospace">
+        <option>Past week</option><option>Past 2 weeks</option><option>Past month</option>
+      </select>
+      <select title="Study type" style="background:var(--surface2);border:1px solid var(--border);color:var(--text2);padding:calc(5px * var(--tsize)) calc(10px * var(--tsize));border-radius:5px;font-size:calc(11px * var(--tsize));font-family:'IBM Plex Mono',monospace">
+        <option>All study types</option><option>RCT only</option><option>Systematic review</option><option>Meta-analysis</option>
+      </select>
+    </div>
+
+    <nav style="max-width:760px;margin:0 auto;padding:0 calc(18px * var(--tsize));display:flex;gap:calc(4px * var(--tsize));overflow-x:auto;border-top:1px solid var(--border)">
+      <sc-for list="{{ topics }}" as="tp" hint-placeholder-count="3">
+        <button onclick="{{ tp.select }}" style="background:none;border:none;border-bottom:2px solid {{ tp.underline }};color:{{ tp.color }};padding:calc(9px * var(--tsize)) calc(12px * var(--tsize));font-size:calc(11.5px * var(--tsize));font-family:'IBM Plex Mono',monospace;font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px">
+          <span style="width:8px;height:8px;border-radius:50%;background:{{ tp.ringBg }};flex-shrink:0"></span>{{ tp.label }}
+        </button>
+      </sc-for>
+      <button onclick="{{ setViewFeed }}" style="background:none;border:none;border-bottom:2px solid {{ feedUnderline }};color:{{ feedColor }};padding:calc(9px * var(--tsize)) calc(12px * var(--tsize));font-size:calc(11.5px * var(--tsize));font-family:'IBM Plex Mono',monospace;font-weight:500;cursor:pointer;white-space:nowrap;margin-left:auto;display:flex;align-items:center;gap:6px">Saved <span style="background:var(--accent);color:var(--bg);border-radius:9px;padding:1px 6px;font-size:calc(9px * var(--tsize));font-weight:700">{{ savedCount }}</span></button>
+    </nav>
+  </header>
+
+  <main style="max-width:760px;margin:0 auto;padding:calc(20px * var(--tsize)) calc(18px * var(--tsize)) 0">
+
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:calc(14px * var(--tsize));flex-wrap:wrap">
+      <div style="font-size:calc(23px * var(--tsize));font-weight:300;letter-spacing:.005em;color:var(--heading)">{{ topicTitle }}</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:calc(10px * var(--tsize));color:var(--muted)">{{ fetchTime }}</div>
+    </div>
+
+    <div style="display:flex;gap:calc(6px * var(--tsize));overflow-x:auto;margin-bottom:calc(18px * var(--tsize))">
+      <sc-for list="{{ subPills }}" as="sp" hint-placeholder-count="4">
+        <button onclick="{{ sp.select }}" style="background:{{ sp.bg }};border:1px solid {{ sp.border }};color:{{ sp.color }};padding:calc(4px * var(--tsize)) calc(13px * var(--tsize));border-radius:20px;font-size:calc(11px * var(--tsize));font-family:'IBM Plex Mono',monospace;cursor:pointer;white-space:nowrap;flex-shrink:0">{{ sp.label }}</button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ hasArticles }}" hint-placeholder-val="{{ true }}">
+      <sc-for list="{{ visibleArticles }}" as="art" hint-placeholder-count="3">
+        <sc-if value="{{ art.isCollapsed }}" hint-placeholder-val="{{ false }}">
+          <div onclick="{{ art.toggle }}" style="display:flex;align-items:center;gap:calc(9px * var(--tsize));border:1px solid var(--border);border-left:3px solid var(--border);border-radius:8px;padding:calc(9px * var(--tsize)) calc(14px * var(--tsize));margin-bottom:calc(8px * var(--tsize));cursor:pointer;opacity:.65" style-hover="opacity:1">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:calc(9px * var(--tsize));color:var(--muted);flex-shrink:0">LETTER</span>
+            <span style="font-size:calc(13px * var(--tsize));color:var(--text2);line-height:1.4">{{ art.title }}</span>
+          </div>
+        </sc-if>
+<div class="dv-art-full" style="display:{{ art.fullDisplayMode }};background:var(--surface);border:1px solid var(--border);border-left:3px solid {{ art.accentLeft }};border-radius:8px;padding:calc(16px * var(--tsize)) calc(18px * var(--tsize));margin-bottom:calc(10px * var(--tsize))">
+          <div style="display:flex;align-items:center;gap:calc(8px * var(--tsize));flex-wrap:wrap;margin-bottom:calc(7px * var(--tsize))">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:calc(11px * var(--tsize));color:var(--accent);letter-spacing:.02em">{{ art.journal }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:calc(10px * var(--tsize));color:var(--muted)">{{ art.date }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:calc(9.5px * var(--tsize));color:var(--muted);background:var(--surface2);border-radius:3px;padding:1px 6px;white-space:nowrap">IF {{ art.if }}</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:calc(10px * var(--tsize));color:var(--border);margin-left:auto">PMID {{ art.pmid }}</span>
+          </div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:calc(9.5px * var(--tsize));color:var(--accent);background:var(--surface2);display:inline-block;border-radius:3px;padding:2px 7px;margin-bottom:calc(9px * var(--tsize));letter-spacing:.01em">{{ art.studyType }}</div>
+          <div onclick="{{ art.toggle }}" style="font-size:calc(16.5px * var(--tsize));font-weight:400;color:var(--text);line-height:1.5;margin-bottom:calc(6px * var(--tsize));cursor:pointer" style-hover="color:var(--heading)">{{ art.title }}</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:calc(10.5px * var(--tsize));color:var(--muted);margin-bottom:calc(11px * var(--tsize))">{{ art.authors }}</div>
+          <sc-if value="{{ art.isOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="border-left:2px solid var(--border);padding-left:calc(14px * var(--tsize));margin-bottom:calc(12px * var(--tsize))">
+              <p style="font-size:calc(13.5px * var(--tsize));line-height:1.75;color:var(--text2)">{{ art.abstract }}</p>
+            </div>
+          </sc-if>
+          <div style="display:flex;gap:calc(7px * var(--tsize));align-items:center;flex-wrap:wrap">
+            <a href="https://pubmed.ncbi.nlm.nih.gov/{{ art.pmid }}/" target="_blank" rel="noopener" style="border:1px solid var(--border);color:var(--accent);padding:calc(3px * var(--tsize)) calc(10px * var(--tsize));border-radius:4px;font-size:calc(11px * var(--tsize));font-family:'IBM Plex Mono',monospace" style-hover="opacity:.7">PubMed &#8599;</a>
+            <span style="margin-left:auto;display:flex;align-items:center;gap:calc(10px * var(--tsize))">
+              <sc-if value="{{ art.isSaved }}" hint-placeholder-val="{{ false }}">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:calc(10px * var(--tsize));color:var(--accent)">{{ art.citeLabel }}</span>
+              </sc-if>
+              <button onclick="{{ art.toggleSave }}" title="Tap to save, tap again to copy citation" style="background:none;border:none;color:{{ art.saveColor }};font-size:calc(15px * var(--tsize));cursor:pointer">{{ art.saveIcon }}</button>
+            </span>
+          </div>
+        </div>
+      </sc-for>
+    </sc-if>
+    <sc-if value="{{ hasNoArticles }}" hint-placeholder-val="{{ false }}">
+      <div style="text-align:center;padding:calc(50px * var(--tsize)) calc(20px * var(--tsize));color:var(--muted)">
+        <div style="font-size:calc(19px * var(--tsize));font-weight:300;margin-bottom:6px;color:var(--text2)">Nothing here</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:calc(11px * var(--tsize));line-height:1.7">Adjust the filters, or save an article from the feed.</div>
+      </div>
+    </sc-if>
+
+  </main>
+
+  <footer style="border-top:1px solid var(--border);margin-top:calc(30px * var(--tsize));padding:calc(16px * var(--tsize)) calc(18px * var(--tsize));text-align:center;font-family:'IBM Plex Mono',monospace;font-size:calc(9.5px * var(--tsize));color:var(--muted);line-height:1.9">
+    Endocrine Bri-gest v5.8 &nbsp;&middot;&nbsp; PubMed / NCBI E-utilities &nbsp;&middot;&nbsp; Abstracts verbatim &nbsp;&middot;&nbsp; Cached 6h
+  </footer>
+
+  <sc-if value="{{ journalSheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ closeJournalSheet }}" style="position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:40"></div>
+    <div style="position:fixed;left:0;right:0;bottom:0;z-index:41;background:var(--surface);border-top:1px solid var(--border);border-radius:14px 14px 0 0;max-height:70vh;display:flex;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.25)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:calc(14px * var(--tsize)) calc(18px * var(--tsize));border-bottom:1px solid var(--border)">
+        <span style="font-size:calc(15px * var(--tsize));font-weight:500;color:var(--heading)">Filter by journal</span>
+        <button onclick="{{ closeJournalSheet }}" style="background:none;border:none;color:var(--muted);font-size:calc(18px * var(--tsize));cursor:pointer">&#10005;</button>
+      </div>
+      <div style="overflow-y:auto;padding:calc(8px * var(--tsize)) 0">
+        <sc-for list="{{ journalList }}" as="jn" hint-placeholder-count="5">
+          <div onclick="{{ jn.toggle }}" style="display:flex;align-items:center;gap:calc(10px * var(--tsize));padding:calc(9px * var(--tsize)) calc(18px * var(--tsize));cursor:pointer" style-hover="background:var(--surface2)">
+            <div style="width:14px;height:14px;border-radius:3px;border:1.3px solid var(--border);background:{{ jn.checkBg }};flex-shrink:0"></div>
+            <span style="font-size:calc(13px * var(--tsize));color:var(--text)">{{ jn.name }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="padding:calc(12px * var(--tsize)) calc(18px * var(--tsize));border-top:1px solid var(--border)">
+        <button onclick="{{ clearJournalSel }}" style="background:none;border:1px solid var(--border);color:var(--text2);border-radius:6px;padding:calc(7px * var(--tsize)) calc(14px * var(--tsize));font-size:calc(12px * var(--tsize));font-family:'IBM Plex Mono',monospace;cursor:pointer">Clear</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ auditSheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div onclick="{{ closeAuditSheet }}" style="position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:40"></div>
+    <div style="position:fixed;left:0;right:0;bottom:0;z-index:41;background:var(--surface);border-top:1px solid var(--border);border-radius:14px 14px 0 0;max-height:75vh;display:flex;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.25)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:calc(14px * var(--tsize)) calc(18px * var(--tsize));border-bottom:1px solid var(--border)">
+        <span style="font-size:calc(15px * var(--tsize));font-weight:500;color:var(--heading)">Search strategy audit &#8212; {{ topicTitle }}</span>
+        <button onclick="{{ closeAuditSheet }}" style="background:none;border:none;color:var(--muted);font-size:calc(18px * var(--tsize));cursor:pointer">&#10005;</button>
+      </div>
+      <div style="overflow-y:auto;padding:calc(14px * var(--tsize)) calc(18px * var(--tsize));display:flex;flex-direction:column;gap:calc(12px * var(--tsize))">
+        <sc-for list="{{ auditItems }}" as="au" hint-placeholder-count="3">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:calc(11px * var(--tsize));font-weight:600;color:var(--heading);margin-bottom:calc(5px * var(--tsize))">{{ au.label }}</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:calc(10px * var(--tsize));color:var(--text2);background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:calc(8px * var(--tsize)) calc(10px * var(--tsize));line-height:1.6;white-space:pre-wrap;word-break:break-all">{{ au.query }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    theme: 'light', scale: 0, topicId: 'dm', subFilter: 'All', viewMode: 'feed',
+    openIds: {}, savedIds: {}, ifMin: 0, journalSel: {}, journalSheetOpen: false, auditSheetOpen: false,
+    copiedIds: {}
+  };
+
+  themes() {
+    return {
+      light: { bg:'#faf7f1', surface:'#ffffff', surface2:'#f2ede2', border:'#e5ddcd', text:'#1d1a16', text2:'#5c5346', muted:'#948a78', accent:'#1f5c46', heading:'#151210' },
+      dark:  { bg:'#141210', surface:'#1c1916', surface2:'#221e18', border:'#332d24', text:'#ece5d7', text2:'#b3a692', muted:'#786c58', accent:'#6fbf9c', heading:'#f6efe1' }
+    };
+  }
+  scales() { return [1, 1.15, 1.3]; }
+
+  data() {
+    return [
+      { id:'dm', label:'Diabetes', query:'("diabetes mellitus"[MH] OR "insulin resistance"[MH])',
+        subdomains:[
+          { label:'Type 2', query:'"diabetes mellitus, type 2"[MH] AND "hypoglycemic agents"[MH]' },
+          { label:'CGM & Tech', query:'"blood glucose self-monitoring"[MH] OR "closed-loop"[tiab]' },
+          { label:'Complications', query:'"diabetic nephropathies"[MH] OR "diabetic retinopathy"[MH]' }
+        ],
+        articles:[
+          { pmid:'40912233', journal:'Diabetes Care', date:'11 Jul 2026', if:16.2, subdomain:'Type 2', corr:false, studyType:'RCT · non-inferiority',
+            title:'Once-weekly basal insulin versus daily glargine in type 2 diabetes: a 52-week randomised trial',
+            authors:'Okafor R, Lindqvist M, Petrov S, et al.',
+            abstract:'In this multicentre trial, once-weekly basal insulin achieved non-inferior glycaemic control versus daily glargine over 52 weeks, with comparable hypoglycaemia rates and higher reported treatment satisfaction among participants using the weekly regimen.' },
+          { pmid:'40908871', journal:'Diabetologia', date:'9 Jul 2026', if:8.4, subdomain:'CGM & Tech', corr:false, studyType:'Cohort · retrospective',
+            title:'Real-world time-in-range outcomes with hybrid closed-loop systems in adults with long-standing type 1 diabetes',
+            authors:'Haas T, Nakamura Y, Osei-Bonsu K.',
+            abstract:'A retrospective cohort of adults switching to hybrid closed-loop therapy showed sustained improvement in time-in-range at 12 months, most pronounced in participants with baseline HbA1c above 8.5%.' },
+          { pmid:'40901120', journal:'JCEM', date:'6 Jul 2026', if:5.5, subdomain:'Complications', corr:true, studyType:'Correspondence',
+            title:'Letter: re-evaluating albuminuria thresholds for early diabetic kidney disease screening',
+            authors:'Marchetti F.',
+            abstract:'A correspondence questioning current albuminuria cut-offs, arguing for age- and sex-adjusted thresholds based on cohort data from three European renal registries.' }
+        ]
+      },
+      { id:'thy', label:'Thyroid', query:'("thyroid diseases"[MH] OR thyroiditis[MH])',
+        subdomains:[
+          { label:'Hypothyroidism', query:'"hypothyroidism"[MH] OR levothyroxine[tiab]' },
+          { label:'Graves', query:'"Graves disease"[MH] OR "hyperthyroidism"[MH]' },
+          { label:'Nodule & Cancer', query:'"thyroid neoplasms"[MH] OR "thyroid nodule"[MH]' }
+        ],
+        articles:[
+          { pmid:'40899345', journal:'Thyroid', date:'8 Jul 2026', if:5.3, subdomain:'Graves', corr:false, studyType:'RCT · comparative',
+            title:'Low-dose versus block-and-replace antithyroid drug regimens for relapse prevention in Graves disease',
+            authors:'Sandhu P, Bergmann L, Choi Y.',
+            abstract:'Block-and-replace therapy did not reduce relapse rates compared with titration dosing over 24 months of follow-up, and was associated with more adverse events, arguing against its routine use.' },
+          { pmid:'40887654', journal:'Eur J Endocrinol', date:'4 Jul 2026', if:5.0, subdomain:'Hypothyroidism', corr:false, studyType:'Cohort · longitudinal',
+            title:'Subclinical hypothyroidism in adults over 65: a decade of longitudinal thyrotropin trajectories',
+            authors:'Ionescu D, Wallace R.',
+            abstract:'Longitudinal TSH trajectories in a population cohort of older adults suggest that a substantial proportion of subclinical elevations normalise spontaneously within five years without treatment.' },
+          { pmid:'40875321', journal:'Lancet Diabetes Endocrinol', date:'2 Jul 2026', if:44.5, subdomain:'Nodule & Cancer', corr:false, studyType:'Cohort · prospective',
+            title:'Active surveillance versus immediate surgery for low-risk papillary thyroid microcarcinoma',
+            authors:'Takahashi H, Fournier E, Osei-Bonsu K, et al.',
+            abstract:'Five-year outcomes from a prospective multicentre cohort found no difference in disease-specific survival between active surveillance and immediate thyroidectomy for tumours under 10mm, supporting surveillance as a reasonable default.' }
+        ]
+      },
+      { id:'bone', label:'Bone', query:'(osteoporosis[MH] OR "hyperparathyroidism"[MH])',
+        subdomains:[
+          { label:'Osteoporosis', query:'osteoporosis[MH] OR denosumab[tiab]' },
+          { label:'Hyperparathyroidism', query:'"hyperparathyroidism, primary"[MH]' },
+          { label:'Vitamin D', query:'"vitamin D deficiency"[MH]' }
+        ],
+        articles:[
+          { pmid:'40862210', journal:'J Bone Miner Res', date:'29 Jun 2026', if:5.4, subdomain:'Osteoporosis', corr:false, studyType:'RCT · sequential therapy',
+            title:'Sequential romosozumab-to-denosumab therapy in postmenopausal women with prior fragility fracture',
+            authors:'Petrova A, Lindqvist M, Haas T.',
+            abstract:'Twelve months of romosozumab followed by denosumab produced greater lumbar spine BMD gains than denosumab monotherapy, with fracture incidence too low in either arm to detect a difference.' },
+          { pmid:'40851188', journal:'Osteoporos Int', date:'25 Jun 2026', if:4.3, subdomain:'Hyperparathyroidism', corr:false, studyType:'Cohort · long-term follow-up',
+            title:'Long-term renal outcomes after parathyroidectomy for normocalcaemic primary hyperparathyroidism',
+            authors:'Fournier E, Sandhu P.',
+            abstract:'Parathyroidectomy in normocalcaemic primary hyperparathyroidism was associated with modest but sustained improvement in eGFR over eight years relative to matched observation.' }
+        ]
+      }
+    ];
+  }
+
+  toggleTheme = () => this.setState(function(s){ return { theme: s.theme === 'light' ? 'dark' : 'light' }; });
+  cycleScale = () => this.setState(function(s){ return { scale: (s.scale + 1) % 3 }; });
+  refresh = () => {};
+  selectTopic(id) { this.setState({ topicId: id, subFilter: 'All', viewMode: 'feed' }); }
+  selectSub(label) { this.setState({ subFilter: label }); }
+  setViewFeed = () => this.setState(function(s){ return { viewMode: s.viewMode === 'saved' ? 'feed' : 'saved' }; });
+  toggleOpen(pmid) {
+    this.setState(function(s){
+      var o = Object.assign({}, s.openIds); o[pmid] = !o[pmid]; return { openIds: o };
+    });
+  }
+  toggleSave(article) {
+    var self = this;
+    var pmid = article.pmid;
+    if (!this.state.savedIds[pmid]) {
+      this.setState(function(s){
+        var sv = Object.assign({}, s.savedIds); sv[pmid] = true; return { savedIds: sv };
+      });
+      return;
+    }
+    var citation = article.authors + ' ' + article.title + '. ' + article.journal + '. ' + article.date + '. PMID: ' + pmid + '.';
+    if (navigator.clipboard) { navigator.clipboard.writeText(citation).catch(function(){}); }
+    this.setState(function(s){
+      var c = Object.assign({}, s.copiedIds); c[pmid] = true; return { copiedIds: c };
+    });
+    setTimeout(function(){
+      self.setState(function(s){
+        var c = Object.assign({}, s.copiedIds); delete c[pmid]; return { copiedIds: c };
+      });
+    }, 1600);
+  }
+  setIfMin = (e) => { this.setState({ ifMin: Number(e.target.value) }); };
+  toggleJournal(name) {
+    this.setState(function(s){
+      var j = Object.assign({}, s.journalSel); j[name] = !j[name]; return { journalSel: j };
+    });
+  }
+  clearJournalSel = () => this.setState({ journalSel: {} });
+  openJournalSheet = () => this.setState({ journalSheetOpen: true });
+  closeJournalSheet = () => this.setState({ journalSheetOpen: false });
+  openAuditSheet = () => this.setState({ auditSheetOpen: true });
+  closeAuditSheet = () => this.setState({ auditSheetOpen: false });
+
+  renderVals() {
+    var self = this;
+    var t = this.themes()[this.state.theme];
+    var scale = this.scales()[this.state.scale];
+    var vars = '--tsize:' + scale + ';--bg:' + t.bg + ';--surface:' + t.surface + ';--surface2:' + t.surface2 +
+      ';--border:' + t.border + ';--text:' + t.text + ';--text2:' + t.text2 +
+      ';--muted:' + t.muted + ';--accent:' + t.accent + ';--heading:' + t.heading;
+
+    var data = this.data();
+    var topic = data.filter(function(d){ return d.id === self.state.topicId; })[0] || data[0];
+
+    var allArticles = [];
+    data.forEach(function(d){ d.articles.forEach(function(a){ allArticles.push(a); }); });
+    var journalNames = Array.from(new Set(allArticles.map(function(a){ return a.journal; })));
+
+    var journalKeys = Object.keys(this.state.journalSel).filter(function(k){ return self.state.journalSel[k]; });
+
+    var pool = this.state.viewMode === 'saved'
+      ? allArticles.filter(function(a){ return self.state.savedIds[a.pmid]; })
+      : topic.articles;
+
+    var visible = pool.filter(function(a){
+      var subOk = self.state.viewMode === 'saved' || self.state.subFilter === 'All' || a.subdomain === self.state.subFilter;
+      var ifOk = a.if >= self.state.ifMin;
+      var jOk = journalKeys.length === 0 || journalKeys.indexOf(a.journal) !== -1;
+      return subOk && ifOk && jOk;
+    }).map(function(a){
+      var open = !!self.state.openIds[a.pmid];
+      var saved = !!self.state.savedIds[a.pmid];
+      var copied = !!self.state.copiedIds[a.pmid];
+      var collapsed = a.corr && !open;
+      return {
+        pmid: a.pmid, journal: a.journal, date: a.date, if: a.if, title: a.title, authors: a.authors, abstract: a.abstract,
+        studyType: a.studyType, isCorr: a.corr, isCollapsed: collapsed,
+        fullDisplayMode: collapsed ? 'none' : 'block',
+        isOpen: open,
+        opacity: 1,
+        accentLeft: a.corr ? t.border : t.accent,
+        toggle: function(){ self.toggleOpen(a.pmid); },
+        toggleSave: function(){ self.toggleSave(a); },
+        saveIcon: saved ? '\u2605' : '\u2606',
+        saveColor: saved ? t.accent : t.muted,
+        isSaved: saved,
+        isCopied: copied,
+        citeLabel: copied ? 'Copied \u2713' : 'Cite'
+      };
+    });
+
+    var subPillsSource = this.state.viewMode === 'saved' ? [] : ['All'].concat(topic.subdomains.map(function(s){ return s.label; }));
+    var subPills = subPillsSource.map(function(label){
+      var active = self.state.subFilter === label;
+      return {
+        label: label,
+        select: function(){ self.selectSub(label); },
+        bg: active ? t.accent + '1a' : 'transparent',
+        border: active ? t.accent : t.border,
+        color: active ? t.accent : t.muted
+      };
+    });
+
+    var topics = data.map(function(d){
+      var active = d.id === self.state.topicId && self.state.viewMode === 'feed';
+      var total = d.articles.length;
+      var opened = d.articles.filter(function(a){ return self.state.openIds[a.pmid]; }).length;
+      var pct = total ? Math.round((opened / total) * 100) : 0;
+      return {
+        id: d.id, label: d.label,
+        select: function(){ self.selectTopic(d.id); },
+        underline: active ? t.accent : 'transparent',
+        color: active ? t.accent : t.muted,
+        ringBg: 'conic-gradient(' + t.accent + ' ' + pct + '%, ' + t.border + ' 0)'
+      };
+    });
+
+    var journalList = journalNames.map(function(name){
+      return {
+        name: name,
+        toggle: function(){ self.toggleJournal(name); },
+        checkBg: self.state.journalSel[name] ? t.accent : 'transparent'
+      };
+    });
+
+    var auditItems = topic.subdomains.map(function(s){ return { label: s.label, query: s.query }; });
+
+    return {
+      rootStyle: vars,
+      themeIcon: this.state.theme === 'light' ? '\u263E' : '\u2600',
+      scaleStep: this.state.scale + 1,
+      toggleTheme: this.toggleTheme,
+      cycleScale: this.cycleScale,
+      refresh: this.refresh,
+      topics: topics,
+      topicTitle: this.state.viewMode === 'saved' ? 'Saved articles' : topic.label,
+      fetchTime: 'Fetched 08:12 today',
+      subPills: subPills,
+      visibleArticles: visible,
+      hasArticles: visible.length > 0,
+      hasNoArticles: visible.length === 0,
+      feedUnderline: this.state.viewMode === 'saved' ? t.accent : 'transparent',
+      feedColor: this.state.viewMode === 'saved' ? t.accent : t.muted,
+      setViewFeed: this.setViewFeed,
+      savedCount: Object.keys(this.state.savedIds).filter(function(k){ return self.state.savedIds[k]; }).length,
+      journalSheetOpen: this.state.journalSheetOpen,
+      auditSheetOpen: this.state.auditSheetOpen,
+      openJournalSheet: this.openJournalSheet,
+      closeJournalSheet: this.closeJournalSheet,
+      openAuditSheet: this.openAuditSheet,
+      closeAuditSheet: this.closeAuditSheet,
+      journalList: journalList,
+      clearJournalSel: this.clearJournalSel,
+      auditItems: auditItems,
+      setIfMin: this.setIfMin
+    };
+  }
+}
+</script>
+</body>
+</html>
