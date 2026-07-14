@@ -89,15 +89,14 @@ select option{background:var(--sel-bg)}
 #btn-refresh:disabled{color:var(--muted);cursor:wait}
 .ctrl-divider{width:1px;height:20px;background:var(--border2);flex-shrink:0}
 
-/* ── Floating panels ─────────────────────────────────────────────────────── */
-.f-panel{position:fixed;top:60px;right:8px;background:var(--panel-bg);border:1px solid var(--panel-bd);border-radius:8px;z-index:300;display:none;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.55);overflow:hidden;max-width:calc(100vw - 16px)}
+/* ── Bottom sheet panels ─────────────────────────────────────────────────── */
+.f-scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:399;display:none}
+.f-scrim.open{display:block}
+.f-panel{position:fixed;left:0;right:0;bottom:0;background:var(--panel-bg);border:1px solid var(--panel-bd);border-radius:14px 14px 0 0;z-index:400;display:none;flex-direction:column;box-shadow:0 -8px 30px rgba(0,0,0,.25);overflow:hidden;max-height:70vh}
 .f-panel.open{display:flex}
-#journal-panel{width:340px;max-height:500px}
-#theme-panel{width:200px;padding:8px;gap:4px;right:52px}
-#audit-panel{width:480px;max-height:80vh}
-/* On narrow screens let audit panel go full-width and scroll its query boxes */
+#journal-panel{max-height:70vh}
+#audit-panel{max-height:75vh}
 @media(max-width:520px){
-  #audit-panel{width:calc(100vw - 16px);right:8px}
   .audit-query-box,.audit-translation-box{font-size:9.5px}
   .audit-topic-head{gap:5px}
 }
@@ -157,7 +156,7 @@ select option{background:var(--sel-bg)}
 .sd-pill.active{background:var(--pill-active-bg,rgba(91,156,246,.12));border-color:var(--tc,#5b9cf6);color:var(--tc,#5b9cf6)}
 
 /* ── Main ────────────────────────────────────────────────────────────────── */
-main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
+main{max-width:760px;margin:0 auto;padding:22px 20px 80px}
 .topic-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;gap:12px;flex-wrap:wrap}
 .topic-title{font-family:var(--ff-serif);font-size:24px;font-weight:300;letter-spacing:.01em}
 .fetch-time{font-family:var(--ff-mono);font-size:10px;color:var(--ts)}
@@ -167,32 +166,44 @@ main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
 .skeleton{background:var(--skel);border-radius:8px;margin-bottom:10px;animation:pulse 1.8s ease-in-out infinite}
 
 /* ── Article card ────────────────────────────────────────────────────────── */
-.article{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tc,#5b9cf6);border-radius:8px;padding:17px 19px;margin-bottom:9px;transition:opacity .2s,border-color .2s}
-.article.read{opacity:.58;border-left-color:var(--read-left)}
-.article.read.open{opacity:1;border-left-color:var(--tc,#5b9cf6)}
-.article.correspondence{border-left-style:dashed;opacity:.82}
-.article.correspondence.open{opacity:1}
+.article{background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--tc,var(--accent));border-radius:8px;padding:16px 18px;margin-bottom:9px;transition:background .2s,border-color .2s,color .2s}
+/* Read: structural background shift, no opacity (per HANDOFF-ADDENDUM §2) */
+.article.read{background:var(--bg3);border-left-color:var(--read-left)}
+.article.read.open{background:var(--bg2);border-left-color:var(--tc,var(--accent))}
+/* Correspondence: de-emphasis via structural layout + border, no opacity */
+.article.correspondence{border-left-color:var(--border);border-left-style:dashed}
+.article.correspondence.open{border-left-color:var(--tc,var(--accent));border-left-style:solid}
+/* Collapsed correspondence summary row */
+.corr-summary{display:flex;align-items:center;gap:8px;cursor:pointer;padding:2px 0}
+.corr-summary:hover .corr-sum-title,.corr-summary:active .corr-sum-title{color:var(--heading)}
+.corr-sum-title{font-family:var(--ff-serif);font-size:13.5px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.4}
+.corr-full{display:none}
+.article.correspondence.open .corr-summary{display:none}
+.article.correspondence.open .corr-full{display:block}
+/* Study-type chip above title */
+.study-tag{display:inline-flex;align-items:center;font-family:var(--ff-mono);font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:3px;margin-bottom:6px}
 
 .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-.journal{font-family:var(--ff-mono);font-size:11px;letter-spacing:.04em;color:var(--tc,#5b9cf6)}
+.journal{font-family:var(--ff-mono);font-size:11px;letter-spacing:.04em;color:var(--tc,var(--accent))}
 .pub-date{font-family:var(--ff-mono);font-size:10px;color:var(--muted)}
 .pmid-label{font-family:var(--ff-mono);font-size:10px;color:var(--muted);margin-left:auto}
-.corr-badge{background:#78716c18;color:#a8a29e;border:1px solid #a8a29e44}
+.corr-badge{font-family:var(--ff-mono);font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:3px;background:var(--bg3);color:var(--muted);border:1px solid var(--border);white-space:nowrap}
 
-.art-title{font-family:var(--ff-serif);font-weight:300;font-size:16px;color:var(--text);line-height:1.48;margin-bottom:6px;cursor:pointer;transition:color .15s}
-.art-title:hover{color:var(--heading)}
+.art-title{font-family:var(--ff-serif);font-weight:300;font-size:16.5px;color:var(--text);line-height:1.5;margin-bottom:6px;cursor:pointer;transition:color .15s}
+.art-title:hover,.art-title:active{color:var(--heading)}
 .authors{font-family:var(--ff-mono);font-size:10.5px;color:var(--muted);margin-bottom:12px}
 
 .abstract-body{border-left:2px solid var(--border2);padding-left:15px;margin-bottom:13px;display:none}
 .abstract-body.open{display:block}
-.abstract-para{font-size:12.5px;line-height:1.68;color:var(--abs);margin-bottom:9px}
-.abstract-label{font-family:var(--ff-mono);font-size:10.5px;margin-right:3px;color:var(--tc,#5b9cf6)}
+.abstract-para{font-size:13.5px;line-height:1.75;color:var(--text2);margin-bottom:9px}
+.abstract-label{font-family:var(--ff-mono);font-size:10.5px;margin-right:3px;color:var(--tc,var(--accent))}
 
 .actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-.act-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .15s}
-.act-btn:hover{opacity:.7}
-.act-btn.pubmed{color:var(--tc,#5b9cf6)}
+.act-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .15s,color .15s}
+.act-btn:hover,.act-btn:active{color:var(--text2);border-color:var(--border2)}
+.act-btn.pubmed{color:var(--tc,var(--accent));border-color:color-mix(in srgb,var(--tc,var(--accent)) 40%,transparent)}
 .act-btn.save{border:none;margin-left:auto;color:var(--muted)}
+.act-btn.save:hover,.act-btn.save:active{color:var(--text2)}
 .act-btn.saved{border:none;margin-left:auto;color:var(--accent)}
 .act-btn.cite-ok{border-color:var(--accent);color:var(--accent)}
 
@@ -282,6 +293,8 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
   <!-- Row 3: topic tabs (rendered by JS) -->
   <nav id="tabs"></nav>
 </header>
+
+<div id="f-scrim" class="f-scrim"></div>
 
 <!-- Journal filter bottom sheet -->
 <div id="journal-panel" class="f-panel">
@@ -1110,6 +1123,11 @@ function renderPills(t){
   });
 }
 
+function readPct(id){
+  var c=getCached(id);if(!c||!c.articles.length)return 0;
+  var n=c.articles.filter(function(a){return readSet.has(a.pmid);}).length;
+  return Math.round(n/c.articles.length*100);
+}
 function renderTabs(){
   const nav=document.getElementById('tabs');
   nav.innerHTML='';
@@ -1120,30 +1138,45 @@ function renderTabs(){
       lastSec=t.section;
       const active=t.id===activeId&&!showBM;
       const cnt=getCached(t.id)?unread(t.id):null;
+      const pct=readPct(t.id);
       const btn=document.createElement('button');
       btn.className='tab'+(active?' active':'');
       btn.style.setProperty('--tc',t.color);
       btn.title=t.label;
-      btn.innerHTML=esc(t.short)+(cnt>0?`<span class="badge" style="--tc:${t.color}">${cnt}</span>`:'');
+      const dotH=pct>0?`<span class="tab-dot" style="--pct:${pct}%;--tc:${t.color}" title="${pct}% read"></span>`:'';
+      btn.innerHTML=esc(t.short)+dotH+(cnt>0?`<span class="badge" style="--tc:${t.color}">${cnt}</span>`:'');
       btn.onclick=()=>{activeId=t.id;showBM=false;renderTabs();renderPills(t);renderContent();loadTopic(t.id);};
       nav.appendChild(btn);
     });
     const dv=document.createElement('div');dv.className='tab-divider';nav.appendChild(dv);
   }
-  // Bookmarks (both modes)
+  // Saved tab (both modes)
   const bm=document.createElement('button');
   bm.className='tab tab-bm'+(showBM?' active':'');
-  bm.style.setProperty('--tc','#fbbf24');
+  bm.style.setProperty('--tc',getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#1f5c46');
   bm.title='Saved articles';
-  bm.innerHTML='&#9733;'+(savedCount()>0?`<span class="badge" style="--tc:#fbbf24">${savedCount()}</span>`:'');
+  bm.innerHTML='Saved'+(savedCount()>0?`<span class="badge">${savedCount()}</span>`:'');
   bm.onclick=()=>{showBM=true;renderTabs();document.getElementById('sd-pill-row').innerHTML='';document.getElementById('jchip-row').style.display='none';renderContent();};
   nav.appendChild(bm);
   // Subtitle
   if(!showBM){
     const t=getActiveTopic();
     const sec=t.section==='spec'?' \u00b7 RACP Extended':mode==='journal'?' \u00b7 Journal View':'';
-    document.getElementById('logo-sub').textContent='ENDOCRINE & DIABETES \u00b7 CPD FEED \u00b7 PUBMED'+sec;
+    document.getElementById('logo-sub').textContent='V5.9 \u00b7 ENDOCRINE & DIABETES \u00b7 PUBMED'+sec;
   }
+}
+
+function studyTagHTML(pt){
+  if(isCorr(pt))return'';
+  const t=pt||[];let label,color;
+  if(t.some(x=>/randomized controlled trial/i.test(x))){label='RCT';color='#22c55e';}
+  else if(t.some(x=>/meta.?analysis/i.test(x))){label='Meta-analysis';color='#a78bfa';}
+  else if(t.some(x=>/systematic review/i.test(x))){label='Systematic review';color='#60a5fa';}
+  else if(t.some(x=>/guideline/i.test(x))){label='Guideline';color='#fbbf24';}
+  else if(t.some(x=>/clinical trial/i.test(x))){label='Clinical trial';color='#34d399';}
+  else if(t.some(x=>/review/i.test(x))){label='Review';color='#94a3b8';}
+  else return'';
+  return`<span class="study-tag" style="background:${color}18;color:${color};border:1px solid ${color}44">${label}</span>`;
 }
 
 function articleHTML(a,tc){
@@ -1158,22 +1191,44 @@ function articleHTML(a,tc){
       if(ci>0&&ci<32)return`<p class="abstract-para"><span class="abstract-label">${esc(para.slice(0,ci))}:</span>${esc(para.slice(ci+1))}</p>`;
       return`<p class="abstract-para">${esc(para)}</p>`;
     }).join('');
-  }else{abHTML='<p class="abstract-para" style="font-style:italic;opacity:.5">Abstract not available \u2014 view on PubMed.</p>';}
+  }else{abHTML='<p class="abstract-para" style="font-style:italic;color:var(--muted)">Abstract not available \u2014 view on PubMed.</p>';}
+  const actionsHTML=`
+  <div class="actions">
+    <button class="act-btn" data-action="toggle" data-pmid="${sp}" id="tog-${sp}">${open?'\u25b2 Collapse':'\u25bc Abstract'}</button>
+    <a class="act-btn pubmed" href="https://pubmed.ncbi.nlm.nih.gov/${sp}/" target="_blank" rel="noopener noreferrer" data-action="read" data-pmid="${sp}">PubMed \u2197</a>
+    ${doi?`<a class="act-btn" href="${doi}" target="_blank" rel="noopener noreferrer" data-action="read" data-pmid="${sp}">Full text \u2197</a>`:''}
+    <button class="act-btn" id="cite-${sp}" data-action="cite" data-pmid="${sp}">Cite \u29c9</button>
+    <button class="act-btn ${saved?'saved':'save'}" id="bm-${sp}" data-action="bookmark" data-pmid="${sp}">${saved?'\u2605 Saved':'\u2606 Save'}</button>
+  </div>`;
+  if(corr&&!open){
+    return`
+<article class="article correspondence${read?' read':''}" id="art-${sp}" style="--tc:${tc}">
+  <div class="corr-summary" data-action="toggle" data-pmid="${sp}">
+    <span class="corr-badge">Letter</span>
+    <span class="corr-sum-title">${st}</span>
+  </div>
+  <div class="corr-full">
+    <div class="meta"><span class="journal">${sj}</span>${ifBadge(ifV,a.journal)}<span class="pub-date">${sd}</span><span class="pmid-label">PMID ${sp}</span></div>
+    <h3 class="art-title" data-action="toggle" data-pmid="${sp}">${st}</h3>
+    <p class="authors">${sa}</p>
+    <div class="abstract-body" id="ab-${sp}">${abHTML}</div>
+    ${actionsHTML}
+  </div>
+</article>`;
+  }
   return`
-<article class="article${read&&!open?' read':''}${open?' open':''}${corr?' correspondence':''}" id="art-${sp}" style="--tc:${tc}">
+<article class="article${read&&!open?' read':''}${open?' open':''}${corr?' correspondence open':''}" id="art-${sp}" style="--tc:${tc}">
+  ${corr?'':'<div class="corr-summary" style="display:none"></div><div class="corr-full">'}
+  ${studyTagHTML(a.pubTypes)}
   <div class="meta">
-    <span class="journal">${sj}</span>${ifBadge(ifV,a.journal)}${studyBadge(a.pubTypes)}
+    <span class="journal">${sj}</span>${ifBadge(ifV,a.journal)}
     <span class="pub-date">${sd}</span><span class="pmid-label">PMID ${sp}</span>
   </div>
   <h3 class="art-title" data-action="toggle" data-pmid="${sp}">${st}</h3>
   <p class="authors">${sa}</p>
   <div class="abstract-body${open?' open':''}" id="ab-${sp}">${abHTML}</div>
-  <div class="actions">
-    <button class="act-btn" data-action="toggle" data-pmid="${sp}" id="tog-${sp}">${open?'\u25b2 Collapse':'\u25bc Abstract'}</button>
-    <a class="act-btn pubmed" href="https://pubmed.ncbi.nlm.nih.gov/${sp}/" target="_blank" rel="noopener noreferrer" data-action="read" data-pmid="${sp}" style="color:${tc};border-color:${tc}44">PubMed \u2197</a>
-    ${doi?`<a class="act-btn" href="${doi}" target="_blank" rel="noopener noreferrer" data-action="read" data-pmid="${sp}">Full text \u2197</a>`:''}
-    <button class="act-btn ${saved?'saved':'save'}" id="bm-${sp}" data-action="bookmark" data-pmid="${sp}">${saved?'\u2605 Saved':'\u2606 Save'}</button>
-  </div>
+  ${actionsHTML}
+  ${corr?'':'</div>'}
 </article>`;
 }
 
@@ -1239,12 +1294,23 @@ function renderContent(){
 // ═══════════════════════════════════════════════════════════════════════════
 // 11. INTERACTIONS
 // ═══════════════════════════════════════════════════════════════════════════
+function citeCitation(pmid){
+  var a=findArticle(pmid)||(savedPool[pmid]&&!savedPool[pmid]._min?savedPool[pmid]:null)||{pmid:pmid};
+  var au=(a.authors||'').replace(/ et al\.?$/,'');
+  var raw=au+(a.title?'. '+a.title+'.':'')+(a.journal?' '+a.journal+'.':'')+(a.pubDate?' '+a.pubDate+'.':'')+' PMID: '+pmid+'.';
+  var unescaped=raw.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'");
+  try{navigator.clipboard.writeText(unescaped);}catch(err){console.warn('clipboard:',err);}
+  var btn=document.getElementById('cite-'+pmid);
+  if(btn){btn.textContent='Copied ✓';btn.classList.add('cite-ok');}
+  setTimeout(function(){var b=document.getElementById('cite-'+pmid);if(b){b.textContent='Cite ⧉';b.classList.remove('cite-ok');}},1600);
+}
 document.getElementById('content').addEventListener('click',e=>{
   const el=e.target.closest('[data-action]');if(!el)return;
   const{action,pmid}=el.dataset;if(!pmid)return;
   if(action==='toggle')toggleAbs(pmid);
   if(action==='bookmark')toggleBM(pmid);
   if(action==='read')markRead(pmid);
+  if(action==='cite')citeCitation(pmid);
 });
 document.getElementById('content').addEventListener('click',function(e){
   var ex=e.target.closest('[data-exp]');if(ex){exportPool(ex.getAttribute('data-exp'));return;}
@@ -1305,8 +1371,10 @@ function toggleAbs(pmid){
   markRead(pmid);openSet.has(pmid)?openSet.delete(pmid):openSet.add(pmid);
   const art=document.getElementById('art-'+pmid),ab=document.getElementById('ab-'+pmid),tog=document.getElementById('tog-'+pmid);
   if(!art)return;const open=openSet.has(pmid);
-  art.classList.toggle('open',open);art.classList.toggle('read',readSet.has(pmid)&&!open);
-  if(ab)ab.classList.toggle('open',open);if(tog)tog.textContent=open?'\u25b2 Collapse':'\u25bc Abstract';
+  art.classList.toggle('open',open);
+  art.classList.toggle('read',readSet.has(pmid)&&!open);
+  if(ab)ab.classList.toggle('open',open);
+  if(tog)tog.textContent=open?'\u25b2 Collapse':'\u25bc Abstract';
 }
 function markRead(pmid){
   if(readSet.has(pmid))return;readSet.add(pmid);persist();
@@ -1351,9 +1419,9 @@ function updateJPcount(){
   document.getElementById('btn-journals').classList.toggle('active',n>0);
 }
 document.getElementById('btn-journals').addEventListener('click',e=>{
-  e.stopPropagation();const p=document.getElementById('journal-panel'),open=p.classList.contains('open');
-  closeAll();if(!open){p.classList.add('open');buildJP();}
-  document.getElementById('btn-journals').classList.toggle('active',!open||curJournals().size>0);
+  e.stopPropagation();const p=document.getElementById('journal-panel'),isOpen=p.classList.contains('open');
+  if(isOpen){closeAll();}else{openSheet('journal-panel','btn-journals');buildJP();}
+  document.getElementById('btn-journals').classList.toggle('active',!isOpen||curJournals().size>0);
 });
 document.getElementById('journal-search').addEventListener('input',buildJP);
 document.getElementById('jp-clear').addEventListener('click',()=>{
@@ -1411,9 +1479,9 @@ function buildAudit(){
   });
 }
 document.getElementById('btn-audit').addEventListener('click',e=>{
-  e.stopPropagation();const p=document.getElementById('audit-panel'),open=p.classList.contains('open');
-  closeAll();if(!open){p.classList.add('open');buildAudit();}
-  document.getElementById('btn-audit').classList.toggle('active',!open);
+  e.stopPropagation();const p=document.getElementById('audit-panel'),isOpen=p.classList.contains('open');
+  if(isOpen){closeAll();}else{openSheet('audit-panel','btn-audit');buildAudit();}
+  document.getElementById('btn-audit').classList.toggle('active',!isOpen);
 });
 document.getElementById('audit-close').addEventListener('click',()=>{
   document.getElementById('audit-panel').classList.remove('open');
@@ -1426,11 +1494,15 @@ document.getElementById('audit-close').addEventListener('click',()=>{
 function closeAll(){
   ['journal-panel','audit-panel'].forEach(id=>document.getElementById(id).classList.remove('open'));
   ['btn-journals','btn-audit'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  var sc=document.getElementById('f-scrim');if(sc)sc.classList.remove('open');
 }
-document.addEventListener('click',e=>{
-  const inside=['journal-panel','audit-panel','btn-journals','btn-theme','btn-tsize','btn-audit'];
-  if(!inside.some(id=>e.target.closest('#'+id)))closeAll();
-});
+function openSheet(panelId,btnId){
+  closeAll();
+  document.getElementById(panelId).classList.add('open');
+  if(btnId)document.getElementById(btnId).classList.add('active');
+  var sc=document.getElementById('f-scrim');if(sc)sc.classList.add('open');
+}
+document.getElementById('f-scrim').addEventListener('click',closeAll);
 document.getElementById('btn-refresh').addEventListener('click',()=>{
   if(showBM)return;const btn=document.getElementById('btn-refresh');
   btn.disabled=true;btn.innerHTML='\u2026';
@@ -1445,9 +1517,7 @@ document.getElementById('sel-if').addEventListener('change',renderContent);
 // 16. INIT
 // ═══════════════════════════════════════════════════════════════════════════
 function openJournalPanel(){
-  const p=document.getElementById('journal-panel');
-  closeAll();p.classList.add('open');buildJP();
-  document.getElementById('btn-journals').classList.add('active');
+  openSheet('journal-panel','btn-journals');buildJP();
 }
 function setMode(m){
   const same=(m===mode);
