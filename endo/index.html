@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Endocrine Bri-gest — CPD Feed</title>
+<!-- Google Fonts — self-hosting pending (see HANDOFF-ADDENDUM §5) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&display=swap" rel="stylesheet">
 <style>
 /* ── Font stacks ──────────────────────────────────────────────────────────── */
 :root{
@@ -57,23 +61,31 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);min-heigh
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
-/* ── Header ─────────────────────────────────────────────────────────────── */
-header{display:flex;justify-content:space-between;align-items:center;padding:13px 24px;border-bottom:1px solid var(--vfaint);background:var(--bg);position:sticky;top:0;z-index:200;gap:10px;flex-wrap:wrap}
-.logo-row{display:flex;align-items:center;gap:13px;flex-shrink:0}
-.logo-hex{font-size:24px;color:var(--logo-accent);line-height:1;transition:color .25s}
-h1{font-family:var(--ff-serif);font-size:18px;font-weight:600;color:var(--heading);letter-spacing:.18em}
-.logo-sub{font-family:var(--ff-mono);font-size:9px;color:var(--logo-sub);letter-spacing:.07em;margin-top:2px}
-.controls{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+/* ── Header (3-row sticky) ──────────────────────────────────────────────── */
+header{background:var(--bg);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;transition:background .35s,color .35s}
+.hdr-row1{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;gap:10px}
+.hdr-row2{display:flex;gap:6px;padding:5px 20px;border-top:1px solid var(--vfaint)}
+/* nav (hdr-row3) is rendered as <nav> inside <header> by renderTabs() */
+nav{display:flex;overflow-x:auto;padding:0 20px;border-top:1px solid var(--vfaint);gap:1px;scrollbar-width:none;background:transparent}
+nav::-webkit-scrollbar{display:none}
 
-select{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);padding:5px 22px 5px 8px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%231e3050'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:background .25s,border-color .25s,color .25s}
+.logo-row{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-badge{width:30px;height:30px;border-radius:50%;border:1.4px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .35s}
+.logo-badge-b{font-family:var(--ff-serif);font-style:italic;font-size:16px;font-weight:500;color:var(--accent);line-height:1;transition:color .35s}
+.logo-text-group{display:flex;flex-direction:column;justify-content:center}
+h1{font-family:var(--ff-sans);font-size:15.5px;font-weight:600;color:var(--heading);letter-spacing:.03em;line-height:1.2}
+.logo-sub{font-family:var(--ff-mono);font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
+.hdr-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+
+select{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);padding:5px 22px 5px 8px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%236f6656'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:background .25s,border-color .25s,color .25s}
 select option{background:var(--sel-bg)}
 
-.icon-btn{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);width:30px;height:30px;border-radius:5px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
-.icon-btn:hover{color:var(--text);border-color:var(--border2)}
-.icon-btn.active{border-color:var(--logo-accent);color:var(--logo-accent)}
+.icon-btn{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);width:29px;height:29px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;padding:0}
+.icon-btn:hover,.icon-btn:active{color:var(--accent);border-color:var(--accent)}
+.icon-btn.active{border-color:var(--accent);color:var(--accent)}
 
-#btn-refresh{background:var(--sel-bg);border:1px solid var(--border2);color:var(--logo-accent);padding:5px 14px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;transition:all .15s;flex-shrink:0}
-#btn-refresh:hover{background:var(--bg3)}
+#btn-refresh{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--accent);padding:5px 11px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;transition:all .15s;flex-shrink:0;display:flex;align-items:center;gap:5px}
+#btn-refresh:hover,#btn-refresh:active{border-color:var(--accent)}
 #btn-refresh:disabled{color:var(--muted);cursor:wait}
 .ctrl-divider{width:1px;height:20px;background:var(--border2);flex-shrink:0}
 
@@ -91,6 +103,7 @@ select option{background:var(--sel-bg)}
 }
 
 .jp-head{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0}
+.jp-head-label{font-family:var(--ff-mono);font-size:11px;font-weight:600;color:var(--heading);white-space:nowrap}
 #journal-search{flex:1;background:var(--bg3);border:1px solid var(--border2);color:var(--text);padding:5px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);outline:none}
 .jp-count{font-family:var(--ff-mono);font-size:10px;color:var(--logo-accent);white-space:nowrap}
 .jp-clear-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:3px 8px;border-radius:4px;font-size:10px;font-family:var(--ff-mono);cursor:pointer}
@@ -128,14 +141,13 @@ select option{background:var(--sel-bg)}
 .audit-warning{font-family:var(--ff-mono);font-size:10px;color:#fb923c;margin-top:5px;line-height:1.5}
 
 /* ── Tab bar ─────────────────────────────────────────────────────────────── */
-nav{display:flex;overflow-x:auto;padding:0 24px;border-bottom:1px solid var(--vfaint);background:var(--bg);gap:1px;scrollbar-width:none;position:sticky;top:54px;z-index:100}
-nav::-webkit-scrollbar{display:none}
-.tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--tab-off);padding:10px 13px;font-size:11px;font-family:var(--ff-mono);font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
-.tab:hover{color:var(--text2)}
-.tab.active{border-bottom-color:var(--tc,#5b9cf6);color:var(--tc,#5b9cf6)}
+.tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--tab-off);padding:9px 12px;font-size:11px;font-family:var(--ff-mono);font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
+.tab:hover,.tab:active{color:var(--text2)}
+.tab.active{border-bottom-color:var(--tc,var(--accent));color:var(--tc,var(--accent))}
 .tab-bm{margin-left:auto}
-.badge{background:var(--tc,#5b9cf6);color:#000;border-radius:10px;padding:1px 5px;font-size:9px;font-weight:700;min-width:15px;text-align:center}
-.tab-divider{width:1px;background:var(--border);margin:8px 2px;flex-shrink:0;align-self:stretch}
+.badge{background:var(--tc,var(--accent));color:var(--bg);border-radius:10px;padding:1px 5px;font-size:9px;font-weight:700;min-width:15px;text-align:center}
+.tab-dot{width:8px;height:8px;border-radius:50%;background:conic-gradient(var(--tc,var(--accent)) var(--pct,0%),var(--border) 0);flex-shrink:0}
+.tab-divider{width:1px;background:var(--border);margin:7px 2px;flex-shrink:0;align-self:stretch}
 
 /* ── Subdomain pills ─────────────────────────────────────────────────────── */
 .sd-pills{display:flex;overflow-x:auto;gap:6px;margin-bottom:18px;padding-bottom:2px;scrollbar-width:none;flex-wrap:nowrap}
@@ -164,7 +176,7 @@ main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
 .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
 .journal{font-family:var(--ff-mono);font-size:11px;letter-spacing:.04em;color:var(--tc,#5b9cf6)}
 .pub-date{font-family:var(--ff-mono);font-size:10px;color:var(--muted)}
-.pmid-label{font-family:var(--ff-mono);font-size:10px;color:var(--faint);margin-left:auto}
+.pmid-label{font-family:var(--ff-mono);font-size:10px;color:var(--muted);margin-left:auto}
 .corr-badge{background:#78716c18;color:#a8a29e;border:1px solid #a8a29e44}
 
 .art-title{font-family:var(--ff-serif);font-weight:300;font-size:16px;color:var(--text);line-height:1.48;margin-bottom:6px;cursor:pointer;transition:color .15s}
@@ -180,8 +192,9 @@ main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
 .act-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .15s}
 .act-btn:hover{opacity:.7}
 .act-btn.pubmed{color:var(--tc,#5b9cf6)}
-.act-btn.save{border:none;margin-left:auto;color:var(--faint)}
-.act-btn.saved{border:none;margin-left:auto;color:#fbbf24}
+.act-btn.save{border:none;margin-left:auto;color:var(--muted)}
+.act-btn.saved{border:none;margin-left:auto;color:var(--accent)}
+.act-btn.cite-ok{border-color:var(--accent);color:var(--accent)}
 
 .error-box{display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--err-bg);border:1px solid var(--err-bd);border-radius:8px;color:var(--err-tx);font-size:12px;font-family:var(--ff-mono);line-height:1.7}
 .retry-btn{flex-shrink:0;background:none;border:1px solid var(--err-bd);color:var(--err-tx);padding:3px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-family:var(--ff-mono)}
@@ -192,10 +205,7 @@ main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
 footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foot-bg);text-align:center;font-family:var(--ff-mono);font-size:10px;color:var(--faint);line-height:1.9}
 .clear-btn{color:var(--faint);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:inherit;font-size:inherit}
 
-/* ── v5.7 mode switch + journal chips ──────────────────────────────────────── */
-#mode-switch{display:flex;gap:0;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:3px;margin:12px 24px 0;width:-webkit-fit-content;width:fit-content}
-#mode-switch button{font-family:var(--ff-sans);font-size:12px;font-weight:500;letter-spacing:.03em;color:var(--text2);background:transparent;border:none;border-radius:6px;padding:7px 18px;cursor:pointer;transition:background .15s,color .15s}
-#mode-switch button.active{background:var(--logo-accent);color:#fff}
+/* ── Journal chips (journal-mode lane display) ────────────────────────────── */
 #jchip-row{align-items:center}
 .jchip{display:inline-flex;align-items:center;gap:6px;font-family:var(--ff-sans);font-size:12px;color:var(--text);background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:4px 6px 4px 11px;white-space:nowrap}
 .jchip button{background:none;border:none;color:var(--text2);cursor:pointer;font-size:15px;line-height:1;padding:0 2px}
@@ -218,14 +228,43 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
 </div>
 
 <header>
-  <div class="logo-row">
-    <div class="logo-hex">&#x2B21;</div>
-    <div>
-      <h1>Endocrine Bri-gest <span style="letter-spacing:normal;font-size:17px;vertical-align:middle" role="img" aria-label="bespectacled researcher">🤓</span> <span id="ver-badge" style="font-family:var(--ff-mono);font-size:10px;font-weight:400;color:var(--logo-accent);letter-spacing:.05em;vertical-align:middle;opacity:.7"></span></h1>
-      <div class="logo-sub" id="logo-sub">ENDOCRINE &amp; DIABETES &middot; CPD FEED &middot; PUBMED</div>
+  <!-- Row 1: identity + actions -->
+  <div class="hdr-row1">
+    <div class="logo-row">
+      <div class="logo-badge" aria-hidden="true"><span class="logo-badge-b">B</span></div>
+      <div class="logo-text-group">
+        <h1>Endocrine Bri-gest <span id="ver-badge" style="font-family:var(--ff-mono);font-size:10px;font-weight:400;color:var(--accent);letter-spacing:.05em;opacity:.8;vertical-align:middle"></span></h1>
+        <div class="logo-sub" id="logo-sub">V5.9 &middot; ENDOCRINE &amp; DIABETES &middot; PUBMED</div>
+      </div>
+    </div>
+    <div class="hdr-actions">
+      <button class="icon-btn" id="btn-journals" title="Filter by journal">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <button class="icon-btn" id="btn-audit" title="Search strategy audit">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="icon-btn" id="btn-tsize" title="Text size (cycle)">Aa</button>
+      <button class="icon-btn" id="btn-theme" title="Toggle theme">
+        <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <div class="ctrl-divider"></div>
+      <button id="btn-refresh" title="Re-fetch from PubMed">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        Refresh
+      </button>
     </div>
   </div>
-  <div class="controls">
+  <!-- Row 2: quick filters -->
+  <div class="hdr-row2">
+    <select id="sel-if" title="Min impact factor">
+      <option value="0">Any IF</option>
+      <option value="5">IF &ge; 5</option>
+      <option value="10">IF &ge; 10</option>
+      <option value="20">IF &ge; 20</option>
+      <option value="40">IF &ge; 40 (flagship)</option>
+    </select>
     <select id="sel-days" title="Date range">
       <option value="7">Past week</option>
       <option value="14">Past 2 weeks</option>
@@ -239,25 +278,15 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
       <option value=' AND "practice guideline"[pt]'>Guidelines</option>
       <option value=' AND review[pt]'>Review (all)</option>
     </select>
-    <select id="sel-if" title="Min impact factor">
-      <option value="0">Any IF</option>
-      <option value="5">IF &ge; 5</option>
-      <option value="10">IF &ge; 10</option>
-      <option value="20">IF &ge; 20</option>
-      <option value="40">IF &ge; 40 (flagship)</option>
-    </select>
-    <div class="ctrl-divider"></div>
-    <button class="icon-btn" id="btn-journals" title="Filter by journal">&#128300;</button>
-    <button class="icon-btn" id="btn-theme"   title="Change theme">&#127912;</button>
-    <button class="icon-btn" id="btn-audit"   title="Search strategy audit">&#128269;</button>
-    <div class="ctrl-divider"></div>
-    <button id="btn-refresh">&#8635; Refresh</button>
   </div>
+  <!-- Row 3: topic tabs (rendered by JS) -->
+  <nav id="tabs"></nav>
 </header>
 
-<!-- Journal panel -->
+<!-- Journal filter bottom sheet -->
 <div id="journal-panel" class="f-panel">
   <div class="jp-head">
+    <label for="journal-search" class="jp-head-label">Journals</label>
     <input type="text" id="journal-search" placeholder="Search journals&hellip;">
     <span class="jp-count" id="jp-count">All journals</span>
     <button class="jp-clear-btn" id="jp-clear">Clear</button>
@@ -265,23 +294,11 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
   <div class="jp-body" id="jp-body"></div>
 </div>
 
-<!-- Theme panel -->
-<div id="theme-panel" class="f-panel">
-  <div class="theme-opt" data-theme="light"><div class="theme-swatch" style="background:linear-gradient(135deg,#faf7f1 50%,#1f5c46 100%)"></div><span class="theme-name">Light</span></div>
-  <div class="theme-opt" data-theme="dark"><div class="theme-swatch" style="background:linear-gradient(135deg,#141210 50%,#6fbf9c 100%)"></div><span class="theme-name">Dark</span></div>
-</div>
-
-<!-- Audit panel -->
+<!-- Audit bottom sheet -->
 <div id="audit-panel" class="f-panel">
-  <div class="audit-head"><h3>Search Strategy Audit</h3><button class="audit-close" id="audit-close">&#x2715;</button></div>
+  <div class="audit-head"><h3>Search Strategy Audit</h3><button class="audit-close" id="audit-close"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
   <div class="audit-body" id="audit-body"></div>
 </div>
-
-<div id="mode-switch">
-  <button id="mode-domain" class="active">Domain</button>
-  <button id="mode-journal">Journal</button>
-</div>
-<nav id="tabs"></nav>
 
 <main>
   <div class="topic-hdr">
@@ -1344,11 +1361,13 @@ document.getElementById('jp-clear').addEventListener('click',()=>{
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// 13. THEME
+// 13. THEME + TEXT SIZE
 // ═══════════════════════════════════════════════════════════════════════════
 function applyTheme(name){
   theme=name;document.documentElement.setAttribute('data-theme',name);
-  document.querySelectorAll('.theme-opt').forEach(el=>el.classList.toggle('active',el.dataset.theme===name));
+  var sun=document.getElementById('icon-sun'),moon=document.getElementById('icon-moon');
+  if(sun)sun.style.display=name==='dark'?'none':'';
+  if(moon)moon.style.display=name==='dark'?'':'none';
   persist();
 }
 function applyTextScale(step){
@@ -1357,11 +1376,15 @@ function applyTextScale(step){
   document.documentElement.style.setProperty('--tsize',scales[step]||1);
   localStore('e_ts',textScale);
 }
-document.getElementById('btn-theme').addEventListener('click',e=>{
-  e.stopPropagation();const p=document.getElementById('theme-panel'),open=p.classList.contains('open');
-  closeAll();if(!open)p.classList.add('open');
+document.getElementById('btn-theme').addEventListener('click',function(e){
+  e.stopPropagation();
+  applyTheme(theme==='light'?'dark':'light');
+  closeAll();
 });
-document.querySelectorAll('.theme-opt').forEach(el=>el.addEventListener('click',()=>{applyTheme(el.dataset.theme);closeAll();}));
+document.getElementById('btn-tsize').addEventListener('click',function(e){
+  e.stopPropagation();
+  applyTextScale((textScale+1)%3);
+});
 
 // ═══════════════════════════════════════════════════════════════════════════
 // 14. AUDIT PANEL
@@ -1401,17 +1424,17 @@ document.getElementById('audit-close').addEventListener('click',()=>{
 // 15. PANELS & CONTROLS
 // ═══════════════════════════════════════════════════════════════════════════
 function closeAll(){
-  ['journal-panel','theme-panel','audit-panel'].forEach(id=>document.getElementById(id).classList.remove('open'));
+  ['journal-panel','audit-panel'].forEach(id=>document.getElementById(id).classList.remove('open'));
   ['btn-journals','btn-audit'].forEach(id=>document.getElementById(id).classList.remove('active'));
 }
 document.addEventListener('click',e=>{
-  const inside=['journal-panel','theme-panel','audit-panel','btn-journals','btn-theme','btn-audit'];
+  const inside=['journal-panel','audit-panel','btn-journals','btn-theme','btn-tsize','btn-audit'];
   if(!inside.some(id=>e.target.closest('#'+id)))closeAll();
 });
 document.getElementById('btn-refresh').addEventListener('click',()=>{
   if(showBM)return;const btn=document.getElementById('btn-refresh');
-  btn.disabled=true;btn.textContent='\u2026';
-  loadTopic(activeId,true).finally(()=>{btn.disabled=false;btn.innerHTML='&#8635; Refresh';});
+  btn.disabled=true;btn.innerHTML='\u2026';
+  loadTopic(activeId,true).finally(()=>{btn.disabled=false;btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Refresh';});
 });
 ['sel-days','sel-study'].forEach(id=>{
   document.getElementById(id).addEventListener('change',()=>{cache={};renderContent();loadTopic(activeId);});
@@ -1421,10 +1444,6 @@ document.getElementById('sel-if').addEventListener('change',renderContent);
 // ═══════════════════════════════════════════════════════════════════════════
 // 16. INIT
 // ═══════════════════════════════════════════════════════════════════════════
-function syncModeUI(){
-  document.getElementById('mode-domain').classList.toggle('active',mode==='domain');
-  document.getElementById('mode-journal').classList.toggle('active',mode==='journal');
-}
 function openJournalPanel(){
   const p=document.getElementById('journal-panel');
   closeAll();p.classList.add('open');buildJP();
@@ -1436,21 +1455,18 @@ function setMode(m){
   showBM=false;mode=m;
   if(m==='journal'){if(activeId!=='jv')lastDomainId=activeId;activeId='jv';}
   else{activeId=lastDomainId||'dm';}
-  persist();syncModeUI();
+  persist();
   document.getElementById('sd-pill-row').style.display=(m==='domain')?'flex':'none';
   document.getElementById('jchip-row').style.display=(m==='journal')?'flex':'none';
   buildJP();updateJPcount();renderTabs();renderContent();
   if(m==='journal'&&jvJournals.size===0)openJournalPanel();
   else loadTopic(activeId);
 }
-document.getElementById('mode-domain').addEventListener('click',function(){setMode('domain');});
-document.getElementById('mode-journal').addEventListener('click',function(){setMode('journal');});
 
 loadPersisted();
 if(mode==='journal')activeId='jv';else lastDomainId=activeId;
 applyTheme(theme);
 applyTextScale(textScale);
-syncModeUI();
 updateJPcount();
 document.getElementById('sd-pill-row').style.display=(mode==='domain')?'flex':'none';
 document.getElementById('jchip-row').style.display=(mode==='journal')?'flex':'none';
