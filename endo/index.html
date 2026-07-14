@@ -1,44 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="midnight">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Endocrine Bri-gest — CPD Feed</title>
 <style>
-/* ── System font stacks — no external dependencies ───────────────────────── */
+/* ── Font stacks ──────────────────────────────────────────────────────────── */
 :root{
-  --ff-serif: Georgia,'Times New Roman',Times,serif;
-  --ff-mono: ui-monospace,'SF Mono','Cascadia Mono','Segoe UI Mono',Menlo,Monaco,Consolas,'Courier New',monospace;
+  --ff-serif: 'Newsreader',Georgia,'Times New Roman',Times,serif;
+  --ff-mono: 'IBM Plex Mono',ui-monospace,'SF Mono','Cascadia Mono','Segoe UI Mono',Menlo,Monaco,Consolas,'Courier New',monospace;
   --ff-sans: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --tsize: 1;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 /* ── Themes ─────────────────────────────────────────────────────────────── */
-[data-theme="midnight"]{
-  --bg:#050c18;--bg2:#090f1d;--bg3:#0a1628;
-  --border:#0d1625;--border2:#1a2d45;
-  --text:#c8d8e8;--text2:#8aa0ba;--muted:#3a5570;
-  --faint:#1a2d45;--vfaint:#0d1a2c;
-  --heading:#ddeeff;--read-left:#1a2540;--skel:#0a1628;
-  --err-bg:#160808;--err-bd:#4a1010;--err-tx:#f87171;
-  --sel-bg:#080f1c;--sel-bd:#0d1a2c;
-  --foot-bg:#050c18;--tab-off:#1e3050;
-  --logo-sub:#1a2d45;--ts:#162030;--abs:#8aa0ba;
-  --panel-bg:#0a1220;--panel-bd:#1a2d45;
-  --logo-accent:#5b9cf6;
-}
-[data-theme="clinical"]{
-  --bg:#f4f7fc;--bg2:#ffffff;--bg3:#eaf0f8;
-  --border:#dde6f0;--border2:#c0ced8;
-  --text:#1e3a5a;--text2:#475569;--muted:#64748b;
-  --faint:#dde6f0;--vfaint:#edf1f8;
-  --heading:#0c1f35;--read-left:#c8d8e8;--skel:#e4ecf5;
+[data-theme="light"]{
+  --bg:#faf7f1;--bg2:#ffffff;--bg3:#f2ede2;
+  --border:#e5ddcd;--border2:#d4c9b8;
+  --text:#1d1a16;--text2:#5c5346;--muted:#6f6656;
+  --faint:#c9bfaf;--vfaint:#ede8df;
+  --heading:#151210;--read-left:#d4c9b8;--skel:#f2ede2;
   --err-bg:#fff5f5;--err-bd:#fca5a5;--err-tx:#dc2626;
-  --sel-bg:#edf1f8;--sel-bd:#dde6f0;
-  --foot-bg:#eaf0f8;--tab-off:#94a3b8;
-  --logo-sub:#94a3b8;--ts:#94a3b8;--abs:#475569;
-  --panel-bg:#ffffff;--panel-bd:#c0ced8;
-  --logo-accent:#1d6bb8;
+  --sel-bg:#f2ede2;--sel-bd:#e5ddcd;
+  --foot-bg:#faf7f1;--tab-off:#6f6656;
+  --logo-sub:#6f6656;--ts:#6f6656;--abs:#5c5346;
+  --panel-bg:#ffffff;--panel-bd:#e5ddcd;
+  --logo-accent:#1f5c46;--accent:#1f5c46;
+  --pill-active-bg:rgba(31,92,70,.1);
+  --read-dim:rgba(29,26,22,.45);
+}
+[data-theme="dark"]{
+  --bg:#141210;--bg2:#1c1916;--bg3:#221e18;
+  --border:#332d24;--border2:#433828;
+  --text:#ece5d7;--text2:#b3a692;--muted:#968872;
+  --faint:#4a4035;--vfaint:#28231c;
+  --heading:#f6efe1;--read-left:#2a2419;--skel:#221e18;
+  --err-bg:#160808;--err-bd:#4a1010;--err-tx:#f87171;
+  --sel-bg:#221e18;--sel-bd:#332d24;
+  --foot-bg:#141210;--tab-off:#968872;
+  --logo-sub:#968872;--ts:#968872;--abs:#b3a692;
+  --panel-bg:#1c1916;--panel-bd:#332d24;
+  --logo-accent:#6fbf9c;--accent:#6fbf9c;
+  --pill-active-bg:rgba(111,191,156,.15);
+  --read-dim:rgba(236,229,215,.4);
 }
 
 /* ── Base ────────────────────────────────────────────────────────────────── */
@@ -262,8 +267,8 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
 
 <!-- Theme panel -->
 <div id="theme-panel" class="f-panel">
-  <div class="theme-opt" data-theme="midnight"><div class="theme-swatch" style="background:linear-gradient(135deg,#050c18 50%,#5b9cf6 100%)"></div><span class="theme-name">Midnight</span></div>
-  <div class="theme-opt" data-theme="clinical"><div class="theme-swatch" style="background:linear-gradient(135deg,#f4f7fc 50%,#1d6bb8 100%)"></div><span class="theme-name">Clinical</span></div>
+  <div class="theme-opt" data-theme="light"><div class="theme-swatch" style="background:linear-gradient(135deg,#faf7f1 50%,#1f5c46 100%)"></div><span class="theme-name">Light</span></div>
+  <div class="theme-opt" data-theme="dark"><div class="theme-swatch" style="background:linear-gradient(135deg,#141210 50%,#6fbf9c 100%)"></div><span class="theme-name">Dark</span></div>
 </div>
 
 <!-- Audit panel -->
@@ -301,7 +306,7 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
 // ═══════════════════════════════════════════════════════════════════════════
 const STORAGE_OK = (function(){
   try{const k='__ed_t__';localStorage.setItem(k,'1');localStorage.removeItem(k);return true;}
-  catch(_){return false;}
+catch(_){return false;}
 })();
 if(!STORAGE_OK){
   document.addEventListener('DOMContentLoaded',function(){
@@ -913,7 +918,8 @@ let selJournals = new Set();
 let jvJournals = new Set();
 let mode = 'domain';
 let lastDomainId = 'dm';
-let theme = 'midnight';
+let theme = 'light';
+let textScale = 0;   // 0=1x 1=1.15x 2=1.3x
 let auditOpen = new Set();
 let subSel = {};   // topic id → subdomain index (null = all/broad)
 
@@ -932,7 +938,7 @@ function persistPool(){try{localStorage.setItem('e_pool',JSON.stringify(savedPoo
 function persist(){
   persistPool();localStore('e_rd',[...readSet]);
   localStore('e_jf',[...selJournals]);localStore('e_jvf',[...jvJournals]);localStore('e_mode',mode);localStore('e_th',theme);
-  localStore('e_ss',subSel);
+  localStore('e_ss',subSel);localStore('e_ts',textScale);
 }
 function loadPersisted(){
   const pool=localLoad('e_pool');
@@ -942,7 +948,12 @@ function loadPersisted(){
   const jf=localLoad('e_jf');if(Array.isArray(jf))selJournals=new Set(jf);
   const jvf=localLoad('e_jvf');if(Array.isArray(jvf))jvJournals=new Set(jvf);
   const md=localLoad('e_mode');mode=(md==='journal')?'journal':'domain';
-  const th=localLoad('e_th');theme=(th==='midnight'||th==='clinical')?th:'midnight';if(th!==theme)localStore('e_th',theme);
+  var LEGACY_THEME={midnight:'dark',slate:'dark',amber:'dark',clinical:'light'};
+  var th=localLoad('e_th');
+  if(th==='light'||th==='dark'){theme=th;}
+  else if(typeof th==='string'&&LEGACY_THEME[th]){theme=LEGACY_THEME[th];localStore('e_th',theme);}
+  else{theme='light';localStore('e_th',theme);}
+  var ts=localLoad('e_ts');textScale=(ts===0||ts===1||ts===2)?ts:0;if(ts!==textScale)localStore('e_ts',textScale);
   const ss=localLoad('e_ss');if(ss&&typeof ss==='object')subSel=ss;
 }
 function clearAll(){
@@ -1340,6 +1351,12 @@ function applyTheme(name){
   document.querySelectorAll('.theme-opt').forEach(el=>el.classList.toggle('active',el.dataset.theme===name));
   persist();
 }
+function applyTextScale(step){
+  textScale=step;
+  var scales=[1,1.15,1.3];
+  document.documentElement.style.setProperty('--tsize',scales[step]||1);
+  localStore('e_ts',textScale);
+}
 document.getElementById('btn-theme').addEventListener('click',e=>{
   e.stopPropagation();const p=document.getElementById('theme-panel'),open=p.classList.contains('open');
   closeAll();if(!open)p.classList.add('open');
@@ -1432,6 +1449,7 @@ document.getElementById('mode-journal').addEventListener('click',function(){setM
 loadPersisted();
 if(mode==='journal')activeId='jv';else lastDomainId=activeId;
 applyTheme(theme);
+applyTextScale(textScale);
 syncModeUI();
 updateJPcount();
 document.getElementById('sd-pill-row').style.display=(mode==='domain')?'flex':'none';
