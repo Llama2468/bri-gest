@@ -78,9 +78,11 @@ header{
 .logo-row{display:flex;align-items:center;gap:11px;min-width:0}
 .logo-badge{width:32px;height:32px;border-radius:50%;border:1.4px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .35s}
 .logo-badge-b{font-family:var(--ff-serif);font-style:italic;font-size:17px;font-weight:500;color:var(--accent);line-height:1;transition:color .35s}
+.logo-text-group{min-width:0}
 h1{
   font-family:var(--ff-serif);font-size:19px;font-weight:500;
   color:var(--heading);letter-spacing:.1em;line-height:1.2;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 h1 .ver{
   font-family:var(--ff-mono);font-size:10px;font-weight:400;
@@ -89,6 +91,7 @@ h1 .ver{
 .logo-sub{
   font-family:var(--ff-mono);font-size:9px;
   color:var(--logo-sub);letter-spacing:.07em;margin-top:3px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
 .hdr-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
 .icon-btn{
@@ -190,7 +193,7 @@ footer{
   <div class="wrap head-row">
     <div class="logo-row">
       <div class="logo-badge" aria-hidden="true"><span class="logo-badge-b">B</span></div>
-      <div>
+      <div class="logo-text-group">
         <h1>BRI&middot;GEST <span class="ver" id="ver"></span></h1>
         <div class="logo-sub">PUBMED LITERATURE SURVEILLANCE &middot; RACP ADVANCED TRAINING</div>
       </div>
@@ -231,13 +234,13 @@ footer{
   <section class="sec">
     <div class="sec-label">Reference documents</div>
     <div class="refs">
-      <a class="ref" href="docs/endo-digest-queries-v5_6.docx">
+      <a class="ref" href="docs/endo-digest-queries-v5.6.docx">
         <span>Endocrine — search strategy reference</span>
         <span class="ref-v">v5.6 &middot; DOCX</span>
       </a>
-      <a class="ref" href="docs/endo-digest-spec-v5_7.docx">
+      <a class="ref" href="docs/endo-digest-spec-v5.4.docx">
         <span>Endocrine — design rationale and enhancement spec</span>
-        <span class="ref-v">v5.7 &middot; DOCX</span>
+        <span class="ref-v">v5.4 &middot; DOCX</span>
       </a>
     </div>
   </section>

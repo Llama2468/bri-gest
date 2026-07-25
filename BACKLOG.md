@@ -1,9 +1,9 @@
 # Bri-gest — Backlog
 
 Working file. Hand-edited (the only one in this repo that is).
-Last updated: 2026-07-13, at the close of Phase 0.
+Last updated: 2026-07-26.
 
-**Status:** Hub live at https://llama2468.github.io/bri-gest/ — Endocrine v5.8 and General Medicine v1.0 deployed.
+**Status:** Hub live at https://llama2468.github.io/bri-gest/ — Endocrine v5.9 and General Medicine v1.1 deployed (GM unlinked from the hub, still reachable directly). All three tools share one cool-blue design system as of this date.
 
 ---
 
@@ -81,6 +81,49 @@ Note: hosting on GitHub Pages fixed *access* on iOS, not these defects. They wer
 
 ---
 
+## Found in production, 2026-07-26
+
+Both found by live click-through on the deployed hub after the v5.9/v1.1 push — not caught by the syntax gate or any static check, since neither is a JS error.
+
+### 9. Hub reference-doc links 404 — DONE (unbroken, not yet current)
+
+Both links pointed at filenames that didn't match what's actually in `docs/`:
+
+| Hub linked to | Actual file |
+|---|---|
+| `docs/endo-digest-queries-v5_6.docx` | `docs/endo-digest-queries-v5.6.docx` (underscore vs. period) |
+| `docs/endo-digest-spec-v5_7.docx` | `docs/endo-digest-spec-v5.4.docx` (wrong separator *and* wrong version) |
+
+`href`s corrected to the real filenames and the displayed spec version corrected to v5.4 (was falsely claiming v5.7) so the hub never asserts a version that isn't what's actually behind the link.
+
+**This is the shallow fix (links resolve, versions displayed are honest) — not the deep one.** The spec doc is still genuinely v5.4 content against a v5.9 app. That's the Documentation backlog's job, not this one's — see below.
+
+### 10. Hub header overflows sideways on narrow/mobile viewports — DONE (hub + endo)
+
+The Aa and theme-toggle buttons in the hub header sat slightly off-screen on mobile, forcing a horizontal scroll of the *entire page* (cards included) even though the cards themselves fit the viewport fine.
+
+**Root cause:** the title/subtitle text had no `overflow`/`text-overflow`/`white-space` handling, and in hub's case the wrapping `<div>` around them had no `min-width:0` either (a flex item defaults to `min-width:auto`, i.e. content-sized, unless told otherwise) — so at narrow widths the subtitle's natural width pushed the header's total content wider than the viewport, shoving `.hdr-actions` off the right edge. Endo had the same gap and, worse, its `.logo-row` was `flex-shrink:0` (explicitly refusing to shrink at all).
+
+**Fixed in hub and endo:** `.logo-text-group` (the h1+subtitle wrapper) now has `min-width:0`; both `h1` and `.logo-sub` get `overflow:hidden;text-overflow:ellipsis;white-space:nowrap`; endo's `.logo-row` changed from `flex-shrink:0` to `min-width:0` so it can shrink instead of forcing overflow. `.logo-badge`/`.hub-link` keep their own `flex-shrink:0`, so only the text truncates, never the badge or the back-link.
+
+No browser this session to click-confirm at a real narrow width — reasoned through the CSS (this is the standard flex-truncation pattern), but verify on-device before fully closing.
+
+**GM deliberately skipped — see the GM-paused placeholder below.** Same root cause almost certainly applies there too (shorter subtitle string just hasn't visibly triggered it yet); fix it in the same pass whenever GM work resumes.
+
+---
+
+## General Medicine — paused, resume later
+
+**GM tool work is on hold as of 2026-07-26, by explicit decision, so it doesn't get dragged along piecemeal while attention is on the hub/connected-hub work below.** `gm/index.html` is untouched and stays fully working in the meantime — nothing here is urgent, it's a marker for what to pick up.
+
+Deferred:
+- **Header-overflow fix (item 10's GM half).** Same `.logo-sub`/flex `min-width:0` gap as hub and endo had — apply the identical fix (`.logo-text-group{min-width:0}`, ellipsis on `h1`/`.logo-sub`) when GM work resumes. Check whether `.logo-row` there is also `flex-shrink:0` like endo's was, rather than assuming.
+- Anything else that surfaces from live use in the meantime should land here, not get fixed as a one-off — keep GM changes batched into one deliberate pass rather than scattered across sessions.
+
+Do not delete or let `gm/index.html` bit-rot relative to the shared token/font system — if hub or endo's shared CSS custom properties change again before GM's pass, reconcile GM against the *current* tokens then, not against whatever they were on 2026-07-26.
+
+---
+
 ## Documentation backlog
 
 **Every document lags the code it describes.** This is a known, recorded gap — not a discovery.
@@ -106,32 +149,20 @@ Note: hosting on GitHub Pages fixed *access* on iOS, not these defects. They wer
 
 ---
 
-## The hub — a different project
+## The connected hub — a different project
 
-**These are not features of the endocrine tool.** Bolting per-user save lists, sharing, or commenting onto a single-file `localStorage` app produces something that works for exactly one person and then has to be thrown away.
+**Full design now lives in [`CONNECTED-HUB-DESIGN.md`](CONNECTED-HUB-DESIGN.md)**, written
+2026-07-26 — architecture, repo/branching strategy, build order, and a first-draft
+enumeration of the seven previously-unnamed D1–D7 open decisions (they were referenced here
+but never actually listed anywhere in the repo; confirmed by searching the full working tree,
+every branch, and git history). Review and confirm/amend that document at the start of the
+next session, before writing any code.
 
-This is the `brigest-connected` branch. It needs its own sessions.
-
-### Architecture (specified, not built)
-
-- **Identity:** ORCID OAuth. Non-negotiable — it is the trust model, not just a login. Registration was in progress when the last session ended.
-- **Backend:** Cloudflare Workers + D1 (SQLite).
-- **Data model:** the hub is a **curation graph, not a paper library.** It stores PMID pointers plus typed, provenanced expert-judgment overlays. It does not store papers.
-- **The standalone tools are sensors.** They emit judgment-events into the graph. This is why the tools stay useful on their own and why the hub does not replace them.
-
-### The three features asked for, mapped onto the architecture
-
-- **Persistent per-user save lists.** ORCID identity + D1 replaces `localStorage`. The pool becomes portable across devices, which is the actual user-facing win.
-- **Forwarding a saved article into a shared pool.** This is an emission event: *this identified expert flagged this PMID as of interest to others*. It is the graph's most primitive judgment type and should be built first.
-- **Ranking, reviewing, commenting.** Richer typed judgment-events on the same substrate. These are what make the graph worth more than a bookmark list — but they are meaningless without content in the graph.
-
-**Build order is not negotiable:** identity → emission → accumulate real content → *then* the output-templating layer (atlas nodes, curriculum reading lists, gap analysis). The templating layer is architecturally specified and phase-gated. Do not build templates against an empty graph.
-
-### Open architectural decisions
-
-Seven (D1–D7) remain unresolved in the hub spec.
-
-**D4 is a sleeper dependency.** RACP curriculum node IDs almost certainly do not exist as a machine-readable set. Everything in Phase 2 that maps judgment-events to curriculum nodes depends on this, and it will need to be built by hand or abandoned. Resolve it early — discovering it late invalidates work.
+**These are not features of the endocrine or GM tools.** Bolting per-user save lists, sharing,
+or commenting onto a single-file `localStorage` app produces something that works for exactly
+one person and then has to be thrown away. This needs its own branch (`brigest-connected`,
+not yet created) and its own sessions — see the design doc's repo/branching section for why
+and how, so this work doesn't put the current polished, live main branch at risk.
 
 ---
 
