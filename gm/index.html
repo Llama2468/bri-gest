@@ -4,10 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>General Medicine Bri-gest — CPD Feed</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&display=swap" rel="stylesheet">
 <style>
+/* ── Self-hosted fonts (latin + latin-ext subsets only) ──────────────────── */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/ibm-plex-mono-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/ibm-plex-mono-500-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/ibm-plex-mono-500-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('../fonts/ibm-plex-mono-600-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('../fonts/ibm-plex-mono-600-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/newsreader-normal-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/newsreader-normal-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400 600;font-display:swap;src:url('../fonts/newsreader-italic-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400 600;font-display:swap;src:url('../fonts/newsreader-italic-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
 :root{
   --ff-serif: 'Newsreader',Georgia,'Times New Roman',Times,serif;
   --ff-mono: 'IBM Plex Mono',ui-monospace,'SF Mono','Cascadia Mono','Segoe UI Mono',Menlo,Monaco,Consolas,'Courier New',monospace;
@@ -41,8 +50,8 @@
   --panel-bg:#e3e8f0;--panel-bd:#b8c4d6;
   --logo-accent:#1d6bb8;
 }
-body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .25s,color .25s;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-@media(max-width:768px){select{font-size:16px!important}}
+body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;font-size:15px;transition:background .25s,color .25s;-webkit-text-size-adjust:100%;text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+@media(max-width:768px){select,#journal-search{font-size:16px!important}}
 .storage-warn{display:flex;align-items:center;gap:10px;padding:7px 16px;background:#1a0808;border-bottom:1px solid #5a1010;color:#f87171;font-family:var(--ff-mono);font-size:11px;flex-wrap:wrap;line-height:1.5}
 .storage-warn button{background:none;border:none;color:#f87171;cursor:pointer;padding:0 6px;font-size:16px;flex-shrink:0;line-height:1}
 ::-webkit-scrollbar{width:4px;height:4px}
@@ -67,7 +76,7 @@ select option{background:var(--sel-bg)}
 #btn-refresh:hover{background:var(--bg3)}
 #btn-refresh:disabled{color:var(--muted);cursor:wait}
 .ctrl-divider{width:1px;height:20px;background:var(--border2);flex-shrink:0}
-.f-panel{position:fixed;top:60px;right:8px;background:var(--panel-bg);border:1px solid var(--panel-bd);border-radius:8px;z-index:300;display:none;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.55);overflow:hidden;max-width:calc(100vw - 16px)}
+.f-panel{position:fixed;top:calc(var(--header-h,54px) + 6px);right:8px;background:var(--panel-bg);border:1px solid var(--panel-bd);border-radius:8px;z-index:300;display:none;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.55);overflow:hidden;max-width:calc(100vw - 16px)}
 .f-panel.open{display:flex}
 #journal-panel{width:340px;max-height:500px}
 #audit-panel{width:480px;max-height:80vh}
@@ -105,7 +114,7 @@ select option{background:var(--sel-bg)}
 .audit-translation-box{font-family:var(--ff-mono);font-size:10px;color:var(--logo-accent);background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:8px 10px;line-height:1.6;white-space:pre-wrap;word-break:break-all;max-height:100px;overflow-y:auto}
 .audit-pending{font-family:var(--ff-mono);font-size:10px;color:var(--muted);font-style:italic}
 .audit-warning{font-family:var(--ff-mono);font-size:10px;color:#fb923c;margin-top:5px;line-height:1.5}
-nav{display:flex;overflow-x:auto;padding:0 24px;border-bottom:1px solid var(--vfaint);background:var(--bg);gap:1px;scrollbar-width:none;position:sticky;top:54px;z-index:100}
+nav{display:flex;overflow-x:auto;padding:0 24px;border-bottom:1px solid var(--vfaint);background:var(--bg);gap:1px;scrollbar-width:none;position:sticky;top:var(--header-h,54px);z-index:100}
 nav::-webkit-scrollbar{display:none}
 .tab{background:none;border:none;border-bottom:2px solid transparent;color:var(--tab-off);padding:10px 13px;font-size:11px;font-family:var(--ff-mono);font-weight:500;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px;transition:color .15s;flex-shrink:0}
 .tab:hover{color:var(--text2)}
@@ -131,23 +140,23 @@ main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
 .article.correspondence{border-left-style:dashed;opacity:.82}
 .article.correspondence.open{opacity:1}
 .meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-.journal{font-family:var(--ff-mono);font-size:11px;letter-spacing:.04em;color:var(--tc,#5b9cf6)}
+.journal{font-family:var(--ff-mono);font-size:11.5px;letter-spacing:.04em;color:var(--tc,#5b9cf6)}
 .pub-date{font-family:var(--ff-mono);font-size:10px;color:var(--muted)}
 .pmid-label{font-family:var(--ff-mono);font-size:10px;color:var(--faint);margin-left:auto}
 .corr-badge{background:#78716c18;color:#a8a29e;border:1px solid #a8a29e44}
-.art-title{font-family:var(--ff-serif);font-weight:300;font-size:calc(16px * var(--tsize));color:var(--text);line-height:1.48;margin-bottom:6px;cursor:pointer;transition:color .15s}
+.art-title{font-family:var(--ff-serif);font-weight:300;font-size:calc(17px * var(--tsize));color:var(--text);line-height:1.48;margin-bottom:6px;cursor:pointer;transition:color .15s}
 .art-title:hover{color:var(--heading)}
-.authors{font-family:var(--ff-mono);font-size:calc(10.5px * var(--tsize));color:var(--muted);margin-bottom:12px}
+.authors{font-family:var(--ff-mono);font-size:calc(11px * var(--tsize));color:var(--muted);margin-bottom:12px}
 .abstract-body{border-left:2px solid var(--border2);padding-left:15px;margin-bottom:13px;display:none}
 .abstract-body.open{display:block}
-.abstract-para{font-size:calc(12.5px * var(--tsize));line-height:1.68;color:var(--abs);margin-bottom:9px}
-.abstract-label{font-family:var(--ff-mono);font-size:calc(10.5px * var(--tsize));margin-right:3px;color:var(--tc,#5b9cf6)}
+.abstract-para{font-size:calc(13.5px * var(--tsize));line-height:1.68;color:var(--abs);margin-bottom:9px}
+.abstract-label{font-family:var(--ff-mono);font-size:calc(11px * var(--tsize));margin-right:3px;color:var(--tc,#5b9cf6)}
 .actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-.act-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .15s}
+.act-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:11.5px;font-family:var(--ff-mono);cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .15s}
 .act-btn:hover{opacity:.7}
 .act-btn.pubmed{color:var(--tc,#5b9cf6)}
-.act-btn.save{border:none;margin-left:auto;color:var(--faint)}
-.act-btn.saved{border:none;margin-left:auto;color:#fbbf24}
+.act-btn.save{border:none;margin-left:auto;color:var(--text2);font-size:12px;font-weight:500}
+.act-btn.saved{border:none;margin-left:auto;color:#fbbf24;font-size:12px;font-weight:500}
 .error-box{display:flex;align-items:flex-start;gap:10px;padding:14px;background:var(--err-bg);border:1px solid var(--err-bd);border-radius:8px;color:var(--err-tx);font-size:12px;font-family:var(--ff-mono);line-height:1.7}
 .retry-btn{flex-shrink:0;background:none;border:1px solid var(--err-bd);color:var(--err-tx);padding:3px 10px;border-radius:4px;cursor:pointer;font-size:11px;font-family:var(--ff-mono)}
 .empty-state{text-align:center;padding:50px 20px;color:var(--faint)}
@@ -251,7 +260,7 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
 <footer>
   <span id="footer-ver"></span> &nbsp;&middot;&nbsp; PubMed / NCBI E-utilities &nbsp;&middot;&nbsp; Abstracts verbatim &nbsp;&middot;&nbsp; No AI-generated content &nbsp;&middot;&nbsp; Cached 6 h &nbsp;&middot;&nbsp; Up to 50 results per lane &nbsp;&middot;&nbsp; CCJ = NLM Core Clinical Journals filter &nbsp;&middot;&nbsp; IF: approx 2024 JCR &nbsp;&middot;&nbsp; RACP General &amp; Acute Care Medicine
   &nbsp;&middot;&nbsp; <button class="clear-btn" onclick="clearAll()">Clear history &amp; saved</button>
-  <br>&copy; 2026 Brian Corley &nbsp;&middot;&nbsp; Licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Creative Commons BY-NC-SA 4.0</a>
+  <br>&copy; 2026 Brian Corley &nbsp;&middot;&nbsp; Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">Creative Commons BY 4.0</a>
 </footer>
 <script>
 // ---------------------------------------------------------------------------
@@ -1172,7 +1181,24 @@ document.getElementById('content').addEventListener('click',function(e){
   var im=e.target.closest('[data-imp]');if(im){importPoolPrompt();return;}
   var cp=e.target.closest('[data-clearpool]');if(cp){if(window.confirm('Remove all '+savedCount()+' saved articles from the pool? This cannot be undone.')){savedPool={};persist();renderTabs();renderContent();}return;}
 });
-function download(filename,text,mime){try{var blob=new Blob([text],{type:mime+';charset=utf-8'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},0);}catch(e){alert('Download failed: '+e.message);}}
+function isIOSSafari(){var ua=navigator.userAgent;return /iP(hone|ad|od)/.test(ua)&&/WebKit/.test(ua)&&!/CriOS|FxiOS|EdgiOS/.test(ua);}
+// Safari on iOS does not reliably honour the <a download> attribute, so
+// export silently does nothing there. Route through the Web Share sheet
+// instead when it's available; every other browser keeps the plain
+// download link unchanged.
+async function download(filename,text,mime){
+  var blob;
+  try{blob=new Blob([text],{type:mime+';charset=utf-8'});}catch(e){alert('Download failed: '+e.message);return;}
+  var canUseShare=false,file=null;
+  if(isIOSSafari()&&window.File&&navigator.canShare){
+    try{file=new File([blob],filename,{type:mime});canUseShare=navigator.canShare({files:[file]});}catch(e){canUseShare=false;}
+  }
+  if(canUseShare){
+    try{await navigator.share({files:[file],title:filename});}catch(shareErr){/* user cancelled -- respect it, no fallback */}
+    return;
+  }
+  try{var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},0);}catch(e){alert('Download failed: '+e.message);}
+}
 function poolRecords(){return Object.keys(savedPool).map(function(p){var r=savedPool[p];if(r&&r._min){var f=findArticle(p);if(f){var m={};for(var k in f){if(Object.prototype.hasOwnProperty.call(f,k))m[k]=f[k];}m.savedAt=r.savedAt;return m;}}return r;});}
 function csvCell(s){s=(s==null?'':String(s));return '"'+s.replace(/"/g,'""')+'"';}
 function exportPool(fmt){
@@ -1401,6 +1427,10 @@ document.getElementById('mode-domain').addEventListener('click',function(){setMo
 document.getElementById('mode-journal').addEventListener('click',function(){setMode('journal');});
 document.getElementById('mode-guide').addEventListener('click',function(){setMode('guide');});
 
+// iOS Safari latches :hover after a tap until the next tap elsewhere; an
+// empty touchstart listener makes it evaluate :hover per-tap instead.
+document.addEventListener('touchstart',function(){},{passive:true});
+
 loadPersisted();
 if(mode==='journal'){activeId='jv';}
 else if(mode==='guide'){activeId='gx';}
@@ -1416,6 +1446,33 @@ renderTabs();
 if(mode==='domain'){var at=null;for(var i=0;i<TOPICS.length;i++){if(TOPICS[i].id===activeId){at=TOPICS[i];break;}}renderPills(at);}
 renderContent();
 if(!(mode==='journal'&&jvJournals.size===0))loadTopic(activeId);
+
+// ---------------------------------------------------------------------------
+// 16. STICKY NAV OFFSET
+//     header wraps to a second row at narrow widths (flex-wrap), so nav's
+//     sticky top can't be a fixed guess -- measure the real header height
+//     and drive it via --header-h. Re-measured on resize/orientation change
+//     since wrapping is width-dependent, and once more after fonts finish
+//     swapping in (font-display:swap can shift line height post-load).
+// ---------------------------------------------------------------------------
+(function(){
+  var headerEl=document.querySelector('header');
+  var pending=false;
+  function syncHeaderHeight(){
+    pending=false;
+    if(headerEl)document.documentElement.style.setProperty('--header-h',headerEl.offsetHeight+'px');
+  }
+  function scheduleSync(){
+    if(pending)return;
+    pending=true;
+    requestAnimationFrame(syncHeaderHeight);
+  }
+  scheduleSync();
+  window.addEventListener('resize',scheduleSync);
+  window.addEventListener('orientationchange',scheduleSync);
+  window.addEventListener('load',scheduleSync);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(scheduleSync);
+})();
 </script>
 </body>
 </html>

@@ -6,10 +6,19 @@
 <meta name="description" content="Bri-gest — PubMed literature-surveillance tools for RACP Advanced Training CPD.">
 <meta name="color-scheme" content="light dark">
 <title>Bri-gest — CPD Literature Surveillance</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&display=swap" rel="stylesheet">
 <style>
+/* ── Self-hosted fonts (latin + latin-ext subsets only) ──────────────────── */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('fonts/ibm-plex-mono-400-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-mono-500-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('fonts/ibm-plex-mono-500-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/ibm-plex-mono-600-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:600;font-display:swap;src:url('fonts/ibm-plex-mono-600-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:300 700;font-display:swap;src:url('fonts/newsreader-normal-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:300 700;font-display:swap;src:url('fonts/newsreader-normal-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400 600;font-display:swap;src:url('fonts/newsreader-italic-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400 600;font-display:swap;src:url('fonts/newsreader-italic-latin-ext.woff2') format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
 /* ── Font stacks (shared with endo/ and gm/) ────────────────────────────── */
 :root{
   --ff-serif: 'Newsreader',Georgia,'Times New Roman',Times,serif;
@@ -50,7 +59,7 @@ body{
   font-family:var(--ff-sans);
   background:var(--bg);color:var(--text);
   min-height:100vh;min-height:100dvh;
-  font-size:14px;line-height:1.5;
+  font-size:15px;line-height:1.5;
   -webkit-tap-highlight-color:transparent;
   transition:background .25s,color .25s;
 }
@@ -216,20 +225,6 @@ footer{
         </div>
       </a>
 
-      <a class="card" href="gm/">
-        <div class="card-top">
-          <span class="card-name">General Medicine Bri-gest</span>
-          <span class="card-ver">v1.1</span>
-        </div>
-        <div class="card-desc">Acute and general internal medicine feed, mapped to the RACP GACM curriculum. Core Clinical Journals filter, journal and guidelines views.</div>
-        <div class="census">
-          <div class="cell"><span class="cell-n">15</span><span class="cell-k">Lanes</span></div>
-          <div class="cell"><span class="cell-n">2</span><span class="cell-k">Virtual lanes</span></div>
-          <div class="cell"><span class="cell-n">CCJ</span><span class="cell-k">Filter</span></div>
-          <div class="cell"><span class="cell-n">6 h</span><span class="cell-k">Cache</span></div>
-        </div>
-      </a>
-
     </div>
   </section>
 
@@ -243,10 +238,6 @@ footer{
       <a class="ref" href="docs/endo-digest-spec-v5_7.docx">
         <span>Endocrine — design rationale and enhancement spec</span>
         <span class="ref-v">v5.7 &middot; DOCX</span>
-      </a>
-      <a class="ref" href="docs/gm-digest-reference-v1_0.docx">
-        <span>General Medicine — design rationale and search strategy</span>
-        <span class="ref-v">v1.0 &middot; DOCX</span>
       </a>
     </div>
   </section>
@@ -277,6 +268,10 @@ footer{
   var THEME_KEY = 'hub_theme';
   var TS_KEY    = 'hub_ts';
   var LEGACY_THEME = {midnight:'dark', slate:'dark', amber:'dark', clinical:'light'};
+
+  // iOS Safari latches :hover after a tap until the next tap elsewhere; an
+  // empty touchstart listener makes it evaluate :hover per-tap instead.
+  document.addEventListener('touchstart', function () {}, {passive: true});
 
   document.getElementById('ver').textContent = 'v' + VERSION;
   document.getElementById('ver-foot').textContent = 'v' + VERSION;

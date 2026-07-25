@@ -12,10 +12,12 @@ Each tool is a single self-contained HTML file. It queries the [NCBI E-utilities
 
 | Tool | Version | Scope | URL                                                    |
 |---|---|---|--------------------------------------------------------|
-| **Endocrine Bri-gest** | 5.8 | 10 RACP endocrinology and metabolism domains, 53 subdomains | [`/endo/`](https://LLama2468.github.io/bri-gest/endo/) |
-| **General Medicine Bri-gest** | 1.0 | 15 clinical lanes mapped to the RACP GACM curriculum | [`/gm/`](https://Llama2468.github.io/bri-gest/gm/)     |
+| **Endocrine Bri-gest** | 5.9 | 10 RACP endocrinology and metabolism domains, 53 subdomains | [`/endo/`](https://LLama2468.github.io/bri-gest/endo/) |
+| **General Medicine Bri-gest** | 1.1 | 15 clinical lanes mapped to the RACP GACM curriculum | [`/gm/`](https://Llama2468.github.io/bri-gest/gm/)     |
 
 Both cache results for 6 hours, return up to 50 records per lane, and expose the full PubMed query for every lane in an audit panel so it can be pasted into PubMed and reproduced.
+
+General Medicine is present and working but currently **unlinked from the hub** pending maturation — it's reachable directly at `/gm/`, just not surfaced from the landing page yet.
 
 ---
 
@@ -82,4 +84,4 @@ git push --tags
 
 ## Licence
 
-Personal project. No warranty. PubMed content is subject to NCBI's terms of use.
+Code and content are licensed under [Creative Commons BY 4.0](https://creativecommons.org/licenses/by/4.0/). Personal project, no warranty. PubMed content is subject to NCBI's terms of use.

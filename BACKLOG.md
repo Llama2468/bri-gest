@@ -32,27 +32,25 @@ Ten lines of GitHub Actions YAML: extract the `<script>` block from each tool, r
 
 The lesson is uncomfortable and worth writing down: **whole-file rewrites protect against corruption but offer no protection against being wrong.** Writing a file and trusting a file are currently the same act. This gate separates them permanently and makes the entire bug class unshippable. It protects every item below it, so it goes first.
 
-### 2. Unlink General Medicine from the hub
+### 2. Unlink General Medicine from the hub — DONE
 
-Remove the GM card from `index.html`. **Do not delete `gm/index.html`** — it is syntax-clean, working code, and deleting it to solve a discoverability problem throws away an asset. Note in the README that GM v1.0 is present but unlinked pending maturation.
+GM card removed from `index.html`, along with its (already-broken, pointing at a nonexistent file) reference-doc link. `gm/index.html` itself is untouched — still syntax-clean, working code, just not surfaced from the hub. README now notes GM v1.1 is present but unlinked pending maturation.
 
-### 3. Journal-mode lane selector — never worked
+### 3. Journal-mode lane selector — believed fixed, needs a manual click-through to confirm
 
-The journal-view lane selector button has never functioned. It should have the same behaviour as the microscope (🔬) button in domain mode.
+Traced end-to-end in both tools' current code (tab/button entry point → `openJournalPanel()` → checkbox `change` handler → `curJournals()` → query construction) and found no defect. Endo's actual root cause was the missing "Journal View" tab (`setMode('journal')` had no UI entry point) — fixed by commit `0a9af2d`. GM never had this problem; its mode-switch buttons were always explicit.
 
-Find the root cause before rewriting. A control that has never worked once usually indicates a missing handler binding or an ID mismatch, not flawed logic — and a re-implementation would hide that rather than fix it.
+The architectural rule still holds in both: journal mode builds its query directly from the journal union (`Array.from(jvJournals).map(ta => '"'+ta+'"[ta]').join(' OR ')`), never by filtering a broad specialty base query.
 
-**Architectural note to preserve:** journal mode must use the journal union *itself* as the query. It must not inherit a broad-specialty base query and then filter by journal — that silently restricts results to specialty-indexed articles only.
+No browser access this session to click-test at runtime — static trace only. Confirm live before fully closing this out.
 
-### 4. Creative Commons — decision, not a typo fix
+### 4. Creative Commons — DONE (decided: CC BY 4.0)
 
-The footer link is broken. Fixing the URL is trivial. The licence choice is not.
+Resolved in favour of **CC BY 4.0**, matching the hub spec's recommendation — CC BY-NC-SA 4.0 would have blocked exactly the downstream consumers the project's direction depends on (medical colleges, guideline publishers, specialty societies).
 
-**The current licence is wrong for the project's stated direction.** CC BY-NC-SA 4.0 blocks exactly the downstream consumers named in the hub spec: medical colleges, guideline publishers, specialty societies. A college publishing a curriculum reading list derived from the curation graph would be in breach. So would any journal.
+Applied: endo footer, gm footer, README.
 
-The hub spec recommends **CC BY 4.0** for the curation overlay. The ORCID registration description says NC-SA. These contradict, and the contradiction must be resolved **before any second contributor emits a judgment-event** — relicensing a corpus with multiple contributors is functionally impossible.
-
-Decide with a clear head, then apply consistently across: tool footers, README, ORCID registration, hub spec.
+**Still open, outside this repo:** the ORCID registration description says NC-SA and needs updating manually on orcid.org to match — not something a code change can touch. Do this before any second contributor emits a judgment-event; relicensing a corpus with multiple contributors is functionally impossible after the fact.
 
 ### 5. Dark-mode contrast
 
@@ -66,20 +64,20 @@ Text is too small. Contrast is fine — do not touch the palette, only the sizes
 
 ### 7. iOS hardening
 
-Four chunks. Merge back into a single v5.9 — **no permanent iOS fork.**
+All four — DONE, merged into main (no iOS fork).
 
-Note: hosting on GitHub Pages fixed *access* on iOS, not these defects. They are in the code.
+Note: hosting on GitHub Pages fixed *access* on iOS, not these defects. They were in the code.
 
-- **Export is broken on iOS.** Safari ignores the `download` attribute, so export silently does nothing. Needs a Web Share API fallback.
-- **`#journal-search` is 11px.** Safari auto-zooms on focus for any input under 16px, shoving the layout sideways. Set to 16px.
-- **Sticky nav uses a hardcoded offset.** Breaks at narrow widths; content slides under the header. Compute it.
-- **Polish:** `-webkit-tap-highlight-color`, hover rules that stick after tap, `dvh` viewport units in place of `100vh`.
+- **Export was broken on iOS — fixed.** `download()` in both tools now routes through the Web Share sheet (`navigator.share` with a `File`) when the UA looks like iOS Safari and file-sharing is supported; every other browser keeps the plain `<a download>` link unchanged.
+- **`#journal-search` was 11px — fixed.** Now 16px under the same `@media(max-width:768px)` rule already used for `<select>`.
+- **Sticky nav's hardcoded offset — fixed, GM only.** (Endo's header+tabs were already one sticky unit, no offset needed.) GM's `nav` and `.f-panel` now read `--header-h`, measured from the real header height at load, resize, orientation change, and once more after web fonts finish swapping — instead of a fixed `54px`/`60px` guess.
+- **Polish — done.** `-webkit-tap-highlight-color:transparent` and the `100vh`/`100dvh` fallback pair added to endo/gm (hub already had both). Hover-stays-stuck-after-tap addressed via an empty `touchstart` listener on all three (the standard fix) rather than rewriting ~30 individual `:hover` rules into `@media(hover:hover)` blocks.
 
 ### 8. Housekeeping
 
-- **Google Fonts is a live CDN dependency.** Fraunces and IBM Plex Mono load from `fonts.googleapis.com`, so "zero-dependency" is not strictly true and type degrades on networks that block Google. Self-host the `woff2` files.
-- **`Inter` is declared in the body font stack but never loaded.** It resolves to `system-ui` in practice. Load it or drop it.
-- **`localStorage` may not be the right store** for the saved-article pool at scale. IndexedDB is under consideration.
+- **Google Fonts CDN dependency — DONE.** Newsreader and IBM Plex Mono (latin + latin-ext subsets) are now self-hosted from `/fonts/` across all three tools; the `fonts.googleapis.com`/`fonts.gstatic.com` links and preconnects are gone.
+- **`Inter` in the body font stack — moot.** The stack that referenced it no longer exists after the visual redesign; the current `--ff-sans` stack never named it.
+- **`localStorage` may not be the right store** for the saved-article pool at scale. IndexedDB is still under consideration — no defined migration plan yet.
 
 ---
 
