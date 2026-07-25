@@ -191,6 +191,15 @@ but never actually listed anywhere in the repo; confirmed by searching the full 
 every branch, and git history). Review and confirm/amend that document at the start of the
 next session, before writing any code.
 
+**Added 2026-07-26, at explicit request, as a standing priority for all infrastructure work
+going forward (not just this project):** development/production environment hygiene — the
+design doc's §4.1 and new **D8** decision. Separate Cloudflare environments, separate D1
+databases, separate ORCID registrations per environment, a named promotion step, and the
+connected-hub component tracked with its own version identifier the same transparent way
+`endo-v5.9`/`gm-v1.1` are. Branch isolation protects the static frontend; it does not by
+itself protect a deployed Worker/D1 backend, which is a different failure surface and needs
+its own deliberate separation from day one, not retrofitted after something goes wrong.
+
 **These are not features of the endocrine or GM tools.** Bolting per-user save lists, sharing,
 or commenting onto a single-file `localStorage` app produces something that works for exactly
 one person and then has to be thrown away. This needs its own branch (`brigest-connected`,

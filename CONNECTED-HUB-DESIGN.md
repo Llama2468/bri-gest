@@ -108,6 +108,46 @@ polished, live, daily-use product, and this work must not put that at risk.
   Cloudflare's own secrets store / GitHub Actions secrets, never in `wrangler.toml` committed
   to the repo, never in frontend code.
 
+### 4.1 Development/production environment hygiene — added 2026-07-26
+
+**Explicit requirement, stated ahead of any code existing:** this project now has a live,
+polished, daily-use product behind it, and that raises the bar for how casually a "dev"
+version of the connected-hub backend is allowed to touch anything real. Branch isolation
+(above) protects the *static frontend*. It does **not** by itself protect the *backend* —
+Cloudflare Workers and D1 are a different failure surface, and "it's on a branch" doesn't
+mean anything once a Worker is actually deployed and reachable. Environment separation there
+has to be deliberate, not assumed.
+
+Non-negotiable, regardless of how D8 (below) resolves the specifics:
+
+- **Separate Cloudflare environments from the first deploy, not retrofitted later.**
+  `wrangler.toml` `[env.staging]` / `[env.production]` (or a three-tier dev/staging/prod split
+  if that turns out to be warranted) — decided under D8, but *some* separation exists before
+  the Worker is ever deployed, not added after something goes wrong.
+- **Separate D1 databases per environment.** Development and staging code must never bind to
+  the production database. This is the same principle as never testing a migration against a
+  production table directly — just enforced at the infrastructure level instead of by
+  discipline alone.
+- **Separate ORCID registrations per environment.** The sandbox registry for development and
+  staging, the production registry only for what's actually live. Never share a client
+  id/secret pair across environments — if the sandbox credential leaks, nothing real is
+  exposed; that's the point of the separation.
+- **A visible environment indicator in any non-production frontend surface** (e.g. a small
+  "STAGING" badge), so testing against staging is never mistaken for testing against
+  production, or vice versa, by whoever's looking at the screen in the moment.
+- **A named promotion step, not an implicit one.** Something must observably happen — a
+  deploy command, a tag, a checklist — when a change moves from staging to production. It
+  should never be possible to say "I think that's live" without being able to point at the
+  step that made it so.
+- **The connected-hub component gets its own version identifier**, tracked the same
+  transparent way `endo-v5.9`/`gm-v1.1` are — e.g. `hub-connected-v0.1` once something is
+  actually deployed — so its rollout history is as visible as the two existing tools', not a
+  separate, less-tracked class of change.
+
+This section exists because the user asked for it explicitly, as a standing priority for all
+infrastructure work going forward, not just this project — treat it as durable guidance, not
+a one-off checklist item to satisfy once and move past.
+
 ## 5. Build order — not negotiable
 
 **Identity → emission → accumulate real content → *then* the output-templating layer.**
@@ -121,13 +161,14 @@ polished, live, daily-use product, and this work must not put that at risk.
    architecturally specified in principle but deliberately not designed in detail yet, because
    designing it against an empty graph would just be guessing.
 
-## 6. Open architectural decisions (D1–D7)
+## 6. Open architectural decisions (D1–D8)
 
-`BACKLOG.md` names these as "seven remain unresolved" but never enumerated them — confirmed by
+`BACKLOG.md` names seven ("D1–D7") as unresolved but never enumerated them — confirmed by
 searching the full working tree, every branch, and git history: no prior enumeration exists
-anywhere. The seven below are a **proposed** first draft, reconstructed from the architecture
+anywhere. D1–D7 below are a **proposed** first draft, reconstructed from the architecture
 above, for the user to confirm, edit, or replace at the start of the next session — not a
-recovered spec.
+recovered spec. D8 is new, added 2026-07-26 alongside §4.1 above and is not part of that
+original "seven" count.
 
 - **D1 — OAuth flow shape.** Public client (PKCE, no secret, token exchange still ideally
   proxied through the Worker to avoid CORS/exposure issues) vs. confidential client (secret
@@ -156,6 +197,13 @@ recovered spec.
 - **D7 — D1 schema evolution and backup.** Cloudflare D1 is still a relatively young product.
   What's the migration strategy for schema changes, and the backup/export strategy so the
   curation graph isn't a single point of failure tied to one Cloudflare account?
+- **D8 — Dev/staging/production topology, specifics.** §4.1's requirements are non-negotiable
+  in principle; D8 is the concrete shape: two-tier (staging + production) or three-tier
+  (dev + staging + production)? One shared Cloudflare account with named environments, or
+  fully separate accounts for stronger isolation? Where does the promotion step actually live —
+  a manual `wrangler deploy --env production`, a tagged release, a GitHub Actions workflow
+  gated on a branch or manual approval? Decide this concretely before the first Worker deploy,
+  not after.
 
 ## 7. Definition of done for the first session on this branch
 
@@ -163,13 +211,22 @@ Not "build the whole hub" — per the session rules in `BACKLOG.md`, name the fi
 starting. Suggested Phase 1 scope for the first `brigest-connected` session:
 
 1. `brigest-connected` branch created from current `main`.
-2. D1–D7 above reviewed and confirmed/amended with the user *before* any code is written
+2. D1–D8 above reviewed and confirmed/amended with the user *before* any code is written
    (matches the existing "review query and strategy changes before code is written" rule —
-   this applies equally to architectural decisions).
-3. Cloudflare Worker scaffolded in `/hub-api/`, deployed, reachable, doing nothing yet but
-   proving the pipeline works end-to-end and is isolated from the Pages deploy.
-4. D1 database created with a first-pass schema for judgment-events (per D2, once decided).
-5. ORCID OAuth working end-to-end against the sandbox registry (per D1, once decided):
+   this applies equally to architectural decisions). D8 specifically must be settled before
+   step 3 — the environment topology has to exist before the first deploy, not be retrofitted
+   onto a single Worker that was only ever pointed at one place.
+3. Cloudflare Worker scaffolded in `/hub-api/`, deployed **to a non-production environment
+   per D8's decision**, reachable, doing nothing yet but proving the pipeline works
+   end-to-end and is isolated from both the Pages deploy and from production.
+4. D1 database created with a first-pass schema for judgment-events (per D2, once decided) —
+   in the non-production environment. No production database exists yet at this stage, and
+   that's fine; it's created deliberately later, not implicitly by pointing the same config
+   somewhere else.
+5. ORCID OAuth working end-to-end against the **sandbox** registry (per D1, once decided):
    log in, get a token, confirm identity server-side.
 6. Stop there. Emitting the first real judgment-event is deliberately Phase 2, not Phase 1 —
    don't let one session's scope creep into "build order" item 2 above before item 1 is solid.
+   Standing up the production environment and doing the first real promotion is later still —
+   do not deploy to production during a session whose actual scope is "prove the pipeline
+   works."
