@@ -1200,9 +1200,9 @@ function articleHTML(a,tc){
     <button class="act-btn" id="cite-${sp}" data-action="cite" data-pmid="${sp}">Cite \u29c9</button>
     <button class="act-btn ${saved?'saved':'save'}" id="bm-${sp}" data-action="bookmark" data-pmid="${sp}">${saved?'\u2605 Saved':'\u2606 Save'}</button>
   </div>`;
-  if(corr&&!open){
+  if(corr){
     return`
-<article class="article correspondence${read?' read':''}" id="art-${sp}" style="--tc:${tc}">
+<article class="article correspondence${open?' open':''}${read&&!open?' read':''}" id="art-${sp}" style="--tc:${tc}">
   <div class="corr-summary" data-action="toggle" data-pmid="${sp}">
     <span class="corr-badge">Letter</span>
     <span class="corr-sum-title">${st}</span>
@@ -1211,14 +1211,13 @@ function articleHTML(a,tc){
     <div class="meta"><span class="journal">${sj}</span>${ifBadge(ifV,a.journal)}<span class="pub-date">${sd}</span><span class="pmid-label">PMID ${sp}</span></div>
     <h3 class="art-title" data-action="toggle" data-pmid="${sp}">${st}</h3>
     <p class="authors">${sa}</p>
-    <div class="abstract-body" id="ab-${sp}">${abHTML}</div>
+    <div class="abstract-body${open?' open':''}" id="ab-${sp}">${abHTML}</div>
     ${actionsHTML}
   </div>
 </article>`;
   }
   return`
-<article class="article${read&&!open?' read':''}${open?' open':''}${corr?' correspondence open':''}" id="art-${sp}" style="--tc:${tc}">
-  ${corr?'':'<div class="corr-summary" style="display:none"></div><div class="corr-full">'}
+<article class="article${read&&!open?' read':''}${open?' open':''}" id="art-${sp}" style="--tc:${tc}">
   ${studyTagHTML(a.pubTypes)}
   <div class="meta">
     <span class="journal">${sj}</span>${ifBadge(ifV,a.journal)}
@@ -1228,7 +1227,6 @@ function articleHTML(a,tc){
   <p class="authors">${sa}</p>
   <div class="abstract-body${open?' open':''}" id="ab-${sp}">${abHTML}</div>
   ${actionsHTML}
-  ${corr?'':'</div>'}
 </article>`;
 }
 
