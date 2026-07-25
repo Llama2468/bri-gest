@@ -27,9 +27,15 @@ General Medicine is present and working but currently **unlinked from the hub** 
 index.html          Hub. Links to each tool and to the reference documents.
 endo/index.html     Endocrine Bri-gest.
 gm/index.html       General Medicine Bri-gest.
-docs/               Built reference documents (.docx).
-scripts/            Generators for docs/. The generator is the source of truth.
-archive/            Superseded versions, kept for provenance.
+fonts/              Self-hosted Newsreader + IBM Plex Mono (latin/latin-ext subsets).
+docs/               Reference documents. The .html pages are current (v5.9); the
+                     .docx files are historical, superseded, and no longer linked.
+scripts/            Generators for docs/. Currently just
+                     generate-endo-query-reference.js -- re-run it any time
+                     endo's TOPICS array changes, never hand-edit its output.
+                     There is no generator for the design-spec doc; it's
+                     hand-maintained and can go stale if not updated alongside
+                     architecture changes.
 ```
 
 ---

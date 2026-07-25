@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endocrine Bri-gest &mdash; Design Rationale &amp; Specification</title>
+<style>
+:root{--ff-serif:'Newsreader',Georgia,serif;--ff-mono:'IBM Plex Mono',ui-monospace,monospace;--ff-sans:system-ui,-apple-system,'Segoe UI',sans-serif}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/ibm-plex-mono-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/ibm-plex-mono-500-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/newsreader-normal-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+*,*::before,*::after{box-sizing:border-box}
+[data-theme="light"]{--bg:#dde3ec;--bg2:#e3e8f0;--bg3:#d3dae5;--text:#2b3f52;--text2:#526278;--muted:#6b7a8d;--border:#c7d0de;--border2:#b8c4d6;--accent:#1d6bb8;--heading:#1c2b3a}
+[data-theme="dark"]{--bg:#0b1420;--bg2:#101c2c;--bg3:#16253a;--text:#b9c6d6;--text2:#8b9db2;--muted:#6b7f97;--border:#1c2b3f;--border2:#223349;--accent:#5b9cf6;--heading:#dbe6f0}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1420;--bg2:#101c2c;--bg3:#16253a;--text:#b9c6d6;--text2:#8b9db2;--muted:#6b7f97;--border:#1c2b3f;--border2:#223349;--accent:#5b9cf6;--heading:#dbe6f0}}
+body{margin:0;font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-height:1.65;font-size:15px}
+.wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
+a{color:var(--accent)}
+.back-link{font-family:var(--ff-mono);font-size:11px;color:var(--muted);text-decoration:none;border:1px solid var(--border2);border-radius:5px;padding:6px 12px;display:inline-block;margin-bottom:20px}
+h1{font-family:var(--ff-serif);font-weight:500;font-size:clamp(26px,4vw,34px);color:var(--heading);margin:0 0 6px;line-height:1.2}
+.dek{color:var(--text2);font-size:14px;max-width:65ch;margin-bottom:20px}
+.meta-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:32px}
+.meta-table td{padding:6px 10px;border-bottom:1px solid var(--border)}
+.meta-table td:first-child{font-family:var(--ff-mono);color:var(--muted);width:35%}
+h2{font-family:var(--ff-serif);font-weight:500;font-size:21px;color:var(--heading);margin:40px 0 12px;padding-top:16px;border-top:1px solid var(--border)}
+h3{font-family:var(--ff-serif);font-weight:500;font-size:16px;color:var(--heading);margin:24px 0 8px}
+p{margin:0 0 12px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+table.data{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0 20px}
+table.data th{text-align:left;font-family:var(--ff-mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:6px 10px;border-bottom:1px solid var(--border2)}
+table.data td{padding:7px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.note-box{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:6px;padding:14px 16px;font-size:13.5px;color:var(--text2);margin:16px 0}
+.note-box.warn{border-left-color:#c9962e}
+code{font-family:var(--ff-mono);font-size:.88em;background:var(--bg3);padding:1px 5px;border-radius:3px}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);font-family:var(--ff-mono);font-size:10.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back-link" href="../">&larr; Hub</a>
+<h1>Design Rationale &amp; Specification</h1>
+<p class="dek">Endocrine Bri-gest &mdash; a browser-based, zero-cost literature surveillance tool for RACP Advanced Training in Endocrinology &amp; Metabolism.</p>
+
+<table class="meta-table">
+<tr><td>Version</td><td>v5.9 (July 2026)</td></tr>
+<tr><td>Document type</td><td>Specification &amp; design record</td></tr>
+<tr><td>Domain</td><td>RACP Endocrinology &amp; Metabolism CPD</td></tr>
+<tr><td>Technology</td><td>Standalone HTML5, self-hosted webfonts, no server required</td></tr>
+<tr><td>Data source</td><td>PubMed / NCBI E-utilities (open access)</td></tr>
+<tr><td>IF database</td><td>500+ journals, 2024 JCR approximate</td></tr>
+<tr><td>Status</td><td>Production &mdash; active iteration</td></tr>
+</table>
+
+<div class="note-box warn"><strong>This document supersedes v5.4/v5.7, which had drifted significantly from the shipped app</strong> &mdash; wrong product name ("Endo Digest"), the old four-theme system, a false "no external fonts" claim, and an "ES5-compatible" description that no longer matched the code. This revision corrects those against the actual v5.9 source, current as of 2026-07-26. See <a href="endo-search-strategy-reference.html">the search-strategy reference</a> for the query strategies themselves &mdash; that document is now machine-generated directly from the live code and cannot drift the way this one can.</div>
+
+<h2>1. Executive summary</h2>
+<p>Endocrine Bri-gest is a browser-based, zero-cost, weekly literature digest for clinicians undertaking or maintaining competency in endocrinology and diabetes. It addresses a specific practical problem: the endocrine literature is large, rapidly evolving, and distributed across dozens of journals and subspecialties, and no free tool provides structured, CPD-aligned, weekly surveillance of it at the domain and subdomain level.</p>
+<p>The application runs as a single HTML file opened directly in a browser. It queries PubMed's open-access E-utilities API in real time, returning verbatim abstracts from indexed articles. There is no server infrastructure, no subscription, no AI-generated content, and no hallucination risk. Search strategies are derived from published guideline search methodologies, and every article links directly to its PubMed record and, where available, the journal full text via DOI.</p>
+<p><strong>Key design principle:</strong> this tool is a literature surveillance aid, not a clinical decision support system. All content is sourced verbatim from PubMed. No AI summarisation or interpretation is applied at any point. The clinician reads primary abstracts and makes their own judgement about relevance and quality.</p>
+
+<h3>Lay-level description</h3>
+<p>Think of Endocrine Bri-gest as a structured, personalised journal table of contents that arrives whenever you open it, organised by the topics that matter to your practice. Instead of manually searching PubMed or relying on journal alerts across a dozen sources, it pulls together the most recent literature across ten RACP-aligned clinical domains &mdash; from Diabetes and Thyroid to Neuroendocrine Tumours and Endocrine Oncology &mdash; and presents it in a clean, readable interface. Each article shows the journal name, study-type badge, impact factor, and publication date at a glance. Clicking an article reveals the full abstract. Articles can be saved for later or marked as read. Filters narrow to specific study types or high-impact journals. The whole thing opens like a document; there is no login, no app store, and no ongoing cost.</p>
+
+<h3>Technical-level description</h3>
+<p>Endocrine Bri-gest is a self-contained HTML5 single-page application. The data layer is entirely client-side: the application constructs PubMed Entrez E-utilities queries (esearch + efetch, both CORS-permissive) from pre-defined, RACP-curriculum-aligned MeSH and tiab search strategies, fetches XML responses, parses them via the browser's native <code>DOMParser</code>, and renders the result. State (bookmarks, read status, theme preference, text-size step, subdomain selection) persists in <code>localStorage</code> where available. A six-hour in-memory cache prevents redundant fetches within a session. There is no build step and no dependency on npm or any framework at runtime.</p>
+
+<h2>2. Clinical purpose &amp; rationale</h2>
+<h3>The problem</h3>
+<p>Endocrinology and diabetes is a broad specialty with high-velocity literature across multiple subspecialties. A Fellow or Consultant maintaining RACP Advanced Training competency must monitor developments in at least ten distinct clinical domains simultaneously. The practical barriers:</p>
+<ul>
+<li><strong>Journal alert proliferation</strong> &mdash; emails from a dozen journals create inbox noise without clinical structure.</li>
+<li><strong>Domain fragmentation</strong> &mdash; a study on SGLT2 inhibitors, a case series on ICI-induced hypophysitis, and a trial of romosozumab all require different alert strategies.</li>
+<li><strong>Study-type signal/noise</strong> &mdash; PubMed returns case reports, letters, and editorials alongside high-impact trials without automatic prioritisation.</li>
+<li><strong>Time constraint</strong> &mdash; the practical window for literature review in a busy clinical week is short; tools must be fast and friction-free.</li>
+</ul>
+<h3>The solution</h3>
+<p>Endocrine Bri-gest is structured around RACP curriculum domains rather than journals, with pre-built search queries derived from published guideline search strategies. Study-type filters allow rapid signal prioritisation. The impact-factor display and filter allow quality stratification without requiring the user to know journal rankings. The workflow requires opening one file and clicking a tab.</p>
+<p><strong>CPD relevance:</strong> RACP Maintenance of Professional Standards (MOPS) requires documented engagement with the medical literature as part of continuing professional development. The saved-article and read-tracking features provide a record of literature reviewed that can support CPD documentation.</p>
+
+<h2>3. RACP curriculum alignment</h2>
+<p>The ten topic domains map directly to the capability domains of the RACP Advanced Training Curriculum in Endocrinology and Metabolism. Each is divided into clinical subdomains with an independently queryable PubMed search strategy &mdash; see the <a href="endo-search-strategy-reference.html">search strategy reference</a> for the full query text.</p>
+<table class="data">
+<tr><th>Domain</th><th>Search strategy source</th></tr>
+<tr><td>Diabetes Mellitus</td><td>Cochrane; ADA; NICE NG28; ISPAD</td></tr>
+<tr><td>Obesity &amp; Metabolic Syndrome</td><td>Cochrane; NICE TA; WHO; Rinella 2023</td></tr>
+<tr><td>Thyroid Disorders</td><td>ATA 2015/2016/2022; EUGOGO; ETA 2014</td></tr>
+<tr><td>Adrenal Disorders</td><td>Endocrine Society CPG series (2014-2018)</td></tr>
+<tr><td>Pituitary &amp; Hypothalamic</td><td>Endocrine Society; ESE; EJE 2022</td></tr>
+<tr><td>Bone &amp; Mineral Metabolism</td><td>IOF/ESCEO; NOGG; ASBMR 2022; KDIGO</td></tr>
+<tr><td>Reproductive Endocrinology</td><td>Teede 2023; Endocrine Society 2018; ESHRE 2024</td></tr>
+<tr><td>Lipids &amp; Cardiovascular Risk</td><td>ESC/EAS LIPID4; NICE CG181; EAS FH Panel</td></tr>
+<tr><td>Neuroendocrine Tumours</td><td>ENETS Consensus; NANETS; Cochrane NET</td></tr>
+<tr><td>Endocrine Oncology</td><td>Custom (ENSAT; Barroso-Sousa 2018)</td></tr>
+</table>
+
+<h2>4. Application architecture</h2>
+<h3>Design philosophy</h3>
+<p>Three constraints shape every technical decision:</p>
+<ul>
+<li><strong>Zero infrastructure</strong> &mdash; no server, no database, no authentication service, no build pipeline. The file must be openable by any clinician on any computer with a browser.</li>
+<li><strong>Zero hallucination</strong> &mdash; all article content is verbatim from PubMed. No AI summarisation, paraphrasing, or interpretation at any stage. Non-negotiable for a CPD tool.</li>
+<li><strong>Zero cost at scale</strong> &mdash; NCBI E-utilities is a free public API with permissive CORS headers.</li>
+</ul>
+
+<h3>File structure</h3>
+<p>The application is a single HTML file. There are no runtime dependencies beyond the PubMed E-utilities API and two self-hosted webfont families (Newsreader, IBM Plex Mono &mdash; served from <code>/fonts/</code>, not a font CDN).</p>
+<p><strong>CSS:</strong> embedded in a <code>&lt;style&gt;</code> tag. Two themes (light, dark) implemented via CSS custom properties, shared across the hub, this tool, and General Medicine Bri-gest. Theme switching requires only a <code>data-theme</code> attribute change on <code>&lt;html&gt;</code>. A <code>--tsize</code> multiplier drives a three-step text-size control.</p>
+<p><strong>JavaScript:</strong> embedded in a <code>&lt;script&gt;</code> tag. No framework, no transpilation, no bundler. Modern syntax throughout &mdash; <code>const</code>/<code>let</code>, arrow functions, template literals, <code>async</code>/<code>await</code> &mdash; with one deliberate exception: no optional chaining (<code>?.</code>) or nullish coalescing (<code>??</code>) operators anywhere, since both cause a full <code>SyntaxError</code> that silently kills the entire script on iOS Safari below 13.4. This is a narrower, more accurate constraint than "ES5-compatible" &mdash; the codebase is modern ES6+ minus those two specific operators.</p>
+<p><strong>Data:</strong> <code>TOPICS</code> array (10 objects, 53 subdomains total), <code>JOURNAL_GROUPS</code> array, <code>IF_MAP</code> object (500+ entries). All embedded in the script.</p>
+
+<h3>Data flow</h3>
+<table class="data">
+<tr><th>Step</th><th>Action</th><th>Notes</th></tr>
+<tr><td>1</td><td>Topic/subdomain selected</td><td>Triggers <code>loadTopic()</code></td></tr>
+<tr><td>2</td><td>Cache check</td><td><code>cKey()</code> includes topic, subdomain, date range, study filter, journal filter. TTL 6 hours.</td></tr>
+<tr><td>3</td><td>esearch query</td><td>Returns PMIDs, count, NCBI query translation. <code>retmax=50</code>.</td></tr>
+<tr><td>4</td><td>efetch articles</td><td>Returns PubMed XML for all PMIDs in a single request.</td></tr>
+<tr><td>5</td><td>XML parse</td><td><code>DOMParser</code> extracts PMID, title, journal, authors, date, abstract, pubTypes, DOI.</td></tr>
+<tr><td>6</td><td>Sanitisation</td><td><code>clean()</code>/<code>safeJSON()</code> strip control characters illegal in JSON.</td></tr>
+<tr><td>7</td><td>Cache store</td><td>Also stores audit metadata: count, NCBI translation, active subdomain.</td></tr>
+<tr><td>8</td><td>IF lookup</td><td><code>getIF()</code> against <code>IF_MAP</code>. Falls back to partial match.</td></tr>
+<tr><td>9</td><td>Render</td><td><code>articleHTML()</code> to <code>innerHTML</code>. All PubMed strings HTML-escaped via <code>esc()</code>. Event delegation via <code>data-action</code>.</td></tr>
+<tr><td>10</td><td>Persistence</td><td><code>localStorage</code> via <code>localStore()</code>. Availability checked on init.</td></tr>
+</table>
+
+<h2>5. Feature catalogue</h2>
+<h3>Topic lanes &amp; subdomain pills</h3>
+<p>One tab per RACP domain, with a vertical divider separating core domains from extended ones. Clicking a tab loads the broad domain query; a row of scrollable pills beneath the topic title selects individual subdomains, each independently cached.</p>
+<h3>Filters</h3>
+<table class="data">
+<tr><th>Filter</th><th>Function</th></tr>
+<tr><td>Date range</td><td>Past 7/14/30 days. <code>reldate</code> parameter. Clears cache on change.</td></tr>
+<tr><td>Study type</td><td>All / RCT / Systematic review / Meta-analysis / Guideline / Review. <code>[pt]</code> filter appended to query.</td></tr>
+<tr><td>Impact factor</td><td>Any / &ge;5 / &ge;10 / &ge;20 / &ge;40. Post-fetch client-side filter, no re-fetch required.</td></tr>
+<tr><td>Journal filter</td><td>Multi-select from curated journal groups. Activates Journal View. Persisted to <code>localStorage</code>.</td></tr>
+</table>
+<h3>Article cards</h3>
+<p>Each card shows journal name (coloured by domain, theme-aware &mdash; each domain accent has a separate light/dark hex tuned for contrast, not one fixed colour reused regardless of theme), IF badge, study-type badge, publication date, and PMID. Correspondence items (Letter, Comment, Editorial, Erratum) are identified from PubMed's <code>PublicationType</code> field &mdash; never hand-set or inferred &mdash; and de-emphasised.</p>
+<h3>Saved articles &amp; read tracking</h3>
+<p>Articles bookmark across sessions via <code>localStorage</code>. Unread counts badge each topic tab. A warning banner displays if storage is unavailable (Private Mode or restricted context).</p>
+<h3>Search strategy audit panel</h3>
+<p>Shows every topic lane's shown/total result count, a "Verify on PubMed" link, the raw query string sent to NCBI, and the NCBI query translation.</p>
+<h3>Themes &amp; text size</h3>
+<p>Two visual themes (light, dark), shared token-for-token with the hub and General Medicine Bri-gest. A three-step text-size control (<code>Aa</code> button) scales article typography via <code>--tsize</code>. Both persist to <code>localStorage</code> with legacy-value migration for anyone still on the old four-theme system (<code>midnight</code>/<code>clinical</code>/<code>slate</code>/<code>amber</code> &rarr; <code>dark</code>/<code>light</code>).</p>
+
+<h2>6. Search strategy framework</h2>
+<p>Each domain has two query tiers: a broad domain-level query (union of all subdomain heads) and individual subdomain queries. Where a published search strategy exists from a major guideline or systematic review, that strategy is adopted as the base and extended with tiab terms for recently coined terminology not yet indexed in MeSH.</p>
+<p>MeSH terms anchor the established literature; tiab terms capture new terminology before MeSH indexing occurs &mdash; essential for MASLD/MAFLD nomenclature changes, newly approved drugs, and terminology consensus changes (e.g. AVP deficiency replacing "CDI"). See the <a href="endo-search-strategy-reference.html">search strategy reference</a> for the full query text and the Boolean-precedence framework governing how they're constructed.</p>
+
+<h2>7. Security implementation</h2>
+<table class="data">
+<tr><th>Control</th><th>What it prevents</th></tr>
+<tr><td><code>esc()</code> HTML escaping</td><td>XSS via malicious PubMed metadata &mdash; applied to all PubMed-sourced strings before <code>innerHTML</code> insertion.</td></tr>
+<tr><td><code>clean()</code> control-character sanitisation</td><td><code>localStorage</code> corruption / JSON parse failure.</td></tr>
+<tr><td><code>safeJSON()</code></td><td>Application crash from malformed API response &mdash; returns null rather than throwing.</td></tr>
+<tr><td>Event delegation (<code>data-action</code>)</td><td>Inline-<code>onclick</code> injection via dynamic content. No inline handlers on article cards; one delegated listener.</td></tr>
+<tr><td>DOI validation</td><td><code>href</code> injection via malformed DOI &mdash; regex-validated before rendering as a link.</td></tr>
+<tr><td><code>STORAGE_OK</code> probe</td><td>Silent data loss in Private Mode &mdash; warning banner if unavailable.</td></tr>
+</table>
+
+<h2>8. Version history</h2>
+<table class="data">
+<tr><th>Version</th><th>Changes</th></tr>
+<tr><td>v1&ndash;v4</td><td>Initial concept through clean rebuild: standalone HTML + direct E-utilities fetch, journal filter panel, IF lookup, security hardening (<code>esc()</code>, <code>safeJSON()</code>, <code>clean()</code>, event delegation).</td></tr>
+<tr><td>v5&ndash;v5.3</td><td>10 RACP curriculum domains, subdomain pills with independent query cache, Journal View virtual tab, IF lookup expanded toward its current size, version badge.</td></tr>
+<tr><td>v5.4</td><td>IF table rebuild (~475 entries), iOS Safari &lt;13.4 crash fix (removed optional chaining), mobile panel width fix, <code>STORAGE_OK</code> probe, iOS viewport zoom fix.</td></tr>
+<tr><td>v5.6</td><td>Boolean-precedence defect fixed across the majority of subdomain queries &mdash; see the search strategy reference for detail. No terms added or removed, only grouping.</td></tr>
+<tr><td>v5.7&ndash;v5.8</td><td>Editorial visual redesign begins: warm cream/serif palette, design tokens, three-row header, self-hosted Newsreader + IBM Plex Mono (Google Fonts CDN at this point, not yet self-hosted), text-scale foundation, reading-progress rings, correspondence de-emphasis, Cite button, bottom sheets.</td></tr>
+<tr><td>v5.9</td><td>Full recolour from the warm palette to a shared cool-blue system across hub, this tool, and General Medicine Bri-gest &mdash; colorblind-validated categorical palette for domain accents (theme-aware, separate light/dark hex per colour), CI syntax gate, CC BY 4.0 licensing, self-hosted webfonts (CDN dependency removed entirely), Web Share export fallback for iOS, dark-mode contrast fixes, light-mode type-scale increase, and a header restructure to fix mobile overflow.</td></tr>
+</table>
+
+<h2>9. Current status against the previous roadmap</h2>
+<p>The v5.4 document's roadmap is reconciled here against what has actually shipped, rather than left to silently go stale again:</p>
+<ul>
+<li><strong>Theme consolidation (one dark, one light)</strong> &mdash; done, v5.9, though executed as a full palette replacement rather than picking one of the original four.</li>
+<li><strong>Dark-mode contrast review</strong> &mdash; done for the specific save/star-button defect found in production (was ~1.2:1 contrast, now 6.18:1). A systematic WCAG AA audit across every element has not been run.</li>
+<li><strong>Web Share export fallback</strong> &mdash; done, v5.9. Routes through <code>navigator.share</code> on iOS Safari when file-sharing is supported; unchanged elsewhere.</li>
+<li><strong>Save files / IndexedDB</strong> &mdash; not done. Still <code>localStorage</code>-based; IndexedDB remains under consideration with no defined migration plan.</li>
+<li><strong>Build-time validation</strong> &mdash; partially done. The <code>preflight-v5.4.py</code> static checker this document previously described (optional-chaining detection, font-CDN detection, etc.) does not exist anywhere in this repository's history &mdash; confirmed by search, 2026-07-26. What exists instead is narrower: <code>.github/workflows/syntax-check.yml</code>, a CI gate that runs <code>node --check</code> against each tool's extracted script on every push. It catches JS syntax errors (the class of defect that shipped in v5.8) but not the broader iOS-compatibility pattern class the old checker described. That gap is real and unaddressed.</li>
+<li><strong>NCBI API key, abstract annotation, custom query lanes, SJR integration, email delivery</strong> &mdash; not done, not currently planned.</li>
+</ul>
+
+<footer>
+Endocrine Bri-gest v5.9 &mdash; RACP Advanced Training in Endocrinology &amp; Metabolism. Hand-maintained; unlike the search-strategy reference, this document has no generator and can drift again if not updated alongside future architecture changes.
+</footer>
+</div>
+</body>
+</html>

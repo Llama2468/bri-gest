@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endocrine Bri-gest &mdash; Search Strategy Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+:root{--ff-serif:'Newsreader',Georgia,serif;--ff-mono:'IBM Plex Mono',ui-monospace,monospace;--ff-sans:system-ui,-apple-system,'Segoe UI',sans-serif}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url('../fonts/ibm-plex-mono-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url('../fonts/ibm-plex-mono-500-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:300 700;font-display:swap;src:url('../fonts/newsreader-normal-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+*,*::before,*::after{box-sizing:border-box}
+[data-theme="light"]{--bg:#dde3ec;--bg2:#e3e8f0;--bg3:#d3dae5;--text:#2b3f52;--text2:#526278;--muted:#6b7a8d;--border:#c7d0de;--border2:#b8c4d6;--accent:#1d6bb8;--heading:#1c2b3a}
+[data-theme="dark"]{--bg:#0b1420;--bg2:#101c2c;--bg3:#16253a;--text:#b9c6d6;--text2:#8b9db2;--muted:#6b7f97;--border:#1c2b3f;--border2:#223349;--accent:#5b9cf6;--heading:#dbe6f0}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1420;--bg2:#101c2c;--bg3:#16253a;--text:#b9c6d6;--text2:#8b9db2;--muted:#6b7f97;--border:#1c2b3f;--border2:#223349;--accent:#5b9cf6;--heading:#dbe6f0}}
+body{margin:0;font-family:var(--ff-sans);background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+.wrap{max-width:880px;margin:0 auto;padding:32px 20px 80px}
+a{color:var(--accent)}
+.back-link{font-family:var(--ff-mono);font-size:11px;color:var(--muted);text-decoration:none;border:1px solid var(--border2);border-radius:5px;padding:6px 12px;display:inline-block;margin-bottom:20px}
+h1{font-family:var(--ff-serif);font-weight:500;font-size:clamp(26px,4vw,34px);color:var(--heading);margin:0 0 6px;line-height:1.2}
+.dek{color:var(--text2);font-size:14px;max-width:70ch;margin-bottom:8px}
+.meta-strip{font-family:var(--ff-mono);font-size:11px;color:var(--muted);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:10px 0;margin:20px 0 32px;display:flex;flex-wrap:wrap;gap:16px}
+h2{font-family:var(--ff-serif);font-weight:500;font-size:19px;color:var(--heading);margin:0 0 4px;padding-top:8px}
+h3{font-family:var(--ff-serif);font-weight:500;font-size:16px;color:var(--heading);margin:32px 0 8px}
+.domain-meta{font-family:var(--ff-mono);font-size:10.5px;color:var(--muted);font-weight:400;letter-spacing:.02em}
+.domain{border-top:1px solid var(--border);padding:20px 0}
+.q-source{font-family:var(--ff-mono);font-size:11px;color:var(--muted);margin-bottom:12px}
+.q-row{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:10px 13px;margin-bottom:8px}
+.q-row-broad{border-left:3px solid var(--accent)}
+.q-label{font-family:var(--ff-mono);font-size:11px;color:var(--accent);margin-bottom:5px;font-weight:500}
+.q-string{font-family:var(--ff-mono);font-size:11.5px;color:var(--text2);line-height:1.7;word-break:break-word}
+.note-box{background:var(--bg2);border:1px solid var(--border);border-left:2px solid var(--accent);border-radius:6px;padding:14px 16px;font-size:13.5px;color:var(--text2);margin:16px 0}
+.enh-row{border-top:1px solid var(--border);padding:12px 0}
+.enh-label{font-family:var(--ff-serif);font-weight:500;font-size:14.5px;color:var(--heading);margin-bottom:4px}
+.enh-body{font-size:13.5px;color:var(--text2)}
+code{font-family:var(--ff-mono);font-size:.92em;background:var(--bg3);padding:1px 5px;border-radius:3px}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--border);font-family:var(--ff-mono);font-size:10.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back-link" href="../">&larr; Hub</a>
+<h1>Search Strategy Reference</h1>
+<p class="dek">Every PubMed query Endocrine Bri-gest sends, generated directly from the live <code>TOPICS</code> array in <code>endo/index.html</code> &mdash; not hand-transcribed, so it cannot drift from what the app actually runs.</p>
+<div class="meta-strip">
+<span>10 domains</span>
+<span>53 subdomains</span>
+<span>Generated 2026-07-25</span>
+<span>Source: endo/index.html TOPICS array</span>
+</div>
+
+<div class="note-box"><strong>Boolean precedence.</strong> PubMed evaluates Boolean operators strictly left to right, with no operator
+precedence: AND does not bind more tightly than OR. Parentheses are the only way to group.
+Consequently a query of the form <code>A OR B AND C</code> is parsed as <code>(A OR B) AND C</code>,
+not <code>A OR (B AND C)</code>. This was the root cause of a defect fixed in v5.6 that affected
+the majority of subdomain queries at the time -- every OR-union that precedes an AND must be
+explicitly parenthesised. Filter-append on an already-parenthesised query is safe, since
+left-to-right accumulation makes it inherently so.</div>
+
+<h3>Domain queries</h3>
+
+    <section class="domain" id="dm">
+      <h2>Diabetes Mellitus <span class="domain-meta">8 subdomains &middot; core</span></h2>
+      <div class="q-source">Search strategy source: Cochrane; ADA; NICE NG28; ISPAD</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("diabetes mellitus"[MH] OR "diabetic ketoacidosis"[MH] OR "hypoglycemia"[MH] OR "prediabetic state"[MH] OR "insulin resistance"[MH])</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Type 1 Diabetes</div>
+        <div class="q-string">("diabetes mellitus, type 1"[MH] OR "type 1 diabetes"[tiab] OR "T1D"[tiab] OR "T1DM"[tiab] OR "autoimmune diabetes"[tiab] OR "LADA"[tiab] OR "latent autoimmune diabetes in adults"[tiab]) NOT ("type 2 diabetes"[tiab] OR "gestational diabetes"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Type 2 Diabetes</div>
+        <div class="q-string">("diabetes mellitus, type 2"[MH] OR "type 2 diabetes"[tiab] OR "T2DM"[tiab]) AND ("hypoglycemic agents"[MH] OR "metformin"[tiab] OR "SGLT2 inhibitor"[tiab] OR "DPP-4 inhibitor"[tiab] OR "glycaemic control"[tiab] OR "HbA1c"[tiab] OR ("GLP-1"[tiab] AND "type 2"[tiab])) NOT ("diabetes mellitus, type 1"[MH] OR "gestational diabetes"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; Diabetes in Pregnancy</div>
+        <div class="q-string">("diabetes, gestational"[MH] OR "gestational diabetes mellitus"[tiab] OR "GDM"[tiab] OR "gestational diabetes"[tiab] OR "hyperglycaemia in pregnancy"[tiab] OR "hyperglycemia in pregnancy"[tiab] OR ("diabetes mellitus"[MH] AND "pregnancy complications"[MH]) OR ("pre-existing diabetes"[tiab] AND "pregnancy"[MH]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; Youth &amp; Paediatric</div>
+        <div class="q-string">(("diabetes mellitus"[MH] OR "diabetes"[tiab]) AND ("child"[MH] OR "adolescent"[MH] OR "pediatrics"[MH] OR "paediatric"[tiab] OR "childhood"[tiab] OR "youth"[tiab])) OR "youth-onset diabetes"[tiab] OR "paediatric diabetes"[tiab] OR "young-onset type 2 diabetes"[tiab] OR "ISPAD"[tiab]</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">05 &middot; Glucose Technology</div>
+        <div class="q-string">("blood glucose self-monitoring"[MH] OR "continuous glucose monitor"[tiab] OR "CGM"[tiab] OR "flash glucose monitoring"[tiab] OR "FreeStyle Libre"[tiab] OR "automated insulin delivery"[tiab] OR "AID system"[tiab] OR "artificial pancreas"[tiab] OR "closed-loop"[tiab] OR "hybrid closed loop"[tiab] OR "insulin pump"[tiab] OR "CSII"[tiab] OR "time in range"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">06 &middot; Hypoglycaemia</div>
+        <div class="q-string">("hypoglycemia"[MH] OR "hypoglycaemia"[tiab] OR "severe hypoglycaemia"[tiab] OR "nocturnal hypoglycaemia"[tiab] OR "hypoglycaemia unawareness"[tiab] OR "impaired awareness of hypoglycaemia"[tiab] OR "glucagon rescue"[tiab] OR "dasiglucagon"[tiab]) AND ("diabetes"[tiab] OR "diabetes mellitus"[MH])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">07 &middot; Diabetic Complications</div>
+        <div class="q-string">("diabetic nephropathies"[MH] OR "diabetic neuropathies"[MH] OR "diabetic retinopathy"[MH] OR "diabetic foot"[MH] OR "diabetic nephropathy"[tiab] OR "diabetic neuropathy"[tiab] OR "diabetic retinopathy"[tiab] OR "diabetic kidney disease"[tiab] OR "DKD"[tiab] OR ("albuminuria"[tiab] AND "diabetes"[MH]) OR ("cardiovascular disease"[tiab] AND "diabetes mellitus"[MH]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">08 &middot; Inpatient &amp; Perioperative</div>
+        <div class="q-string">(("hyperglycemia"[MH] OR "hyperglycaemia"[tiab]) AND ("inpatients"[MH] OR "hospitalization"[MH] OR "perioperative"[tiab] OR "surgical"[tiab])) OR "inpatient hyperglycaemia"[tiab] OR "steroid-induced hyperglycaemia"[tiab] OR "enteral nutrition hyperglycaemia"[tiab] OR "insulin infusion protocol"[tiab]</div>
+      </div>
+    </section>
+
+    <section class="domain" id="ob">
+      <h2>Obesity &amp; Metabolic Syndrome <span class="domain-meta">5 subdomains &middot; core</span></h2>
+      <div class="q-source">Search strategy source: Cochrane; NICE TA; WHO; Rinella 2023</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("obesity"[MH] OR "overweight"[MH] OR "metabolic syndrome"[MH]) AND ("weight loss"[MH] OR "anti-obesity"[tiab] OR "weight management"[tiab] OR "obesity management"[tiab])</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Pharmacotherapy</div>
+        <div class="q-string">(semaglutide[tiab] OR tirzepatide[tiab] OR liraglutide[tiab] OR orforglipron[tiab] OR retatrutide[tiab] OR "GLP-1 receptor agonist"[tiab] OR "GIP receptor"[tiab] OR "dual agonist"[tiab] OR (naltrexone[tiab] AND bupropion[tiab]) OR (phentermine[tiab] AND topiramate[tiab]) OR "anti-obesity medication"[tiab]) AND ("obesity"[MH] OR "overweight"[MH] OR "weight reduction"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Bariatric Surgery</div>
+        <div class="q-string">("bariatric surgery"[MH] OR "gastric bypass"[MH] OR "bariatric surgery"[tiab] OR "sleeve gastrectomy"[tiab] OR "Roux-en-Y gastric bypass"[tiab] OR "RYGB"[tiab] OR "adjustable gastric band"[tiab] OR "metabolic surgery"[tiab] OR "revisional bariatric"[tiab] OR "biliopancreatic diversion"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; Metabolic Syndrome</div>
+        <div class="q-string">("metabolic syndrome"[MH] OR "metabolic syndrome"[tiab] OR "insulin resistance syndrome"[tiab] OR "cardiometabolic risk"[tiab] OR "visceral adiposity"[tiab] OR ("abdominal obesity"[tiab] AND "metabolic"[tiab])) NOT ("bariatric surgery"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; MASLD / Metabolic Liver</div>
+        <div class="q-string">("non-alcoholic fatty liver disease"[MH] OR "NAFLD"[tiab] OR "non-alcoholic steatohepatitis"[tiab] OR "NASH"[tiab] OR "MASLD"[tiab] OR "metabolic associated steatotic liver disease"[tiab] OR "MAFLD"[tiab] OR "metabolic associated fatty liver"[tiab] OR resmetirom[tiab] OR (semaglutide[tiab] AND "MASLD"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">05 &middot; Special Populations</div>
+        <div class="q-string">("obesity"[MH] AND ("pregnancy complications"[MH] OR "child"[MH] OR "adolescent"[MH])) OR "maternal obesity"[tiab] OR "obesity in pregnancy"[tiab] OR "childhood obesity"[tiab] OR "paediatric obesity"[tiab] OR "Prader-Willi"[tiab]</div>
+      </div>
+    </section>
+
+    <section class="domain" id="thy">
+      <h2>Thyroid Disorders <span class="domain-meta">7 subdomains &middot; core</span></h2>
+      <div class="q-source">Search strategy source: ATA 2015/2016/2022; EUGOGO; ETA 2014</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("thyroid diseases"[MH] OR "thyroid neoplasms"[MH] OR thyroiditis[MH])</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Hypothyroidism</div>
+        <div class="q-string">("hypothyroidism"[MH] OR "hypothyroidism"[tiab] OR "subclinical hypothyroidism"[tiab] OR "overt hypothyroidism"[tiab] OR levothyroxine[tiab] OR liothyronine[tiab] OR "thyroid hormone replacement"[tiab] OR "thyroxine replacement"[tiab] OR ("TSH"[tiab] AND "thyroid hormone replacement"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Hyperthyroidism &amp; Graves</div>
+        <div class="q-string">("hyperthyroidism"[MH] OR "Graves disease"[MH] OR "thyrotoxicosis"[MH] OR "hyperthyroidism"[tiab] OR "Graves disease"[tiab] OR "Graves' disease"[tiab] OR "toxic multinodular goitre"[tiab] OR "antithyroid drug"[tiab] OR carbimazole[tiab] OR methimazole[tiab] OR propylthiouracil[tiab] OR ("radioiodine"[tiab] AND "hyperthyroidism"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; Nodule &amp; Differentiated Cancer</div>
+        <div class="q-string">("thyroid neoplasms"[MH] OR "thyroid nodule"[MH] OR "thyroid cancer"[tiab] OR "papillary thyroid carcinoma"[tiab] OR "follicular thyroid carcinoma"[tiab] OR "differentiated thyroid cancer"[tiab] OR "thyroid nodule"[tiab] OR "Bethesda classification"[tiab] OR ("fine needle aspiration"[tiab] AND "thyroid"[tiab]) OR "radioiodine remnant ablation"[tiab] OR (lenvatinib[tiab] AND "thyroid"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; Medullary &amp; Anaplastic Cancer</div>
+        <div class="q-string">((("thyroid neoplasms"[MH] OR "thyroid cancer"[tiab]) AND ("carcinoma, medullary"[MH] OR "medullary"[tiab] OR "anaplastic"[tiab])) OR ("MTC"[tiab] AND "thyroid"[tiab]) OR ("calcitonin"[tiab] AND "thyroid cancer"[tiab]) OR vandetanib[tiab] OR cabozantinib[tiab] OR selpercatinib[tiab] OR ("RET"[tiab] AND "thyroid"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">05 &middot; Thyroid Eye Disease</div>
+        <div class="q-string">("graves ophthalmopathy"[MH] OR "thyroid eye disease"[tiab] OR "thyroid-associated ophthalmopathy"[tiab] OR "Graves orbitopathy"[tiab] OR ("TAO"[tiab] AND "thyroid"[tiab]) OR teprotumumab[tiab] OR ("orbital decompression"[tiab] AND "thyroid"[tiab]) OR ("IGF-1 receptor"[tiab] AND "orbitopathy"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">06 &middot; Thyroid in Pregnancy</div>
+        <div class="q-string">(("thyroid diseases"[MH] AND "pregnancy"[MH]) OR "thyroid in pregnancy"[tiab] OR "maternal thyroid"[tiab] OR "gestational thyrotoxicosis"[tiab] OR "postpartum thyroiditis"[tiab] OR "hypothyroidism in pregnancy"[tiab] OR ("thyroid antibodies"[tiab] AND "pregnancy"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">07 &middot; Thyroiditis</div>
+        <div class="q-string">(thyroiditis[MH] OR "Hashimoto thyroiditis"[tiab] OR "Hashimoto's thyroiditis"[tiab] OR "autoimmune thyroiditis"[tiab] OR "subacute thyroiditis"[tiab] OR "de Quervain thyroiditis"[tiab] OR "painless thyroiditis"[tiab] OR "postpartum thyroiditis"[tiab]) NOT "thyroid cancer"[tiab]</div>
+      </div>
+    </section>
+
+    <section class="domain" id="ad">
+      <h2>Adrenal Disorders <span class="domain-meta">6 subdomains &middot; core</span></h2>
+      <div class="q-source">Search strategy source: Endocrine Society CPG series (2014-2018)</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("adrenal gland diseases"[MH] OR pheochromocytoma[MH] OR "Cushing syndrome"[MH] OR "adrenocortical insufficiency"[MH] OR paraganglioma[MH] OR "hyperaldosteronism"[MH])</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Cushing Syndrome &amp; Disease</div>
+        <div class="q-string">("Cushing syndrome"[MH] OR "Cushing syndrome"[tiab] OR "Cushing's syndrome"[tiab] OR "Cushing disease"[tiab] OR "hypercortisolism"[tiab] OR "ACTH-dependent Cushing"[tiab] OR osilodrostat[tiab] OR (pasireotide[tiab] AND "Cushing"[tiab]) OR (mifepristone[tiab] AND "Cushing"[tiab]) OR (metyrapone[tiab] AND "Cushing"[tiab]) OR levoketoconazole[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Adrenal Insufficiency</div>
+        <div class="q-string">("adrenocortical insufficiency"[MH] OR "Addison disease"[MH] OR "adrenal insufficiency"[tiab] OR "Addison's disease"[tiab] OR "primary adrenal insufficiency"[tiab] OR "secondary adrenal insufficiency"[tiab] OR "adrenal crisis"[tiab] OR (hydrocortisone[tiab] AND "adrenal insufficiency"[tiab]) OR "glucocorticoid replacement"[tiab] OR "modified-release hydrocortisone"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; Primary Aldosteronism</div>
+        <div class="q-string">("hyperaldosteronism"[MH] OR "primary aldosteronism"[tiab] OR "primary hyperaldosteronism"[tiab] OR "Conn syndrome"[tiab] OR "aldosterone-producing adenoma"[tiab] OR "adrenal vein sampling"[tiab] OR "aldosterone-renin ratio"[tiab] OR ("mineralocorticoid"[tiab] AND "hypertension"[tiab]) OR "bilateral adrenal hyperplasia"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; Phaeochromocytoma &amp; PGL</div>
+        <div class="q-string">(pheochromocytoma[MH] OR paraganglioma[MH] OR "phaeochromocytoma"[tiab] OR "pheochromocytoma"[tiab] OR "paraganglioma"[tiab] OR "PPGL"[tiab] OR "catecholamine-secreting"[tiab] OR ("metaiodobenzylguanidine"[tiab] AND ("phaeochromocytoma"[tiab] OR "paraganglioma"[tiab])) OR "SDHB"[tiab] OR "SDHD"[tiab] OR ("succinate dehydrogenase"[tiab] AND "paraganglioma"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">05 &middot; Adrenal Incidentaloma</div>
+        <div class="q-string">("adrenal gland neoplasms"[MH] OR "adrenal incidentaloma"[tiab] OR "incidentally discovered adrenal mass"[tiab] OR ("adrenal adenoma"[tiab] AND "incidental"[tiab]) OR "mild autonomous cortisol secretion"[tiab] OR ("MACS"[tiab] AND "adrenal"[tiab]) OR ("subclinical Cushing"[tiab] AND "adrenal"[tiab])) NOT (pheochromocytoma[MH] OR "adrenocortical carcinoma"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">06 &middot; Congenital Adrenal Hyperplasia</div>
+        <div class="q-string">("adrenal hyperplasia, congenital"[MH] OR "congenital adrenal hyperplasia"[tiab] OR ("CAH"[tiab] AND "21-hydroxylase"[tiab]) OR "21-hydroxylase deficiency"[tiab] OR "CYP21A2"[tiab] OR "11-beta hydroxylase deficiency"[tiab] OR crinecerfont[tiab] OR ("glucocorticoid optimization"[tiab] AND "CAH"[tiab]) OR ("androstenedione"[tiab] AND "CAH"[tiab]))</div>
+      </div>
+    </section>
+
+    <section class="domain" id="pit">
+      <h2>Pituitary &amp; Hypothalamic <span class="domain-meta">6 subdomains &middot; core</span></h2>
+      <div class="q-source">Search strategy source: Endocrine Society; ESE; EJE 2022</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("pituitary diseases"[MH] OR "hypothalamic diseases"[MH] OR "pituitary neoplasms"[MH])</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Acromegaly</div>
+        <div class="q-string">(acromegaly[MH] OR "acromegaly"[tiab] OR "growth hormone excess"[tiab] OR "GH-secreting adenoma"[tiab] OR "somatotroph adenoma"[tiab] OR (octreotide[tiab] AND "acromegaly"[tiab]) OR (lanreotide[tiab] AND "acromegaly"[tiab]) OR (pasireotide[tiab] AND "acromegaly"[tiab]) OR pegvisomant[tiab] OR ("stereotactic radiosurgery"[tiab] AND "acromegaly"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Hyperprolactinaemia</div>
+        <div class="q-string">(hyperprolactinemia[MH] OR "hyperprolactinaemia"[tiab] OR "hyperprolactinemia"[tiab] OR "prolactinoma"[tiab] OR "macroprolactinoma"[tiab] OR "microprolactinoma"[tiab] OR (cabergoline[tiab] AND "prolactin"[tiab]) OR (bromocriptine[tiab] AND "prolactinoma"[tiab]) OR "drug-induced hyperprolactinaemia"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; Non-functioning Adenoma</div>
+        <div class="q-string">("pituitary neoplasms"[MH] OR "non-functioning pituitary adenoma"[tiab] OR "NFPA"[tiab] OR "clinically non-functioning pituitary adenoma"[tiab] OR "pituitary incidentaloma"[tiab] OR "pituitary apoplexy"[tiab] OR "gonadotroph adenoma"[tiab] OR "silent corticotroph adenoma"[tiab] OR (temozolomide[tiab] AND "pituitary"[tiab]) OR "aggressive pituitary tumour"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; Hypopituitarism &amp; GHD</div>
+        <div class="q-string">(hypopituitarism[MH] OR "hypopituitarism"[tiab] OR "panhypopituitarism"[tiab] OR ("growth hormone deficiency"[MH] AND "adult"[tiab]) OR "adult growth hormone deficiency"[tiab] OR "GH replacement"[tiab] OR ("somatropin"[tiab] AND ("deficiency"[tiab] OR "replacement"[tiab])) OR "pituitary hormone deficiency"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">05 &middot; AVP Deficiency &amp; Hyponatraemia</div>
+        <div class="q-string">("diabetes insipidus"[MH] OR "inappropriate ADH syndrome"[MH] OR "AVP deficiency"[tiab] OR "arginine vasopressin deficiency"[tiab] OR "cranial diabetes insipidus"[tiab] OR (desmopressin[tiab] AND "diabetes insipidus"[tiab]) OR "SIADH"[tiab] OR "hyponatraemia"[tiab] OR "hyponatremia"[tiab] OR tolvaptan[tiab] OR "syndrome of inappropriate antidiuresis"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">06 &middot; Nelson &amp; Craniopharyngioma</div>
+        <div class="q-string">("Nelson syndrome"[tiab] OR "Nelson's syndrome"[tiab] OR "post-adrenalectomy ACTH"[tiab] OR ("bilateral adrenalectomy"[tiab] AND "Cushing"[tiab]) OR "craniopharyngioma"[MH] OR "craniopharyngioma"[tiab] OR "Rathke cleft cyst"[tiab] OR "hypothalamic obesity"[tiab] OR "pituitary Cushing disease"[tiab])</div>
+      </div>
+    </section>
+
+    <section class="domain" id="bone">
+      <h2>Bone &amp; Mineral Metabolism <span class="domain-meta">5 subdomains &middot; core</span></h2>
+      <div class="q-source">Search strategy source: IOF/ESCEO; NOGG; ASBMR 2022; KDIGO</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("bone diseases"[MH] OR osteoporosis[MH] OR "hyperparathyroidism"[MH] OR "calcium metabolism disorders"[MH])</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Osteoporosis</div>
+        <div class="q-string">(osteoporosis[MH] OR "osteoporosis"[tiab] OR "osteopenia"[tiab] OR "osteoporotic fracture"[tiab] OR "fragility fracture"[tiab] OR "bone mineral density"[tiab] OR "FRAX"[tiab] OR denosumab[tiab] OR romosozumab[tiab] OR teriparatide[tiab] OR abaloparatide[tiab] OR bisphosphonate[tiab] OR alendronate[tiab] OR zoledronate[tiab] OR "antiresorptive therapy"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Primary Hyperparathyroidism</div>
+        <div class="q-string">("hyperparathyroidism, primary"[MH] OR "primary hyperparathyroidism"[tiab] OR "PHPT"[tiab] OR "parathyroid adenoma"[tiab] OR "parathyroid carcinoma"[tiab] OR "parathyroidectomy"[tiab] OR (cinacalcet[tiab] AND "hyperparathyroidism"[tiab]) OR "asymptomatic hyperparathyroidism"[tiab] OR "normocalcaemic hyperparathyroidism"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; Hypoparathyroidism &amp; CKD-MBD</div>
+        <div class="q-string">("hypoparathyroidism"[MH] OR "hypoparathyroidism"[tiab] OR (("hypocalcaemia"[tiab] OR "hypocalcemia"[tiab]) AND "parathyroid"[tiab]) OR "palopegteriparatide"[tiab] OR "secondary hyperparathyroidism"[tiab] OR "tertiary hyperparathyroidism"[tiab] OR "renal osteodystrophy"[tiab] OR "CKD-MBD"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; Vitamin D Disorders</div>
+        <div class="q-string">("vitamin D deficiency"[MH] OR "vitamin D deficiency"[tiab] OR "vitamin D insufficiency"[tiab] OR "25-hydroxyvitamin D"[tiab] OR "25(OH)D"[tiab] OR cholecalciferol[tiab] OR "vitamin D supplementation"[tiab] OR osteomalacia[MH] OR "osteomalacia"[tiab] OR rickets[MH] OR "nutritional rickets"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">05 &middot; Rare Bone Diseases</div>
+        <div class="q-string">("Paget disease, bone"[MH] OR "Paget disease of bone"[tiab] OR "X-linked hypophosphataemia"[tiab] OR ("XLH"[tiab] AND "bone"[tiab]) OR burosumab[tiab] OR ("fibrous dysplasia"[tiab] AND "bone"[tiab]) OR "osteogenesis imperfecta"[tiab] OR "hypophosphatasia"[tiab] OR asfotase[tiab] OR "tumour-induced osteomalacia"[tiab])</div>
+      </div>
+    </section>
+
+    <section class="domain" id="rep">
+      <h2>Reproductive Endocrinology <span class="domain-meta">5 subdomains &middot; spec</span></h2>
+      <div class="q-source">Search strategy source: Teede 2023; Endocrine Society 2018; ESHRE 2024</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("gonadal disorders"[MH] OR "polycystic ovary syndrome"[MH] OR hypogonadism[MH] OR "sex chromosome disorders"[MH])</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; PCOS</div>
+        <div class="q-string">("polycystic ovary syndrome"[MH] OR "polycystic ovary syndrome"[tiab] OR "PCOS"[tiab] OR "polycystic ovarian syndrome"[tiab] OR ("hyperandrogenism"[tiab] AND ("ovary"[tiab] OR "anovulation"[tiab])) OR ("letrozole"[tiab] AND "PCOS"[tiab]) OR ("metformin"[tiab] AND "PCOS"[tiab]) OR ("inositol"[tiab] AND "PCOS"[tiab]) OR ("anti-Mullerian hormone"[tiab] AND "PCOS"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Male Hypogonadism</div>
+        <div class="q-string">(("hypogonadism"[MH] AND "male"[tiab]) OR "testosterone deficiency"[tiab] OR "male hypogonadism"[tiab] OR "androgen deficiency"[tiab] OR "late-onset hypogonadism"[tiab] OR "testosterone replacement therapy"[tiab] OR "Klinefelter syndrome"[MH] OR "Klinefelter syndrome"[tiab] OR ("Kallmann syndrome"[tiab] AND "male"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; POI &amp; Turner Syndrome</div>
+        <div class="q-string">("primary ovarian insufficiency"[MH] OR "premature ovarian insufficiency"[tiab] OR ("POI"[tiab] AND ("ovary"[tiab] OR "ovarian"[tiab])) OR "premature ovarian failure"[tiab] OR "menopause, premature"[MH] OR "Turner syndrome"[MH] OR "Turner syndrome"[tiab] OR "45,X"[tiab] OR ("oestrogen replacement"[tiab] AND "POI"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; Gender-Affirming Care</div>
+        <div class="q-string">("transsexualism"[MH] OR "transgender"[tiab] OR "gender dysphoria"[tiab] OR "gender-affirming hormone therapy"[tiab] OR "GAHT"[tiab] OR "feminising hormone therapy"[tiab] OR "masculinising hormone therapy"[tiab] OR "gender incongruence"[tiab] OR "puberty suppression"[tiab] OR ("GnRH analogue"[tiab] AND "gender"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">05 &middot; Menopause</div>
+        <div class="q-string">("menopause"[MH] OR "climacteric"[MH] OR "hormone replacement therapy"[MH] OR "menopause"[tiab] OR "perimenopause"[tiab] OR "menopausal hormone therapy"[tiab] OR "MHT"[tiab] OR "vasomotor symptoms"[tiab] OR "hot flush"[tiab] OR "genitourinary syndrome of menopause"[tiab] OR ("oestradiol"[tiab] AND "menopause"[tiab]))</div>
+      </div>
+    </section>
+
+    <section class="domain" id="lip">
+      <h2>Lipids &amp; Cardiovascular Risk <span class="domain-meta">4 subdomains &middot; spec</span></h2>
+      <div class="q-source">Search strategy source: ESC/EAS LIPID4; NICE CG181; EAS FH Panel</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("dyslipidemias"[MH] OR ("lipoproteins"[MH] AND "cardiovascular diseases"[MH]) OR ("cardiovascular risk"[tiab] AND "lipid"[tiab]))</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Dyslipidaemia Management</div>
+        <div class="q-string">("dyslipidemias"[MH] OR "dyslipidaemia"[tiab] OR "dyslipidemia"[tiab] OR "hypercholesterolaemia"[tiab] OR "LDL cholesterol"[tiab] OR "LDL-C"[tiab] OR statin[tiab] OR atorvastatin[tiab] OR rosuvastatin[tiab] OR ezetimibe[tiab] OR "lipid-lowering therapy"[tiab] OR ("cardiovascular risk reduction"[tiab] AND "lipid"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Familial Hypercholesterolaemia</div>
+        <div class="q-string">("hyperlipoproteinemia type II"[MH] OR "familial hypercholesterolaemia"[tiab] OR "familial hypercholesterolemia"[tiab] OR ("FH"[tiab] AND "cholesterol"[tiab]) OR "heterozygous FH"[tiab] OR "homozygous FH"[tiab] OR "HoFH"[tiab] OR ("LDL receptor"[tiab] AND "mutation"[tiab]) OR ("cascade screening"[tiab] AND "cholesterol"[tiab]) OR "Dutch Lipid Clinic Network"[tiab] OR lomitapide[tiab] OR evinacumab[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; Novel Lipid Therapies</div>
+        <div class="q-string">("PCSK9 inhibitor"[tiab] OR "proprotein convertase subtilisin"[MH] OR evolocumab[tiab] OR alirocumab[tiab] OR inclisiran[tiab] OR "bempedoic acid"[tiab] OR ("icosapentaenoic acid"[tiab] AND "cardiovascular"[tiab]) OR "lipoprotein(a)"[tiab] OR ("Lp(a)"[tiab] AND "cardiovascular"[tiab]) OR pelacarsen[tiab] OR obicetrapib[tiab] OR "ANGPTL3 inhibitor"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; Hypertriglyceridaemia</div>
+        <div class="q-string">("hypertriglyceridemia"[MH] OR "hypertriglyceridaemia"[tiab] OR "chylomicronemia"[tiab] OR "familial chylomicronemia syndrome"[tiab] OR (fenofibrate[tiab] AND "triglyceride"[tiab]) OR ("omega-3"[tiab] AND "triglyceride"[tiab]) OR volanesorsen[tiab] OR ("pancreatitis"[tiab] AND "hypertriglyceridaemia"[tiab]))</div>
+      </div>
+    </section>
+
+    <section class="domain" id="net">
+      <h2>Neuroendocrine Tumours <span class="domain-meta">4 subdomains &middot; spec</span></h2>
+      <div class="q-source">Search strategy source: ENETS Consensus; NANETS; Cochrane NET</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("neuroendocrine tumors"[MH] OR "carcinoid tumor"[MH] OR "neuroendocrine neoplasm"[tiab] OR ("NET"[tiab] AND "neuroendocrine"[tiab]))</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Functioning GEP-NETs</div>
+        <div class="q-string">(("neuroendocrine tumors"[MH] OR "carcinoid tumor"[MH]) AND ("gastrointestinal"[tiab] OR "pancreas"[tiab] OR "functional"[tiab])) OR "insulinoma"[tiab] OR "gastrinoma"[tiab] OR "Zollinger-Ellison syndrome"[tiab] OR "VIPoma"[tiab] OR "glucagonoma"[tiab] OR "carcinoid syndrome"[tiab] OR "carcinoid heart disease"[tiab] OR "telotristat"[tiab]</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; Non-functioning &amp; Pancreatic</div>
+        <div class="q-string">(("neuroendocrine tumors"[MH] AND ("pancreas"[tiab] OR "pancreatic"[tiab])) OR "pancreatic neuroendocrine tumour"[tiab] OR "pNET"[tiab] OR "non-functioning NET"[tiab] OR "Gallium-68 DOTATATE"[tiab] OR ("somatostatin receptor scintigraphy"[tiab] AND "NET"[tiab]) OR ("Ki-67"[tiab] AND "NET"[tiab]) OR "WHO 2022 NET classification"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; MEN Syndromes</div>
+        <div class="q-string">("multiple endocrine neoplasia"[MH] OR "MEN1"[tiab] OR "MEN 1"[tiab] OR "multiple endocrine neoplasia type 1"[tiab] OR "MEN2"[tiab] OR "MEN2A"[tiab] OR "MEN2B"[tiab] OR "multiple endocrine neoplasia type 2"[tiab] OR "menin"[tiab] OR ("RET proto-oncogene"[tiab] AND "MEN"[tiab]) OR "MEN4"[tiab] OR ("CDKN1B"[tiab] AND "endocrine"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">04 &middot; PRRT &amp; Systemic Therapy</div>
+        <div class="q-string">("peptide receptor radionuclide therapy"[tiab] OR "PRRT"[tiab] OR "lutetium-177 DOTATATE"[tiab] OR ("Lu-177"[tiab] AND "NET"[tiab]) OR "177Lu-DOTATATE"[tiab] OR (everolimus[tiab] AND ("NET"[tiab] OR "neuroendocrine"[tiab])) OR (sunitinib[tiab] AND ("NET"[tiab] OR "neuroendocrine"[tiab])) OR "NETTER-1"[tiab] OR "NETTER-2"[tiab])</div>
+      </div>
+    </section>
+
+    <section class="domain" id="eoc">
+      <h2>Endocrine Oncology <span class="domain-meta">3 subdomains &middot; spec</span></h2>
+      <div class="q-source">Search strategy source: Custom (ENSAT; Barroso-Sousa 2018)</div>
+      <div class="q-row q-row-broad">
+        <div class="q-label">Broad domain query</div>
+        <div class="q-string">("adrenocortical carcinoma"[tiab] OR ("immune checkpoint"[tiab] AND "endocrinopathy"[tiab]) OR ("cancer treatment"[tiab] AND ("endocrine"[tiab] OR "gonadotoxicity"[tiab])) OR ("paraneoplastic"[tiab] AND "endocrine"[tiab]))</div>
+      </div>
+      
+      <div class="q-row">
+        <div class="q-label">01 &middot; Adrenocortical Carcinoma</div>
+        <div class="q-string">("adrenocortical carcinoma"[MH] OR "adrenocortical carcinoma"[tiab] OR ("ACC"[tiab] AND "adrenal"[tiab]) OR "adrenal cortex carcinoma"[tiab] OR mitotane[tiab] OR "ENSAT staging"[tiab] OR "adjuvant mitotane"[tiab] OR "adrenocortical malignancy"[tiab])</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">02 &middot; ICI Endocrinopathies</div>
+        <div class="q-string">(("immune checkpoint inhibitor"[tiab] AND ("endocrinopathy"[tiab] OR "hypophysitis"[tiab] OR "thyroiditis"[tiab] OR "adrenalitis"[tiab] OR "diabetes mellitus"[tiab] OR "hyponatraemia"[tiab] OR "hypogonadism"[tiab])) OR "checkpoint inhibitor endocrinopathy"[tiab] OR ("irAE"[tiab] AND ("endocrine"[tiab] OR "thyroid"[tiab] OR "pituitary"[tiab] OR "adrenal"[tiab])) OR (ipilimumab[tiab] AND "hypophysitis"[tiab]))</div>
+      </div>
+      <div class="q-row">
+        <div class="q-label">03 &middot; Cancer Treatment Sequelae</div>
+        <div class="q-string">("gonadotoxicity"[tiab] OR "chemotherapy-induced hypogonadism"[tiab] OR ("cancer treatment"[tiab] AND ("bone loss"[tiab] OR "osteoporosis"[tiab] OR "hypogonadism"[tiab])) OR ("aromatase inhibitor"[tiab] AND "bone"[tiab]) OR ("androgen deprivation therapy"[tiab] AND ("bone"[tiab] OR "metabolic"[tiab])) OR ("cancer survivor"[tiab] AND "endocrine"[tiab]) OR "radiation-induced hypothyroidism"[tiab] OR "radiation-induced hypopituitarism"[tiab])</div>
+      </div>
+    </section>
+
+<h3>Proposed enhancements &mdash; pending sign-off, not applied</h3>
+<p class="dek">Carried over from the v5.6 audit. These are judgement calls that change recall/precision rather than fix defects, and were deliberately left for human sign-off rather than auto-applied.</p>
+
+      <div class="enh-row">
+        <div class="enh-label">Spelling variants in [tiab]</div>
+        <div class="enh-body">Tagging a term [tiab] suppresses PubMed's automatic British/American mapping, so a single-spelling tiab term silently misses the other spelling. Candidates to dual-spell: "glycaemic control"/"glycemic", "goitre"/"goiter", "tumour"/"tumor" (NFPA, pNET), "oestrogen"/"estrogen", "oestradiol"/"estradiol", "paediatric"/"pediatric", "hypercholesterolaemia"/"hypercholesterolemia".</div>
+      </div>
+      <div class="enh-row">
+        <div class="enh-label">Gender-Affirming Care MeSH</div>
+        <div class="enh-body">"transsexualism"[MH] is a dated descriptor. Consider adding "gender dysphoria"[MH], "transgender persons"[MH], and "health services for transgender persons"[MH] for current indexing coverage.</div>
+      </div>
+      <div class="enh-row">
+        <div class="enh-label">MeSH descriptors to verify</div>
+        <div class="enh-body">A handful of [MH] tags may not resolve to valid descriptors and warrant a MeSH Browser check: "growth hormone deficiency"[MH] (no exact descriptor -- likely Human Growth Hormone/deficiency or Dwarfism, Pituitary), "gonadal disorders"[MH], "proprotein convertase subtilisin"[MH] (likely should be "Proprotein Convertase 9"[MH] for PCSK9). Where the [MH] is invalid the tiab fallback still fires, so recall degrades quietly rather than failing loudly.</div>
+      </div>
+      <div class="enh-row">
+        <div class="enh-label">Acronym safety</div>
+        <div class="enh-body">High-ambiguity acronyms now correctly require a context AND (ACC, NET, MTC, FH, POI, MACS). Worth periodically auditing the audit panel's query-translation to confirm PubMed isn't auto-mapping the acronym to an unrelated MeSH term.</div>
+      </div>
+      <div class="enh-row">
+        <div class="enh-label">"lipoprotein(a)" / "Lp(a)"</div>
+        <div class="enh-body">Parentheses inside a search token can be misread by PubMed even when quoted. Confirm via the audit panel's query translation that these are treated as phrases; if not, consider "lipoprotein a"[tiab] forms.</div>
+      </div>
+      <div class="enh-row">
+        <div class="enh-label">NOT over-exclusion</div>
+        <div class="enh-body">The T1D NOT (type 2 / gestational) and Thyroiditis NOT "thyroid cancer" clauses intentionally trade recall for precision and will drop genuinely comparative papers. Documented as accepted, but revisit if weekly yield feels thin.</div>
+      </div>
+
+<footer>
+Generated by <code>scripts/generate-endo-query-reference.js</code> &mdash; do not hand-edit this file, re-run the generator instead.
+</footer>
+</div>
+</body>
+</html>
