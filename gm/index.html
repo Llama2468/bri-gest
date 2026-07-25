@@ -44,6 +44,8 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);min-heigh
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 header{display:flex;justify-content:space-between;align-items:center;padding:13px 24px;border-bottom:1px solid var(--vfaint);background:var(--bg);position:sticky;top:0;z-index:200;gap:10px;flex-wrap:wrap}
+.hub-link{font-family:var(--ff-mono);font-size:10px;color:var(--muted);text-decoration:none;padding:3px 7px;border:1px solid var(--border2);border-radius:4px;white-space:nowrap;flex-shrink:0;transition:color .15s,border-color .15s}
+.hub-link:hover{color:var(--text);border-color:var(--logo-accent)}
 .logo-row{display:flex;align-items:center;gap:13px;flex-shrink:0}
 .logo-hex{font-size:24px;color:var(--logo-accent);line-height:1;transition:color .25s}
 h1{font-family:var(--ff-serif);font-size:18px;font-weight:600;color:var(--heading);letter-spacing:.14em}
@@ -178,6 +180,7 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
 </div>
 <header>
   <div class="logo-row">
+    <a href="../" class="hub-link" title="Back to Bri-gest Hub">&#8592; Hub</a>
     <div class="logo-hex">&#x2B21;</div>
     <div>
       <h1>General Medicine Bri-gest <span style="letter-spacing:normal;font-size:17px;vertical-align:middle" role="img" aria-label="bespectacled researcher">&#129299;</span> <span id="ver-badge" style="font-family:var(--ff-mono);font-size:10px;font-weight:400;color:var(--logo-accent);letter-spacing:.05em;vertical-align:middle;opacity:.7"></span></h1>

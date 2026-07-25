@@ -158,7 +158,7 @@ select option{background:var(--sel-bg)}
 /* ── Main ────────────────────────────────────────────────────────────────── */
 main{max-width:760px;margin:0 auto;padding:22px 20px 80px}
 .topic-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;gap:12px;flex-wrap:wrap}
-.topic-title{font-family:var(--ff-serif);font-size:24px;font-weight:300;letter-spacing:.01em}
+.topic-title{font-family:var(--ff-serif);font-size:calc(24px * var(--tsize));font-weight:300;letter-spacing:.01em}
 .fetch-time{font-family:var(--ff-mono);font-size:10px;color:var(--ts)}
 .if-notice{font-family:var(--ff-mono);font-size:10px;color:var(--muted);margin-bottom:12px;padding:6px 10px;background:var(--bg3);border-radius:4px;border-left:2px solid var(--logo-accent)}
 
@@ -189,19 +189,19 @@ main{max-width:760px;margin:0 auto;padding:22px 20px 80px}
 .pmid-label{font-family:var(--ff-mono);font-size:10px;color:var(--muted);margin-left:auto}
 .corr-badge{font-family:var(--ff-mono);font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:3px;background:var(--bg3);color:var(--muted);border:1px solid var(--border);white-space:nowrap}
 
-.art-title{font-family:var(--ff-serif);font-weight:300;font-size:16.5px;color:var(--text);line-height:1.5;margin-bottom:6px;cursor:pointer;transition:color .15s}
+.art-title{font-family:var(--ff-serif);font-weight:300;font-size:calc(16.5px * var(--tsize));color:var(--text);line-height:1.5;margin-bottom:6px;cursor:pointer;transition:color .15s}
 .art-title:hover,.art-title:active{color:var(--heading)}
-.authors{font-family:var(--ff-mono);font-size:10.5px;color:var(--muted);margin-bottom:12px}
+.authors{font-family:var(--ff-mono);font-size:calc(10.5px * var(--tsize));color:var(--muted);margin-bottom:12px}
 
 .abstract-body{border-left:2px solid var(--border2);padding-left:15px;margin-bottom:13px;display:none}
 .abstract-body.open{display:block}
-.abstract-para{font-size:13.5px;line-height:1.75;color:var(--text2);margin-bottom:9px}
-.abstract-label{font-family:var(--ff-mono);font-size:10.5px;margin-right:3px;color:var(--tc,var(--accent))}
+.abstract-para{font-size:calc(13.5px * var(--tsize));line-height:1.75;color:var(--text2);margin-bottom:9px}
+.abstract-label{font-family:var(--ff-mono);font-size:calc(10.5px * var(--tsize));margin-right:3px;color:var(--tc,var(--accent))}
 
 .actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 .act-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;text-decoration:none;display:inline-block;transition:border-color .15s,color .15s}
 .act-btn:hover,.act-btn:active{color:var(--text2);border-color:var(--border2)}
-.act-btn.pubmed{color:var(--tc,var(--accent));border-color:color-mix(in srgb,var(--tc,var(--accent)) 40%,transparent)}
+.act-btn.pubmed{color:var(--tc,var(--accent));border-color:var(--tc,var(--accent))}
 .act-btn.save{border:none;margin-left:auto;color:var(--muted)}
 .act-btn.save:hover,.act-btn.save:active{color:var(--text2)}
 .act-btn.saved{border:none;margin-left:auto;color:var(--accent)}
@@ -213,6 +213,8 @@ main{max-width:760px;margin:0 auto;padding:22px 20px 80px}
 .empty-state h3{font-family:var(--ff-serif);font-size:20px;font-weight:300;margin-bottom:8px;color:var(--muted)}
 .empty-state p{font-family:var(--ff-mono);font-size:11px;line-height:1.7}
 
+.hub-link{font-family:var(--ff-mono);font-size:10px;color:var(--muted);text-decoration:none;padding:3px 7px;border:1px solid var(--border2);border-radius:4px;white-space:nowrap;flex-shrink:0;transition:color .15s,border-color .15s}
+.hub-link:hover{color:var(--text2);border-color:var(--border)}
 footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foot-bg);text-align:center;font-family:var(--ff-mono);font-size:10px;color:var(--faint);line-height:1.9}
 .clear-btn{color:var(--faint);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:inherit;font-size:inherit}
 
@@ -242,6 +244,7 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
   <!-- Row 1: identity + actions -->
   <div class="hdr-row1">
     <div class="logo-row">
+      <a href="../" class="hub-link" title="Back to Bri-gest Hub">&#8592; Hub</a>
       <div class="logo-badge" aria-hidden="true"><span class="logo-badge-b">B</span></div>
       <div class="logo-text-group">
         <h1>Endocrine Bri-gest <span id="ver-badge" style="font-family:var(--ff-mono);font-size:10px;font-weight:400;color:var(--accent);letter-spacing:.05em;opacity:.8;vertical-align:middle"></span></h1>
@@ -1148,6 +1151,23 @@ function renderTabs(){
       btn.onclick=()=>{activeId=t.id;showBM=false;renderTabs();renderPills(t);renderContent();loadTopic(t.id);};
       nav.appendChild(btn);
     });
+    const dv=document.createElement('div');dv.className='tab-divider';nav.appendChild(dv);
+    // Journal view tab
+    const jv=document.createElement('button');
+    jv.className='tab';
+    jv.title='Browse by journal';
+    jv.innerHTML='Journals'+(jvJournals.size>0?`<span class="badge" style="background:var(--accent)">${jvJournals.size}</span>`:'');
+    jv.onclick=()=>{setMode('journal');};
+    nav.appendChild(jv);
+    const dv2=document.createElement('div');dv2.className='tab-divider';nav.appendChild(dv2);
+  } else if(mode==='journal'){
+    // Back to domain view
+    const dm=document.createElement('button');
+    dm.className='tab';
+    dm.title='Back to topic domains';
+    dm.innerHTML='\u2190 Topics';
+    dm.onclick=()=>{setMode('domain');};
+    nav.appendChild(dm);
     const dv=document.createElement('div');dv.className='tab-divider';nav.appendChild(dv);
   }
   // Saved tab (both modes)
