@@ -69,23 +69,21 @@ body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);min-heigh
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
 
-/* ── Header (3-row sticky) ──────────────────────────────────────────────── */
+/* ── Header (4-row sticky) ──────────────────────────────────────────────── */
 header{background:var(--bg);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;transition:background .35s,color .35s}
-.hdr-row1{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;gap:10px}
+.hdr-row1{display:flex;align-items:center;padding:10px 20px 6px;gap:10px}
+.hdr-actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:0 20px 8px}
 .hdr-row2{display:flex;gap:6px;padding:5px 20px;border-top:1px solid var(--vfaint)}
-/* nav (hdr-row3) is rendered as <nav> inside <header> by renderTabs() */
+/* nav (hdr-row4) is rendered as <nav> inside <header> by renderTabs() */
 nav{display:flex;overflow-x:auto;padding:0 20px;border-top:1px solid var(--vfaint);gap:1px;scrollbar-width:none;background:transparent}
 nav::-webkit-scrollbar{display:none}
 
 .logo-row{display:flex;align-items:center;gap:10px;min-width:0}
-.logo-badge{width:30px;height:30px;border-radius:50%;border:1.4px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .35s}
-.logo-badge-b{font-family:var(--ff-serif);font-style:italic;font-size:16px;font-weight:500;color:var(--accent);line-height:1;transition:color .35s}
 .logo-text-group{display:flex;flex-direction:column;justify-content:center;min-width:0}
 h1{font-family:var(--ff-sans);font-size:15.5px;font-weight:600;color:var(--heading);letter-spacing:.03em;line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .logo-sub{font-family:var(--ff-mono);font-size:9px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hdr-actions{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 
-select{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);padding:5px 22px 5px 8px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%236f6656'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:background .25s,border-color .25s,color .25s}
+select{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);padding:5px 20px 5px 7px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%236f6656'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 6px center;transition:background .25s,border-color .25s,color .25s;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 select option{background:var(--sel-bg)}
 
 .icon-btn{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);width:29px;height:29px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;padding:0}
@@ -221,8 +219,8 @@ main{max-width:760px;margin:0 auto;padding:22px 20px 80px}
 .empty-state h3{font-family:var(--ff-serif);font-size:20px;font-weight:300;margin-bottom:8px;color:var(--muted)}
 .empty-state p{font-family:var(--ff-mono);font-size:11px;line-height:1.7}
 
-.hub-link{font-family:var(--ff-mono);font-size:10px;color:var(--muted);text-decoration:none;padding:3px 7px;border:1px solid var(--border2);border-radius:4px;white-space:nowrap;flex-shrink:0;transition:color .15s,border-color .15s}
-.hub-link:hover{color:var(--text2);border-color:var(--border)}
+.hub-link{background:var(--sel-bg);font-family:var(--ff-mono);font-size:11.5px;color:var(--muted);text-decoration:none;padding:7px 13px;border:1px solid var(--sel-bd);border-radius:5px;white-space:nowrap;flex-shrink:0;transition:color .15s,border-color .15s}
+.hub-link:hover{color:var(--accent);border-color:var(--accent)}
 footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foot-bg);text-align:center;font-family:var(--ff-mono);font-size:10px;color:var(--faint);line-height:1.9}
 .clear-btn{color:var(--faint);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:inherit;font-size:inherit}
 
@@ -249,36 +247,36 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
 </div>
 
 <header>
-  <!-- Row 1: identity + actions -->
+  <!-- Row 1: back link + title -->
   <div class="hdr-row1">
     <div class="logo-row">
       <a href="../" class="hub-link" title="Back to Bri-gest Hub">&#8592; Hub</a>
-      <div class="logo-badge" aria-hidden="true"><span class="logo-badge-b">B</span></div>
       <div class="logo-text-group">
         <h1>Endocrine Bri-gest <span id="ver-badge" style="font-family:var(--ff-mono);font-size:10px;font-weight:400;color:var(--accent);letter-spacing:.05em;opacity:.8;vertical-align:middle"></span></h1>
         <div class="logo-sub" id="logo-sub">V5.9 &middot; ENDOCRINE &amp; DIABETES &middot; PUBMED</div>
       </div>
     </div>
-    <div class="hdr-actions">
-      <button class="icon-btn" id="btn-journals" title="Filter by journal">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-      <button class="icon-btn" id="btn-audit" title="Search strategy audit">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </button>
-      <button class="icon-btn" id="btn-tsize" title="Text size (cycle)">Aa</button>
-      <button class="icon-btn" id="btn-theme" title="Toggle theme">
-        <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg id="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-      </button>
-      <div class="ctrl-divider"></div>
-      <button id="btn-refresh" title="Re-fetch from PubMed">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-        Refresh
-      </button>
-    </div>
   </div>
-  <!-- Row 2: quick filters -->
+  <!-- Row 2: actions -->
+  <div class="hdr-actions">
+    <button class="icon-btn" id="btn-journals" title="Filter by journal">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-audit" title="Search strategy audit">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <button class="icon-btn" id="btn-tsize" title="Text size (cycle)">Aa</button>
+    <button class="icon-btn" id="btn-theme" title="Toggle theme">
+      <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <div class="ctrl-divider"></div>
+    <button id="btn-refresh" title="Re-fetch from PubMed">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Refresh
+    </button>
+  </div>
+  <!-- Row 3: quick filters -->
   <div class="hdr-row2">
     <select id="sel-if" title="Min impact factor">
       <option value="0">Any IF</option>
@@ -293,7 +291,7 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
       <option value="30">Past month</option>
     </select>
     <select id="sel-study" title="Study type">
-      <option value="">All study types</option>
+      <option value="">All studies</option>
       <option value=' AND "randomized controlled trial"[pt]'>RCT only</option>
       <option value=' AND "systematic review"[pt]'>Systematic review</option>
       <option value=' AND "meta-analysis"[pt]'>Meta-analysis</option>
@@ -301,7 +299,7 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
       <option value=' AND review[pt]'>Review (all)</option>
     </select>
   </div>
-  <!-- Row 3: topic tabs (rendered by JS) -->
+  <!-- Row 4: topic tabs (rendered by JS) -->
   <nav id="tabs"></nav>
 </header>
 

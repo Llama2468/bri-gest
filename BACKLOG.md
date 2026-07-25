@@ -110,6 +110,24 @@ No browser this session to click-confirm at a real narrow width — reasoned thr
 
 **GM deliberately skipped — see the GM-paused placeholder below.** Same root cause almost certainly applies there too (shorter subtitle string just hasn't visibly triggered it yet); fix it in the same pass whenever GM work resumes.
 
+**Superseded/extended by item 11 below for endo** — the text-truncation fix here was necessary but not sufficient; endo's header needed actual restructuring, found on the next round of live testing.
+
+### 11. Endo header still cramped on mobile — actions crowded the title, filter row overflowed — DONE
+
+Found on the same live-testing pass as item 10, after that fix shipped: even with title truncation working, endo's header packed the back-link, wordmark, *and* five action controls (journal filter, audit, Aa, theme, refresh) onto one row, which visually crowded/obscured the title on narrow screens. Separately, the IF / date-range / study-type `<select>` row overflowed — browsers commonly size a closed `<select>`'s box to its *widest option*, not its selected value, so "IF ≥ 40 (flagship)" and "Systematic review" were forcing width regardless of what was actually selected.
+
+**Restructured endo's header from 3 rows to 4:**
+1. Back-link + title only (the "B" logo badge removed entirely — pure decoration, and the first thing to go when a row is tight).
+2. Actions, now their own row: journal filter, audit, Aa, theme toggle, divider, refresh.
+3. The IF/date/study-type filter row — `select` elements now `flex:1;min-width:0` with `overflow:hidden;text-overflow:ellipsis`, so they share the row width equally and truncate instead of forcing it wider, independent of option text length. "All study types" shortened to "All studies" too (shrinks the widest option, though the flex fix is what actually solves the layout regardless of label length).
+4. Topic tabs (unchanged).
+
+`.hub-link` (the back-to-hub button) also enlarged — was `10px`/`3px 7px` padding, now `11.5px`/`7px 13px` with a background matching the other header buttons, since it was flagged as too small/low-contrast to comfortably tap.
+
+**GM not touched** — same crowding pattern almost certainly exists there (GM's row 1 has the identical shape: hub-link + badge + title + actions all together), but per the GM-pause decision, defer it to that tool's resumption rather than fixing piecemeal. Added to the GM-paused placeholder below.
+
+No browser this session to click-confirm the actual rendered result at a real mobile width — reasoned through the CSS/flex model, but verify on-device.
+
 ---
 
 ## General Medicine — paused, resume later
@@ -118,6 +136,7 @@ No browser this session to click-confirm at a real narrow width — reasoned thr
 
 Deferred:
 - **Header-overflow fix (item 10's GM half).** Same `.logo-sub`/flex `min-width:0` gap as hub and endo had — apply the identical fix (`.logo-text-group{min-width:0}`, ellipsis on `h1`/`.logo-sub`) when GM work resumes. Check whether `.logo-row` there is also `flex-shrink:0` like endo's was, rather than assuming.
+- **Header restructure (item 11's GM half).** GM's `.controls` row packs the hub-link, wordmark, and every filter/action control (date, study-type, IF, CCJ toggle, journal, theme, audit, refresh) into one crowded flex row — almost certainly the same "everything crowds the title" problem just fixed in endo (back-link+title / actions / filters split onto separate rows, `<select>` elements given `flex:1;min-width:0` so they don't size to their widest option). Apply the same restructuring pattern, adapted to GM's actual control set (CCJ toggle included), when GM work resumes — not a smaller fix than endo's, GM's row was more crowded to begin with.
 - Anything else that surfaces from live use in the meantime should land here, not get fixed as a one-off — keep GM changes batched into one deliberate pass rather than scattered across sessions.
 
 Do not delete or let `gm/index.html` bit-rot relative to the shared token/font system — if hub or endo's shared CSS custom properties change again before GM's pass, reconcile GM against the *current* tokens then, not against whatever they were on 2026-07-26.
