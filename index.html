@@ -1,68 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="midnight">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="description" content="Bri-gest — PubMed literature-surveillance tools for RACP Advanced Training CPD.">
-<meta name="color-scheme" content="dark light">
+<meta name="color-scheme" content="light dark">
 <title>Bri-gest — CPD Literature Surveillance</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&display=swap" rel="stylesheet">
 <style>
+/* ── Font stacks (shared with endo/ and gm/) ────────────────────────────── */
+:root{
+  --ff-serif: 'Newsreader',Georgia,'Times New Roman',Times,serif;
+  --ff-mono: 'IBM Plex Mono',ui-monospace,'SF Mono','Cascadia Mono','Segoe UI Mono',Menlo,Monaco,Consolas,'Courier New',monospace;
+  --ff-sans: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --tsize: 1;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 /* ── Themes (tokens shared with endo/ and gm/) ──────────────────────────── */
-[data-theme="midnight"]{
-  --bg:#050c18;--bg2:#090f1d;--bg3:#0a1628;
-  --border:#0d1625;--border2:#1a2d45;
-  --text:#c8d8e8;--text2:#8aa0ba;--muted:#3a5570;
-  --faint:#1a2d45;--vfaint:#0d1a2c;
-  --heading:#ddeeff;--skel:#0a1628;
-  --sel-bg:#080f1c;--sel-bd:#0d1a2c;
-  --foot-bg:#050c18;
-  --logo-sub:#1a2d45;--ts:#162030;
-  --panel-bg:#0a1220;--panel-bd:#1a2d45;
-  --logo-accent:#5b9cf6;
+[data-theme="light"]{
+  --bg:#dde3ec;--bg2:#e3e8f0;--bg3:#d3dae5;
+  --border:#c7d0de;--border2:#b8c4d6;
+  --text:#2b3f52;--text2:#526278;--muted:#6b7a8d;
+  --faint:#c7d0de;--vfaint:#d3dae5;
+  --heading:#1c2b3a;--skel:#d3dae5;
+  --sel-bg:#d3dae5;--sel-bd:#b8c4d6;
+  --foot-bg:#d3dae5;
+  --logo-sub:#8a97a8;--ts:#8a97a8;
+  --panel-bg:#e3e8f0;--panel-bd:#b8c4d6;
+  --logo-accent:#1d6bb8;--accent:#1d6bb8;
 }
-[data-theme="clinical"]{
-  --bg:#f4f7fc;--bg2:#ffffff;--bg3:#eaf0f8;
-  --border:#dde6f0;--border2:#c0ced8;
-  --text:#1e3a5a;--text2:#475569;--muted:#64748b;
-  --faint:#dde6f0;--vfaint:#edf1f8;
-  --heading:#0c1f35;--skel:#e4ecf5;
-  --sel-bg:#edf1f8;--sel-bd:#dde6f0;
-  --foot-bg:#eaf0f8;
-  --logo-sub:#94a3b8;--ts:#94a3b8;
-  --panel-bg:#ffffff;--panel-bd:#c0ced8;
-  --logo-accent:#1d6bb8;
-}
-[data-theme="slate"]{
-  --bg:#0e0d12;--bg2:#151420;--bg3:#1b1a28;
-  --border:#1e1d2c;--border2:#2c2a40;
-  --text:#cdc8e4;--text2:#9490b0;--muted:#5a5578;
-  --faint:#2c2a40;--vfaint:#1b1a28;
-  --heading:#e6e1f5;--skel:#1b1a28;
-  --sel-bg:#151420;--sel-bd:#1e1d2c;
-  --foot-bg:#0e0d12;
-  --logo-sub:#2c2a40;--ts:#2c2a40;
-  --panel-bg:#151420;--panel-bd:#2c2a40;
-  --logo-accent:#a78bfa;
-}
-[data-theme="amber"]{
-  --bg:#14100a;--bg2:#1c1710;--bg3:#241d14;
-  --border:#241d14;--border2:#3d3122;
-  --text:#e8d9c0;--text2:#b8a488;--muted:#6b5b45;
-  --faint:#3d3122;--vfaint:#241d14;
-  --heading:#f5e9d5;--skel:#241d14;
-  --sel-bg:#1c1710;--sel-bd:#241d14;
-  --foot-bg:#14100a;
-  --logo-sub:#3d3122;--ts:#3d3122;
-  --panel-bg:#1c1710;--panel-bd:#3d3122;
-  --logo-accent:#e0a458;
+[data-theme="dark"]{
+  --bg:#0b1420;--bg2:#101c2c;--bg3:#16253a;
+  --border:#1c2b3f;--border2:#223349;
+  --text:#b9c6d6;--text2:#8b9db2;--muted:#6b7f97;
+  --faint:#1c2b3f;--vfaint:#101c2c;
+  --heading:#dbe6f0;--skel:#16253a;
+  --sel-bg:#101c2c;--sel-bd:#223349;
+  --foot-bg:#0b1420;
+  --logo-sub:#4a6076;--ts:#4a6076;
+  --panel-bg:#101c2c;--panel-bd:#223349;
+  --logo-accent:#5b9cf6;--accent:#5b9cf6;
 }
 
 html{-webkit-text-size-adjust:100%}
 body{
-  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-family:var(--ff-sans);
   background:var(--bg);color:var(--text);
   min-height:100vh;min-height:100dvh;
   font-size:14px;line-height:1.5;
@@ -70,7 +55,7 @@ body{
   transition:background .25s,color .25s;
 }
 a{color:inherit;text-decoration:none}
-:focus-visible{outline:2px solid var(--logo-accent);outline-offset:2px;border-radius:4px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 
 .wrap{max-width:760px;margin:0 auto;padding:0 16px}
 
@@ -80,32 +65,36 @@ header{
   padding:calc(18px + env(safe-area-inset-top)) 0 18px;
   transition:background .25s,border-color .25s;
 }
-.head-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.head-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo-row{display:flex;align-items:center;gap:11px;min-width:0}
+.logo-badge{width:32px;height:32px;border-radius:50%;border:1.4px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .35s}
+.logo-badge-b{font-family:var(--ff-serif);font-style:italic;font-size:17px;font-weight:500;color:var(--accent);line-height:1;transition:color .35s}
 h1{
-  font-family:'Fraunces',Georgia,serif;font-size:18px;font-weight:600;
-  color:var(--heading);letter-spacing:.18em;
+  font-family:var(--ff-serif);font-size:19px;font-weight:500;
+  color:var(--heading);letter-spacing:.1em;line-height:1.2;
 }
 h1 .ver{
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;font-weight:400;
-  color:var(--logo-accent);letter-spacing:.05em;vertical-align:middle;opacity:.7;
+  font-family:var(--ff-mono);font-size:10px;font-weight:400;
+  color:var(--accent);letter-spacing:.05em;vertical-align:middle;opacity:.75;
 }
 .logo-sub{
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:9px;
+  font-family:var(--ff-mono);font-size:9px;
   color:var(--logo-sub);letter-spacing:.07em;margin-top:3px;
 }
-#theme-btn{
-  background:var(--sel-bg);border:1px solid var(--border2);color:var(--muted);
-  padding:6px 12px;border-radius:5px;
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11px;
-  letter-spacing:.05em;cursor:pointer;flex-shrink:0;
-  transition:color .15s,border-color .15s,background .25s;
+.hdr-actions{display:flex;align-items:center;gap:7px;flex-shrink:0}
+.icon-btn{
+  background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);
+  width:29px;height:29px;border-radius:5px;
+  font-family:var(--ff-mono);font-size:11px;font-weight:500;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;flex-shrink:0;padding:0;
 }
-#theme-btn:hover{color:var(--logo-accent);border-color:var(--logo-accent)}
+.icon-btn:hover,.icon-btn:active{color:var(--accent);border-color:var(--accent)}
 
 /* ── Section labels ─────────────────────────────────────────────────────── */
 .sec{margin-top:30px}
 .sec-label{
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;
+  font-family:var(--ff-mono);font-size:10px;
   color:var(--muted);letter-spacing:.14em;text-transform:uppercase;
   padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:16px;
 }
@@ -118,15 +107,15 @@ h1 .ver{
   padding:16px 18px;
   transition:border-color .15s,transform .12s,background .25s;
 }
-.card:hover,.card:focus-visible{border-color:var(--logo-accent);transform:translateY(-1px)}
+.card:hover,.card:focus-visible{border-color:var(--accent);transform:translateY(-1px)}
 .card-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .card-name{
-  font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:600;
-  color:var(--heading);letter-spacing:.04em;
+  font-family:var(--ff-serif);font-size:17px;font-weight:500;
+  color:var(--heading);letter-spacing:.01em;
 }
 .card-ver{
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;
-  color:var(--logo-accent);opacity:.75;flex-shrink:0;
+  font-family:var(--ff-mono);font-size:10px;
+  color:var(--accent);opacity:.8;flex-shrink:0;
 }
 .card-desc{color:var(--text2);font-size:13px;margin-top:7px}
 
@@ -138,11 +127,11 @@ h1 .ver{
 .cell{padding-right:20px;margin-right:20px;border-right:1px solid var(--vfaint)}
 .cell:last-child{border-right:0;margin-right:0;padding-right:0}
 .cell-n{
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:15px;
+  font-family:var(--ff-mono);font-size:15px;
   color:var(--text);display:block;line-height:1.2;
 }
 .cell-k{
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:9px;
+  font-family:var(--ff-mono);font-size:9px;
   color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
 }
 
@@ -156,29 +145,29 @@ h1 .ver{
 }
 .ref:hover,.ref:focus-visible{background:var(--bg3);color:var(--text)}
 .ref-v{
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;
+  font-family:var(--ff-mono);font-size:10px;
   color:var(--muted);flex-shrink:0;
 }
 
 /* ── Provenance ─────────────────────────────────────────────────────────── */
 .prov{
   margin-top:16px;background:var(--panel-bg);
-  border:1px solid var(--panel-bd);border-left:2px solid var(--logo-accent);
+  border:1px solid var(--panel-bd);border-left:2px solid var(--accent);
   border-radius:6px;padding:14px 16px;
-  font-size:12.5px;color:var(--text2);
+  font-size:calc(12.5px * var(--tsize));color:var(--text2);
 }
 .prov p+p{margin-top:7px}
 
 footer{
   margin-top:36px;background:var(--foot-bg);border-top:1px solid var(--border);
   padding:16px 0 calc(22px + env(safe-area-inset-bottom));
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:10px;
+  font-family:var(--ff-mono);font-size:10px;
   color:var(--ts);line-height:1.8;
 }
 
 @media (max-width:480px){
   .cell{padding-right:14px;margin-right:14px}
-  h1{font-size:16px}
+  h1{font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important}
@@ -190,11 +179,20 @@ footer{
 
 <header>
   <div class="wrap head-row">
-    <div>
-      <h1>BRI-GEST <span class="ver" id="ver"></span></h1>
-      <div class="logo-sub">PUBMED LITERATURE SURVEILLANCE &middot; RACP ADVANCED TRAINING</div>
+    <div class="logo-row">
+      <div class="logo-badge" aria-hidden="true"><span class="logo-badge-b">B</span></div>
+      <div>
+        <h1>BRI&middot;GEST <span class="ver" id="ver"></span></h1>
+        <div class="logo-sub">PUBMED LITERATURE SURVEILLANCE &middot; RACP ADVANCED TRAINING</div>
+      </div>
     </div>
-    <button id="theme-btn" type="button" aria-label="Change theme">THEME</button>
+    <div class="hdr-actions">
+      <button class="icon-btn" id="btn-tsize" title="Text size (cycle)">Aa</button>
+      <button class="icon-btn" id="btn-theme" title="Toggle theme">
+        <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -207,7 +205,7 @@ footer{
       <a class="card" href="endo/">
         <div class="card-top">
           <span class="card-name">Endocrine Bri-gest</span>
-          <span class="card-ver">v5.8</span>
+          <span class="card-ver">v5.9</span>
         </div>
         <div class="card-desc">Weekly endocrinology and metabolism feed. Subdomain filters, journal mode, saved-article pool, search-strategy audit.</div>
         <div class="census">
@@ -221,7 +219,7 @@ footer{
       <a class="card" href="gm/">
         <div class="card-top">
           <span class="card-name">General Medicine Bri-gest</span>
-          <span class="card-ver">v1.0</span>
+          <span class="card-ver">v1.1</span>
         </div>
         <div class="card-desc">Acute and general internal medicine feed, mapped to the RACP GACM curriculum. Core Clinical Journals filter, journal and guidelines views.</div>
         <div class="census">
@@ -275,31 +273,54 @@ footer{
 (function () {
   'use strict';
 
-  var VERSION = '1.0';
-  var THEMES  = ['midnight', 'clinical', 'slate', 'amber'];
-  var KEY     = 'hub_theme';
+  var VERSION = '1.1';
+  var THEME_KEY = 'hub_theme';
+  var TS_KEY    = 'hub_ts';
+  var LEGACY_THEME = {midnight:'dark', slate:'dark', amber:'dark', clinical:'light'};
 
   document.getElementById('ver').textContent = 'v' + VERSION;
   document.getElementById('ver-foot').textContent = 'v' + VERSION;
 
   function readTheme() {
     try {
-      var t = localStorage.getItem(KEY);
-      if (t && THEMES.indexOf(t) !== -1) { return t; }
+      var t = localStorage.getItem(THEME_KEY);
+      if (t === 'light' || t === 'dark') { return t; }
+      if (t && LEGACY_THEME[t]) { return LEGACY_THEME[t]; }
     } catch (e) { /* private browsing */ }
-    return THEMES[0];
+    return 'light';
   }
 
   function applyTheme(t) {
     document.documentElement.setAttribute('data-theme', t);
-    try { localStorage.setItem(KEY, t); } catch (e) { /* no-op */ }
+    var sun = document.getElementById('icon-sun'), moon = document.getElementById('icon-moon');
+    if (sun) sun.style.display = t === 'dark' ? 'none' : '';
+    if (moon) moon.style.display = t === 'dark' ? '' : 'none';
+    try { localStorage.setItem(THEME_KEY, t); } catch (e) { /* no-op */ }
   }
 
   applyTheme(readTheme());
 
-  document.getElementById('theme-btn').addEventListener('click', function () {
-    var next = THEMES[(THEMES.indexOf(readTheme()) + 1) % THEMES.length];
-    applyTheme(next);
+  document.getElementById('btn-theme').addEventListener('click', function () {
+    applyTheme(readTheme() === 'light' ? 'dark' : 'light');
+  });
+
+  var SCALES = [1, 1.15, 1.3];
+  function readTextScale() {
+    try {
+      var s = parseInt(localStorage.getItem(TS_KEY), 10);
+      if (s === 0 || s === 1 || s === 2) { return s; }
+    } catch (e) { /* private browsing */ }
+    return 0;
+  }
+  function applyTextScale(step) {
+    document.documentElement.style.setProperty('--tsize', SCALES[step] || 1);
+    try { localStorage.setItem(TS_KEY, step); } catch (e) { /* no-op */ }
+  }
+  var textScale = readTextScale();
+  applyTextScale(textScale);
+  document.getElementById('btn-tsize').addEventListener('click', function () {
+    textScale = (textScale + 1) % 3;
+    applyTextScale(textScale);
   });
 })();
 </script>

@@ -18,36 +18,36 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-/* ── Themes ─────────────────────────────────────────────────────────────── */
+/* ── Themes (tokens shared with the hub and gm/) ───────────────────────── */
 [data-theme="light"]{
-  --bg:#faf7f1;--bg2:#ffffff;--bg3:#f2ede2;
-  --border:#e5ddcd;--border2:#d4c9b8;
-  --text:#1d1a16;--text2:#5c5346;--muted:#6f6656;
-  --faint:#c9bfaf;--vfaint:#ede8df;
-  --heading:#151210;--read-left:#d4c9b8;--skel:#f2ede2;
+  --bg:#dde3ec;--bg2:#e3e8f0;--bg3:#d3dae5;
+  --border:#c7d0de;--border2:#b8c4d6;
+  --text:#2b3f52;--text2:#526278;--muted:#6b7a8d;
+  --faint:#c7d0de;--vfaint:#d3dae5;
+  --heading:#1c2b3a;--read-left:#c7d0de;--skel:#d3dae5;
   --err-bg:#fff5f5;--err-bd:#fca5a5;--err-tx:#dc2626;
-  --sel-bg:#f2ede2;--sel-bd:#e5ddcd;
-  --foot-bg:#faf7f1;--tab-off:#6f6656;
-  --logo-sub:#6f6656;--ts:#6f6656;--abs:#5c5346;
-  --panel-bg:#ffffff;--panel-bd:#e5ddcd;
-  --logo-accent:#1f5c46;--accent:#1f5c46;
-  --pill-active-bg:rgba(31,92,70,.1);
-  --read-dim:rgba(29,26,22,.45);
+  --sel-bg:#d3dae5;--sel-bd:#b8c4d6;
+  --foot-bg:#d3dae5;--tab-off:#8a97a8;
+  --logo-sub:#8a97a8;--ts:#8a97a8;--abs:#526278;
+  --panel-bg:#e3e8f0;--panel-bd:#b8c4d6;
+  --logo-accent:#1d6bb8;--accent:#1d6bb8;
+  --pill-active-bg:rgba(29,107,184,.1);
+  --read-dim:rgba(43,63,82,.45);
 }
 [data-theme="dark"]{
-  --bg:#141210;--bg2:#1c1916;--bg3:#221e18;
-  --border:#332d24;--border2:#433828;
-  --text:#ece5d7;--text2:#b3a692;--muted:#968872;
-  --faint:#4a4035;--vfaint:#28231c;
-  --heading:#f6efe1;--read-left:#2a2419;--skel:#221e18;
+  --bg:#0b1420;--bg2:#101c2c;--bg3:#16253a;
+  --border:#1c2b3f;--border2:#223349;
+  --text:#b9c6d6;--text2:#8b9db2;--muted:#6b7f97;
+  --faint:#1c2b3f;--vfaint:#101c2c;
+  --heading:#dbe6f0;--read-left:#1c2b3f;--skel:#16253a;
   --err-bg:#160808;--err-bd:#4a1010;--err-tx:#f87171;
-  --sel-bg:#221e18;--sel-bd:#332d24;
-  --foot-bg:#141210;--tab-off:#968872;
-  --logo-sub:#968872;--ts:#968872;--abs:#b3a692;
-  --panel-bg:#1c1916;--panel-bd:#332d24;
-  --logo-accent:#6fbf9c;--accent:#6fbf9c;
-  --pill-active-bg:rgba(111,191,156,.15);
-  --read-dim:rgba(236,229,215,.4);
+  --sel-bg:#101c2c;--sel-bd:#223349;
+  --foot-bg:#0b1420;--tab-off:#4a6076;
+  --logo-sub:#4a6076;--ts:#4a6076;--abs:#8b9db2;
+  --panel-bg:#101c2c;--panel-bd:#223349;
+  --logo-accent:#5b9cf6;--accent:#5b9cf6;
+  --pill-active-bg:rgba(91,156,246,.15);
+  --read-dim:rgba(185,198,214,.4);
 }
 
 /* ── Base ────────────────────────────────────────────────────────────────── */
@@ -356,14 +356,14 @@ document.addEventListener('DOMContentLoaded',function(){
 // ═══════════════════════════════════════════════════════════════════════════
 // 1. VERSION — single source of truth; all UI references derive from this
 // ═══════════════════════════════════════════════════════════════════════════
-const VERSION = '5.8';
+const VERSION = '5.9';
 //    Each has a broad domain query (union) + subdomains array
 //    Query sources cited in endo-digest-queries.html reference document
 // ═══════════════════════════════════════════════════════════════════════════
 const TOPICS = [
 // ── Core RACP domains ───────────────────────────────────────────────────
 {
-  id:'dm', section:'core', color:'#5b9cf6', label:'Diabetes Mellitus', short:'Diabetes',
+  id:'dm', section:'core', color:'#c85a72', colorDark:'#d35f79', label:'Diabetes Mellitus', short:'Diabetes',
   query:'("diabetes mellitus"[MH] OR "diabetic ketoacidosis"[MH] OR "hypoglycemia"[MH] OR "prediabetic state"[MH] OR "insulin resistance"[MH])',
   subdomains:[
     { label:'Type 1 Diabetes',
@@ -385,7 +385,7 @@ const TOPICS = [
   ]
 },
 {
-  id:'ob', section:'core', color:'#f87171', label:'Obesity & Metabolic Syndrome', short:'Obesity',
+  id:'ob', section:'core', color:'#2a78d6', colorDark:'#3987e5', label:'Obesity & Metabolic Syndrome', short:'Obesity',
   query:'("obesity"[MH] OR "overweight"[MH] OR "metabolic syndrome"[MH]) AND ("weight loss"[MH] OR "anti-obesity"[tiab] OR "weight management"[tiab] OR "obesity management"[tiab])',
   subdomains:[
     { label:'Pharmacotherapy',
@@ -401,7 +401,7 @@ const TOPICS = [
   ]
 },
 {
-  id:'thy', section:'core', color:'#a78bfa', label:'Thyroid Disorders', short:'Thyroid',
+  id:'thy', section:'core', color:'#eda100', colorDark:'#c98500', label:'Thyroid Disorders', short:'Thyroid',
   query:'("thyroid diseases"[MH] OR "thyroid neoplasms"[MH] OR thyroiditis[MH])',
   subdomains:[
     { label:'Hypothyroidism',
@@ -421,7 +421,7 @@ const TOPICS = [
   ]
 },
 {
-  id:'ad', section:'core', color:'#fbbf24', label:'Adrenal Disorders', short:'Adrenal',
+  id:'ad', section:'core', color:'#008300', colorDark:'#008300', label:'Adrenal Disorders', short:'Adrenal',
   query:'("adrenal gland diseases"[MH] OR pheochromocytoma[MH] OR "Cushing syndrome"[MH] OR "adrenocortical insufficiency"[MH] OR paraganglioma[MH] OR "hyperaldosteronism"[MH])',
   subdomains:[
     { label:'Cushing Syndrome & Disease',
@@ -439,7 +439,7 @@ const TOPICS = [
   ]
 },
 {
-  id:'pit', section:'core', color:'#e879f9', label:'Pituitary & Hypothalamic', short:'Pituitary',
+  id:'pit', section:'core', color:'#e87ba4', colorDark:'#d55181', label:'Pituitary & Hypothalamic', short:'Pituitary',
   query:'("pituitary diseases"[MH] OR "hypothalamic diseases"[MH] OR "pituitary neoplasms"[MH])',
   subdomains:[
     { label:'Acromegaly',
@@ -457,7 +457,7 @@ const TOPICS = [
   ]
 },
 {
-  id:'bone', section:'core', color:'#38bdf8', label:'Bone & Mineral Metabolism', short:'Bone',
+  id:'bone', section:'core', color:'#6b9a1f', colorDark:'#79a020', label:'Bone & Mineral Metabolism', short:'Bone',
   query:'("bone diseases"[MH] OR osteoporosis[MH] OR "hyperparathyroidism"[MH] OR "calcium metabolism disorders"[MH])',
   subdomains:[
     { label:'Osteoporosis',
@@ -474,7 +474,7 @@ const TOPICS = [
 },
 // ── Extended RACP domains ─────────────────────────────────────────────────
 {
-  id:'rep', section:'spec', color:'#fb7185', label:'Reproductive Endocrinology', short:'Repro',
+  id:'rep', section:'spec', color:'#9a3f9e', colorDark:'#b555b8', label:'Reproductive Endocrinology', short:'Repro',
   query:'("gonadal disorders"[MH] OR "polycystic ovary syndrome"[MH] OR hypogonadism[MH] OR "sex chromosome disorders"[MH])',
   subdomains:[
     { label:'PCOS',
@@ -490,7 +490,7 @@ const TOPICS = [
   ]
 },
 {
-  id:'lip', section:'spec', color:'#fb923c', label:'Lipids & Cardiovascular Risk', short:'Lipids',
+  id:'lip', section:'spec', color:'#c9962e', colorDark:'#b8842a', label:'Lipids & Cardiovascular Risk', short:'Lipids',
   query:'("dyslipidemias"[MH] OR ("lipoproteins"[MH] AND "cardiovascular diseases"[MH]) OR ("cardiovascular risk"[tiab] AND "lipid"[tiab]))',
   subdomains:[
     { label:'Dyslipidaemia Management',
@@ -504,7 +504,7 @@ const TOPICS = [
   ]
 },
 {
-  id:'net', section:'spec', color:'#4ade80', label:'Neuroendocrine Tumours', short:'NETs',
+  id:'net', section:'spec', color:'#4a3aa7', colorDark:'#9085e9', label:'Neuroendocrine Tumours', short:'NETs',
   query:'("neuroendocrine tumors"[MH] OR "carcinoid tumor"[MH] OR "neuroendocrine neoplasm"[tiab] OR ("NET"[tiab] AND "neuroendocrine"[tiab]))',
   subdomains:[
     { label:'Functioning GEP-NETs',
@@ -518,7 +518,7 @@ const TOPICS = [
   ]
 },
 {
-  id:'eoc', section:'spec', color:'#f472b6', label:'Endocrine Oncology', short:'Endo-Onc',
+  id:'eoc', section:'spec', color:'#a05a2c', colorDark:'#c07038', label:'Endocrine Oncology', short:'Endo-Onc',
   query:'("adrenocortical carcinoma"[tiab] OR ("immune checkpoint"[tiab] AND "endocrinopathy"[tiab]) OR ("cancer treatment"[tiab] AND ("endocrine"[tiab] OR "gonadotoxicity"[tiab])) OR ("paraneoplastic"[tiab] AND "endocrine"[tiab]))',
   subdomains:[
     { label:'Adrenocortical Carcinoma',
@@ -533,7 +533,7 @@ const TOPICS = [
 
 // Journal-view virtual topic (activated when journals are selected)
 const JOURNAL_VIEW_TOPIC = {
-  id:'jv', section:'jv', color:'#94a3b8', label:'Journal View', short:'Journal View',
+  id:'jv', section:'jv', color:'#6b7a8d', colorDark:'#6b7f97', label:'Journal View', short:'Journal View',
   query:'("endocrinology"[MH] OR "diabetes mellitus"[MH] OR "thyroid diseases"[MH] OR "adrenal gland diseases"[MH] OR "pituitary diseases"[MH] OR "metabolic diseases"[MH] OR "bone diseases"[MH] OR "gonadal disorders"[MH] OR "neuroendocrine tumors"[MH] OR "dyslipidemias"[MH] OR "obesity"[MH])',
   subdomains:[]
 };
@@ -1103,12 +1103,18 @@ function renderError(msg,id){
 }
 function unread(id){const c=getCached(id);return c?c.articles.filter(a=>!readSet.has(a.pmid)).length:0;}
 
+// Each topic carries a light-mode and dark-mode accent hex (color/colorDark on
+// TOPICS entries) — the dark variant is stepped for OKLCH L 0.48-0.67 so it
+// still clears 3:1 against the dark surface; the light hex would under-contrast
+// there. Always read the topic accent through this, never t.color directly.
+function topicColor(t){return theme==='dark'?(t.colorDark||t.color):t.color;}
+
 function renderPills(t){
   const row=document.getElementById('sd-pill-row');
   row.innerHTML='';
   if(!t||!t.subdomains||!t.subdomains.length){row.style.display='none';return;}
   row.style.display='flex';
-  row.style.setProperty('--tc',t.color);
+  row.style.setProperty('--tc',topicColor(t));
   const si=subSel[t.id];
   // All pill
   const allPill=document.createElement('button');
@@ -1144,10 +1150,10 @@ function renderTabs(){
       const pct=readPct(t.id);
       const btn=document.createElement('button');
       btn.className='tab'+(active?' active':'');
-      btn.style.setProperty('--tc',t.color);
+      btn.style.setProperty('--tc',topicColor(t));
       btn.title=t.label;
-      const dotH=pct>0?`<span class="tab-dot" style="--pct:${pct}%;--tc:${t.color}" title="${pct}% read"></span>`:'';
-      btn.innerHTML=esc(t.short)+dotH+(cnt>0?`<span class="badge" style="--tc:${t.color}">${cnt}</span>`:'');
+      const dotH=pct>0?`<span class="tab-dot" style="--pct:${pct}%;--tc:${topicColor(t)}" title="${pct}% read"></span>`:'';
+      btn.innerHTML=esc(t.short)+dotH+(cnt>0?`<span class="badge" style="--tc:${topicColor(t)}">${cnt}</span>`:'');
       btn.onclick=()=>{activeId=t.id;showBM=false;renderTabs();renderPills(t);renderContent();loadTopic(t.id);};
       nav.appendChild(btn);
     });
@@ -1173,7 +1179,7 @@ function renderTabs(){
   // Saved tab (both modes)
   const bm=document.createElement('button');
   bm.className='tab tab-bm'+(showBM?' active':'');
-  bm.style.setProperty('--tc',getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#1f5c46');
+  bm.style.setProperty('--tc',getComputedStyle(document.documentElement).getPropertyValue('--accent').trim()||'#1d6bb8');
   bm.title='Saved articles';
   bm.innerHTML='Saved'+(savedCount()>0?`<span class="badge">${savedCount()}</span>`:'');
   bm.onclick=()=>{showBM=true;renderTabs();document.getElementById('sd-pill-row').innerHTML='';document.getElementById('jchip-row').style.display='none';renderContent();};
@@ -1253,7 +1259,7 @@ function articleHTML(a,tc){
 function renderJChips(){
   const row=document.getElementById('jchip-row');
   row.style.display='flex';
-  row.style.setProperty('--tc',JOURNAL_VIEW_TOPIC.color);
+  row.style.setProperty('--tc',topicColor(JOURNAL_VIEW_TOPIC));
   row.innerHTML='';
   jvJournals.forEach(function(ta){
     const chip=document.createElement('span');chip.className='jchip';
@@ -1289,7 +1295,7 @@ function renderContent(){
   const si=subSel[activeId];
   const subLabel=si!==null&&si!==undefined&&t.subdomains&&t.subdomains[si]&&t.subdomains[si].label;
   titleEl.textContent=subLabel?`${t.label} \u2014 ${subLabel}`:t.label;
-  titleEl.style.color=t.color;
+  titleEl.style.color=topicColor(t);
   if(mode==='journal'){document.getElementById('sd-pill-row').style.display='none';renderJChips();}
   else{document.getElementById('jchip-row').style.display='none';renderPills(t);}
 
@@ -1305,7 +1311,7 @@ function renderContent(){
   else if(minIF>0&&arts.length>0){noticeEl.style.display='block';noticeEl.textContent=`IF \u2265 ${minIF} filter active. Unlisted journals always included.`;}
   else{noticeEl.style.display='none';}
 
-  el.innerHTML=arts.length?arts.map(a=>articleHTML(a,t.color)).join(''):'<div class="empty-state"><h3>No articles found</h3><p>Try extending the date range, changing the study type,<br>or selecting a different subdomain.</p></div>';
+  el.innerHTML=arts.length?arts.map(a=>articleHTML(a,topicColor(t))).join(''):'<div class="empty-state"><h3>No articles found</h3><p>Try extending the date range, changing the study type,<br>or selecting a different subdomain.</p></div>';
   renderTabs();
 }
 
@@ -1490,7 +1496,7 @@ function buildAudit(){
     const subH=audit.subLabel?`<div class="audit-section-label">Active subdomain</div><div class="audit-query-box" style="color:var(--logo-accent)">${esc(audit.subLabel)}</div>`:'';
     const transH=audit.querytranslation?`<div class="audit-section-label">NCBI query translation</div><div class="audit-translation-box">${esc(audit.querytranslation)}</div>${count>showing+10?`<div class="audit-warning">&#9888; ${count-showing} further records exist beyond the ${showing} shown. Inspect translation for dropped terms.</div>`:''}`:'<div class="audit-pending" style="margin-top:6px">Load this topic to see NCBI query translation.</div>';
     const w=document.createElement('div');w.className='audit-topic';
-    w.innerHTML=`<div class="audit-topic-head" style="border-left:3px solid ${t.color}"><span class="audit-topic-label" style="color:${t.color}">${esc(t.label)}</span>${countH}&nbsp;${vH}<span style="font-size:10px;color:var(--muted);margin-left:4px">${open?'&#9650;':'&#9660;'}</span></div>
+    w.innerHTML=`<div class="audit-topic-head" style="border-left:3px solid ${topicColor(t)}"><span class="audit-topic-label" style="color:${topicColor(t)}">${esc(t.label)}</span>${countH}&nbsp;${vH}<span style="font-size:10px;color:var(--muted);margin-left:4px">${open?'&#9650;':'&#9660;'}</span></div>
       <div class="audit-topic-body${open?' open':''}" id="ab-audit-${t.id}">${subH}<div class="audit-section-label">Query sent to PubMed</div><div class="audit-query-box">${esc(audit.query||t.query)}</div>${transH}</div>`;
     w.querySelector('.audit-topic-head').addEventListener('click',()=>{auditOpen.has(t.id)?auditOpen.delete(t.id):auditOpen.add(t.id);buildAudit();});
     body.appendChild(w);

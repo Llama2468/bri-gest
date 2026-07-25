@@ -1,40 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="midnight">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>General Medicine Bri-gest — CPD Feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,400..600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ff-serif: Georgia,'Times New Roman',Times,serif;
-  --ff-mono: ui-monospace,'SF Mono','Cascadia Mono','Segoe UI Mono',Menlo,Monaco,Consolas,'Courier New',monospace;
+  --ff-serif: 'Newsreader',Georgia,'Times New Roman',Times,serif;
+  --ff-mono: 'IBM Plex Mono',ui-monospace,'SF Mono','Cascadia Mono','Segoe UI Mono',Menlo,Monaco,Consolas,'Courier New',monospace;
   --ff-sans: system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --tsize: 1;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-[data-theme="midnight"]{
-  --bg:#050c18;--bg2:#090f1d;--bg3:#0a1628;
-  --border:#0d1625;--border2:#1a2d45;
-  --text:#c8d8e8;--text2:#8aa0ba;--muted:#3a5570;
-  --faint:#1a2d45;--vfaint:#0d1a2c;
-  --heading:#ddeeff;--read-left:#1a2540;--skel:#0a1628;
+[data-theme="dark"]{
+  --bg:#0b1420;--bg2:#101c2c;--bg3:#16253a;
+  --border:#1c2b3f;--border2:#223349;
+  --text:#b9c6d6;--text2:#8b9db2;--muted:#6b7f97;
+  --faint:#1c2b3f;--vfaint:#101c2c;
+  --heading:#dbe6f0;--read-left:#1c2b3f;--skel:#16253a;
   --err-bg:#160808;--err-bd:#4a1010;--err-tx:#f87171;
-  --sel-bg:#080f1c;--sel-bd:#0d1a2c;
-  --foot-bg:#050c18;--tab-off:#1e3050;
-  --logo-sub:#1a2d45;--ts:#162030;--abs:#8aa0ba;
-  --panel-bg:#0a1220;--panel-bd:#1a2d45;
+  --sel-bg:#101c2c;--sel-bd:#223349;
+  --foot-bg:#0b1420;--tab-off:#4a6076;
+  --logo-sub:#4a6076;--ts:#4a6076;--abs:#8b9db2;
+  --panel-bg:#101c2c;--panel-bd:#223349;
   --logo-accent:#5b9cf6;
 }
-[data-theme="clinical"]{
-  --bg:#f4f7fc;--bg2:#ffffff;--bg3:#eaf0f8;
-  --border:#dde6f0;--border2:#c0ced8;
-  --text:#1e3a5a;--text2:#475569;--muted:#64748b;
-  --faint:#dde6f0;--vfaint:#edf1f8;
-  --heading:#0c1f35;--read-left:#c8d8e8;--skel:#e4ecf5;
+[data-theme="light"]{
+  --bg:#dde3ec;--bg2:#e3e8f0;--bg3:#d3dae5;
+  --border:#c7d0de;--border2:#b8c4d6;
+  --text:#2b3f52;--text2:#526278;--muted:#6b7a8d;
+  --faint:#c7d0de;--vfaint:#d3dae5;
+  --heading:#1c2b3a;--read-left:#c7d0de;--skel:#d3dae5;
   --err-bg:#fff5f5;--err-bd:#fca5a5;--err-tx:#dc2626;
-  --sel-bg:#edf1f8;--sel-bd:#dde6f0;
-  --foot-bg:#eaf0f8;--tab-off:#94a3b8;
-  --logo-sub:#94a3b8;--ts:#94a3b8;--abs:#475569;
-  --panel-bg:#ffffff;--panel-bd:#c0ced8;
+  --sel-bg:#d3dae5;--sel-bd:#b8c4d6;
+  --foot-bg:#d3dae5;--tab-off:#8a97a8;
+  --logo-sub:#8a97a8;--ts:#8a97a8;--abs:#526278;
+  --panel-bg:#e3e8f0;--panel-bd:#b8c4d6;
   --logo-accent:#1d6bb8;
 }
 body{font-family:var(--ff-sans);background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;transition:background .25s,color .25s;-webkit-text-size-adjust:100%;text-size-adjust:100%}
@@ -47,14 +51,15 @@ header{display:flex;justify-content:space-between;align-items:center;padding:13p
 .hub-link{font-family:var(--ff-mono);font-size:10px;color:var(--muted);text-decoration:none;padding:3px 7px;border:1px solid var(--border2);border-radius:4px;white-space:nowrap;flex-shrink:0;transition:color .15s,border-color .15s}
 .hub-link:hover{color:var(--text);border-color:var(--logo-accent)}
 .logo-row{display:flex;align-items:center;gap:13px;flex-shrink:0}
-.logo-hex{font-size:24px;color:var(--logo-accent);line-height:1;transition:color .25s}
+.logo-badge{width:30px;height:30px;border-radius:50%;border:1.4px solid var(--logo-accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .35s}
+.logo-badge-b{font-family:var(--ff-serif);font-style:italic;font-size:16px;font-weight:500;color:var(--logo-accent);line-height:1;transition:color .35s}
 h1{font-family:var(--ff-serif);font-size:18px;font-weight:600;color:var(--heading);letter-spacing:.14em}
 .logo-sub{font-family:var(--ff-mono);font-size:9px;color:var(--logo-sub);letter-spacing:.07em;margin-top:2px}
 .controls{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 select{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);padding:5px 22px 5px 8px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%231e3050'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 7px center;transition:background .25s,border-color .25s,color .25s}
 select option{background:var(--sel-bg)}
-.icon-btn{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);width:30px;height:30px;border-radius:5px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
-.icon-btn:hover{color:var(--text);border-color:var(--border2)}
+.icon-btn{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);width:29px;height:29px;border-radius:5px;font-family:var(--ff-mono);font-size:11px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;padding:0}
+.icon-btn:hover{color:var(--logo-accent);border-color:var(--logo-accent)}
 .icon-btn.active{border-color:var(--logo-accent);color:var(--logo-accent)}
 .ccj-toggle{background:var(--sel-bg);border:1px solid var(--sel-bd);color:var(--muted);padding:5px 10px;border-radius:5px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;letter-spacing:.06em;transition:all .15s;flex-shrink:0}
 .ccj-toggle.active{border-color:var(--logo-accent);color:var(--logo-accent);background:var(--bg3)}
@@ -65,7 +70,6 @@ select option{background:var(--sel-bg)}
 .f-panel{position:fixed;top:60px;right:8px;background:var(--panel-bg);border:1px solid var(--panel-bd);border-radius:8px;z-index:300;display:none;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.55);overflow:hidden;max-width:calc(100vw - 16px)}
 .f-panel.open{display:flex}
 #journal-panel{width:340px;max-height:500px}
-#theme-panel{width:200px;padding:8px;gap:4px;right:52px}
 #audit-panel{width:480px;max-height:80vh}
 @media(max-width:520px){
   #audit-panel{width:calc(100vw - 16px);right:8px}
@@ -83,11 +87,6 @@ select option{background:var(--sel-bg)}
 .jp-item input[type=checkbox]{accent-color:var(--logo-accent);width:13px;height:13px;flex-shrink:0;cursor:pointer}
 .jp-item-name{font-size:12px;color:var(--text2);flex:1}
 .if-badge,.jp-item-if,.study-badge,.corr-badge{font-family:var(--ff-mono);font-size:10px;padding:2px 7px;border-radius:3px;font-weight:500}
-.theme-opt{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:5px;cursor:pointer;transition:background .1s}
-.theme-opt:hover{background:var(--bg3)}
-.theme-swatch{width:28px;height:18px;border-radius:4px;flex-shrink:0;border:1px solid rgba(255,255,255,.1)}
-.theme-name{font-size:12px;color:var(--text)}
-.theme-opt.active .theme-name{color:var(--logo-accent);font-weight:500}
 .audit-head{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--border);flex-shrink:0}
 .audit-head h3{font-family:var(--ff-serif);font-weight:300;font-size:16px;color:var(--heading);flex:1}
 .audit-close{background:none;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:0 4px}
@@ -121,7 +120,7 @@ nav::-webkit-scrollbar{display:none}
 .sd-pill.active{background:var(--pill-active-bg,rgba(91,156,246,.12));border-color:var(--tc,#5b9cf6);color:var(--tc,#5b9cf6)}
 main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
 .topic-hdr{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;gap:12px;flex-wrap:wrap}
-.topic-title{font-family:var(--ff-serif);font-size:24px;font-weight:300;letter-spacing:.01em}
+.topic-title{font-family:var(--ff-serif);font-size:calc(24px * var(--tsize));font-weight:300;letter-spacing:.01em}
 .fetch-time{font-family:var(--ff-mono);font-size:10px;color:var(--ts)}
 .if-notice{font-family:var(--ff-mono);font-size:10px;color:var(--muted);margin-bottom:12px;padding:6px 10px;background:var(--bg3);border-radius:4px;border-left:2px solid var(--logo-accent)}
 @keyframes pulse{0%,100%{opacity:.28}50%{opacity:.5}}
@@ -136,13 +135,13 @@ main{max-width:860px;margin:0 auto;padding:22px 24px 80px}
 .pub-date{font-family:var(--ff-mono);font-size:10px;color:var(--muted)}
 .pmid-label{font-family:var(--ff-mono);font-size:10px;color:var(--faint);margin-left:auto}
 .corr-badge{background:#78716c18;color:#a8a29e;border:1px solid #a8a29e44}
-.art-title{font-family:var(--ff-serif);font-weight:300;font-size:16px;color:var(--text);line-height:1.48;margin-bottom:6px;cursor:pointer;transition:color .15s}
+.art-title{font-family:var(--ff-serif);font-weight:300;font-size:calc(16px * var(--tsize));color:var(--text);line-height:1.48;margin-bottom:6px;cursor:pointer;transition:color .15s}
 .art-title:hover{color:var(--heading)}
-.authors{font-family:var(--ff-mono);font-size:10.5px;color:var(--muted);margin-bottom:12px}
+.authors{font-family:var(--ff-mono);font-size:calc(10.5px * var(--tsize));color:var(--muted);margin-bottom:12px}
 .abstract-body{border-left:2px solid var(--border2);padding-left:15px;margin-bottom:13px;display:none}
 .abstract-body.open{display:block}
-.abstract-para{font-size:12.5px;line-height:1.68;color:var(--abs);margin-bottom:9px}
-.abstract-label{font-family:var(--ff-mono);font-size:10.5px;margin-right:3px;color:var(--tc,#5b9cf6)}
+.abstract-para{font-size:calc(12.5px * var(--tsize));line-height:1.68;color:var(--abs);margin-bottom:9px}
+.abstract-label{font-family:var(--ff-mono);font-size:calc(10.5px * var(--tsize));margin-right:3px;color:var(--tc,#5b9cf6)}
 .actions{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 .act-btn{background:none;border:1px solid var(--border2);color:var(--muted);padding:3px 9px;border-radius:4px;font-size:11px;font-family:var(--ff-mono);cursor:pointer;text-decoration:none;display:inline-block;transition:opacity .15s}
 .act-btn:hover{opacity:.7}
@@ -181,7 +180,7 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
 <header>
   <div class="logo-row">
     <a href="../" class="hub-link" title="Back to Bri-gest Hub">&#8592; Hub</a>
-    <div class="logo-hex">&#x2B21;</div>
+    <div class="logo-badge" aria-hidden="true"><span class="logo-badge-b">B</span></div>
     <div>
       <h1>General Medicine Bri-gest <span style="letter-spacing:normal;font-size:17px;vertical-align:middle" role="img" aria-label="bespectacled researcher">&#129299;</span> <span id="ver-badge" style="font-family:var(--ff-mono);font-size:10px;font-weight:400;color:var(--logo-accent);letter-spacing:.05em;vertical-align:middle;opacity:.7"></span></h1>
       <div class="logo-sub" id="logo-sub">GENERAL &amp; ACUTE CARE MEDICINE &middot; CPD FEED &middot; PUBMED</div>
@@ -211,8 +210,12 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
     <button class="ccj-toggle" id="btn-ccj" title="Restrict to NLM Core Clinical Journals (Abridged Index Medicus subset)">CCJ</button>
     <div class="ctrl-divider"></div>
     <button class="icon-btn" id="btn-journals" title="Filter by journal">&#128300;</button>
-    <button class="icon-btn" id="btn-theme"   title="Change theme">&#127912;</button>
     <button class="icon-btn" id="btn-audit"   title="Search strategy audit">&#128269;</button>
+    <button class="icon-btn" id="btn-tsize" title="Text size (cycle)">Aa</button>
+    <button class="icon-btn" id="btn-theme" title="Toggle theme">
+      <svg id="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:none" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
     <div class="ctrl-divider"></div>
     <button id="btn-refresh">&#8635; Refresh</button>
   </div>
@@ -224,10 +227,6 @@ footer{border-top:1px solid var(--vfaint);padding:13px 24px;background:var(--foo
     <button class="jp-clear-btn" id="jp-clear">Clear</button>
   </div>
   <div class="jp-body" id="jp-body"></div>
-</div>
-<div id="theme-panel" class="f-panel">
-  <div class="theme-opt" data-theme="midnight"><div class="theme-swatch" style="background:linear-gradient(135deg,#050c18 50%,#5b9cf6 100%)"></div><span class="theme-name">Midnight</span></div>
-  <div class="theme-opt" data-theme="clinical"><div class="theme-swatch" style="background:linear-gradient(135deg,#f4f7fc 50%,#1d6bb8 100%)"></div><span class="theme-name">Clinical</span></div>
 </div>
 <div id="audit-panel" class="f-panel">
   <div class="audit-head"><h3>Search Strategy Audit</h3><button class="audit-close" id="audit-close">&#x2715;</button></div>
@@ -277,7 +276,7 @@ document.addEventListener('DOMContentLoaded',function(){
 // ---------------------------------------------------------------------------
 // 1. VERSION - single source of truth
 // ---------------------------------------------------------------------------
-var VERSION = '1.0';
+var VERSION = '1.1';
 
 // ---------------------------------------------------------------------------
 // 1a. TOPICS - RACP General & Acute Care Medicine lanes
@@ -289,7 +288,7 @@ var VERSION = '1.0';
 // ---------------------------------------------------------------------------
 var TOPICS = [
 {
-  id:'acu', section:'core', color:'#5b9cf6', label:'Acute & Hospital Medicine', short:'Acute',
+  id:'acu', section:'core', color:'#c85a72', colorDark:'#d35f79', label:'Acute & Hospital Medicine', short:'Acute',
   query:'("critical illness"[MH] OR "sepsis"[MH] OR "delirium"[MH] OR "shock"[MH] OR "fluid therapy"[MH] OR "water-electrolyte imbalance"[MH] OR "hospital rapid response team"[MH] OR "acute medical unit"[tiab] OR "clinical deterioration"[tiab])',
   subdomains:[
     { label:'Sepsis & Septic Shock',
@@ -305,7 +304,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'cvs', section:'core', color:'#f87171', label:'Cardiology', short:'Cardio',
+  id:'cvs', section:'core', color:'#2a78d6', colorDark:'#3987e5', label:'Cardiology', short:'Cardio',
   query:'("heart failure"[MH] OR "atrial fibrillation"[MH] OR "acute coronary syndrome"[MH] OR "myocardial infarction"[MH] OR "hypertension"[MH] OR "heart valve diseases"[MH])',
   subdomains:[
     { label:'Heart Failure',
@@ -321,7 +320,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'resp', section:'core', color:'#a78bfa', label:'Respiratory Medicine', short:'Resp',
+  id:'resp', section:'core', color:'#eda100', colorDark:'#c98500', label:'Respiratory Medicine', short:'Resp',
   query:'("pulmonary disease, chronic obstructive"[MH] OR "asthma"[MH] OR "pneumonia"[MH] OR "pulmonary embolism"[MH] OR "respiratory insufficiency"[MH] OR "pleural diseases"[MH])',
   subdomains:[
     { label:'COPD',
@@ -337,7 +336,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'inf', section:'core', color:'#fbbf24', label:'Infectious Diseases & AMS', short:'ID',
+  id:'inf', section:'core', color:'#008300', colorDark:'#008300', label:'Infectious Diseases & AMS', short:'ID',
   query:'("communicable diseases"[MH] OR "bacterial infections"[MH] OR "sepsis"[MH] OR "anti-bacterial agents"[MH] OR "antimicrobial stewardship"[MH])',
   subdomains:[
     { label:'Bacteraemia & Endocarditis',
@@ -353,7 +352,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'gi', section:'core', color:'#e879f9', label:'Gastro & Hepatology', short:'Gastro',
+  id:'gi', section:'core', color:'#e87ba4', colorDark:'#d55181', label:'Gastro & Hepatology', short:'Gastro',
   query:'("gastrointestinal diseases"[MH] OR "liver diseases"[MH] OR "gastrointestinal hemorrhage"[MH] OR "inflammatory bowel diseases"[MH] OR "pancreatitis"[MH])',
   subdomains:[
     { label:'GI Bleeding',
@@ -369,7 +368,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'renal', section:'core', color:'#38bdf8', label:'Renal & Electrolytes', short:'Renal',
+  id:'renal', section:'core', color:'#6b9a1f', colorDark:'#79a020', label:'Renal & Electrolytes', short:'Renal',
   query:'("renal insufficiency"[MH] OR "acute kidney injury"[MH] OR "renal insufficiency, chronic"[MH] OR "water-electrolyte imbalance"[MH] OR "acid-base imbalance"[MH])',
   subdomains:[
     { label:'Acute Kidney Injury',
@@ -385,7 +384,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'neuro', section:'core', color:'#fb7185', label:'Neurology & Stroke', short:'Neuro',
+  id:'neuro', section:'core', color:'#9a3f9e', colorDark:'#b555b8', label:'Neurology & Stroke', short:'Neuro',
   query:'("nervous system diseases"[MH] OR "stroke"[MH] OR "seizures"[MH] OR "headache disorders"[MH] OR "Parkinson disease"[MH])',
   subdomains:[
     { label:'Stroke & TIA',
@@ -401,7 +400,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'periop', section:'cross', color:'#fb923c', label:'Perioperative Medicine', short:'Periop',
+  id:'periop', section:'cross', color:'#c9962e', colorDark:'#b8842a', label:'Perioperative Medicine', short:'Periop',
   query:'("perioperative care"[MH] OR "perioperative period"[MH] OR "preoperative care"[MH] OR "postoperative complications"[MH] OR "perioperative medicine"[tiab])',
   subdomains:[
     { label:'Preoperative Risk Assessment',
@@ -415,7 +414,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'obm', section:'cross', color:'#4ade80', label:'Obstetric & Maternal Medicine', short:'Obs Med',
+  id:'obm', section:'cross', color:'#4a3aa7', colorDark:'#9085e9', label:'Obstetric & Maternal Medicine', short:'Obs Med',
   query:'("pregnancy complications"[MH] OR "pre-eclampsia"[MH] OR "diabetes, gestational"[MH] OR "obstetric medicine"[tiab] OR "medical disorders in pregnancy"[tiab])',
   subdomains:[
     { label:'Hypertensive Disorders of Pregnancy',
@@ -429,7 +428,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'geri', section:'cross', color:'#f472b6', label:'Geriatrics & Multimorbidity', short:'Geri',
+  id:'geri', section:'cross', color:'#a05a2c', colorDark:'#c07038', label:'Geriatrics & Multimorbidity', short:'Geri',
   query:'("frailty"[MH] OR "geriatric assessment"[MH] OR "multimorbidity"[MH] OR "polypharmacy"[MH] OR "accidental falls"[MH] OR "dementia"[MH])',
   subdomains:[
     { label:'Frailty & CGA',
@@ -445,7 +444,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'pharm', section:'cross', color:'#34d399', label:'Therapeutics & Clinical Pharmacology', short:'Therap',
+  id:'pharm', section:'cross', color:'#1baf7a', colorDark:'#199e70', label:'Therapeutics & Clinical Pharmacology', short:'Therap',
   query:'("drug-related side effects and adverse reactions"[MH] OR "pharmacology, clinical"[MH] OR "drug interactions"[MH] OR "anticoagulants"[MH] OR "medication errors"[MH])',
   subdomains:[
     { label:'Adverse Drug Reactions & Safety',
@@ -459,7 +458,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'rheum', section:'spec', color:'#c084fc', label:'Rheumatology & Immunology', short:'Rheum',
+  id:'rheum', section:'spec', color:'#6b6fc4', colorDark:'#8589d9', label:'Rheumatology & Immunology', short:'Rheum',
   query:'("rheumatic diseases"[MH] OR "autoimmune diseases"[MH] OR "vasculitis"[MH] OR "arthritis"[MH] OR "gout"[MH])',
   subdomains:[
     { label:'Inflammatory Arthritis',
@@ -473,7 +472,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'haem', section:'spec', color:'#60a5fa', label:'Haematology', short:'Haem',
+  id:'haem', section:'spec', color:'#e34948', colorDark:'#e66767', label:'Haematology', short:'Haem',
   query:'("hematologic diseases"[MH] OR "anemia"[MH] OR "venous thromboembolism"[MH] OR "thrombocytopenia"[MH] OR "hematologic neoplasms"[MH])',
   subdomains:[
     { label:'Anaemia & Iron',
@@ -487,7 +486,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'endo', section:'spec', color:'#facc15', label:'Endocrine & Diabetes (acute)', short:'Endo',
+  id:'endo', section:'spec', color:'#0d8f9e', colorDark:'#14a7b8', label:'Endocrine & Diabetes (acute)', short:'Endo',
   query:'("diabetes mellitus"[MH] OR "thyroid diseases"[MH] OR "hyponatremia"[MH] OR "adrenal insufficiency"[MH] OR "diabetic ketoacidosis"[MH])',
   subdomains:[
     { label:'Diabetes & Inpatient Glycaemia',
@@ -501,7 +500,7 @@ var TOPICS = [
   ]
 },
 {
-  id:'eqs', section:'spec', color:'#94a3b8', label:'Evidence, Quality & Health Systems', short:'EQS',
+  id:'eqs', section:'spec', color:'#eb6834', colorDark:'#d95926', label:'Evidence, Quality & Health Systems', short:'EQS',
   query:'("evidence-based medicine"[MH] OR "quality improvement"[MH] OR "patient safety"[MH] OR "delivery of health care"[MH] OR "medical informatics"[MH])',
   subdomains:[
     { label:'EBM, Guidelines & Methods',
@@ -517,7 +516,7 @@ var TOPICS = [
 ];
 
 var JOURNAL_VIEW_TOPIC = {
-  id:'jv', section:'jv', color:'#94a3b8', label:'Journal View', short:'Journal View',
+  id:'jv', section:'jv', color:'#6b7a8d', colorDark:'#6b7f97', label:'Journal View', short:'Journal View',
   query:'("internal medicine"[MH] OR "hospital medicine"[tiab] OR "heart failure"[MH] OR "sepsis"[MH] OR "stroke"[MH] OR "pneumonia"[MH] OR "acute kidney injury"[MH] OR "frailty"[MH])',
   subdomains:[]
 };
@@ -526,7 +525,7 @@ var JOURNAL_VIEW_TOPIC = {
 // AND (high-evidence pub types OR landmark big-journal RCTs). Both operands
 // fully parenthesised so left-to-right evaluation is correct.
 var GUIDELINES_VIEW_TOPIC = {
-  id:'gx', section:'gx', color:'#fbbf24', label:'Guidelines & Practice-Changing', short:'Guidelines',
+  id:'gx', section:'gx', color:'#a87908', colorDark:'#fbbf24', label:'Guidelines & Practice-Changing', short:'Guidelines',
   query:'("heart failure"[MH] OR "atrial fibrillation"[MH] OR "acute coronary syndrome"[MH] OR "hypertension"[MH] OR "pulmonary disease, chronic obstructive"[MH] OR "asthma"[MH] OR "pneumonia"[MH] OR "pulmonary embolism"[MH] OR "sepsis"[MH] OR "communicable diseases"[MH] OR "stroke"[MH] OR "venous thromboembolism"[MH] OR "acute kidney injury"[MH] OR "renal insufficiency, chronic"[MH] OR "diabetes mellitus"[MH] OR "gastrointestinal hemorrhage"[MH] OR "liver cirrhosis"[MH] OR "frailty"[MH] OR "anticoagulants"[MH] OR "delirium"[MH] OR "perioperative care"[MH] OR "rheumatic diseases"[MH] OR "anemia"[MH] OR "thyroid diseases"[MH]) AND ("practice guideline"[pt] OR "guideline"[pt] OR "meta-analysis"[pt] OR "systematic review"[pt] OR ("randomized controlled trial"[pt] AND ("N Engl J Med"[ta] OR "Lancet"[ta] OR "JAMA"[ta] OR "BMJ"[ta] OR "Ann Intern Med"[ta] OR "Nat Med"[ta])))',
   subdomains:[]
 };
@@ -834,7 +833,8 @@ var selJournals=new Set();
 var jvJournals=new Set();
 var mode='domain';
 var lastDomainId='acu';
-var theme='midnight';
+var theme='light';
+var textScale=0;
 var ccj=true;            // Core Clinical Journals filter default ON
 var auditOpen=new Set();
 var subSel={};           // topic id -> subdomain index (null = broad/all)
@@ -854,7 +854,9 @@ function persist(){
   persistPool();localStore('gm_rd',Array.from(readSet));
   localStore('gm_jf',Array.from(selJournals));localStore('gm_jvf',Array.from(jvJournals));
   localStore('gm_mode',mode);localStore('gm_th',theme);localStore('gm_ss',subSel);localStore('gm_ccj',ccj);
+  localStore('gm_ts',textScale);
 }
+var LEGACY_THEME={midnight:'dark',clinical:'light'};
 function loadPersisted(){
   var pool=localLoad('gm_pool');
   if(pool&&typeof pool==='object'&&!(pool instanceof Array)){savedPool=pool;}
@@ -862,9 +864,13 @@ function loadPersisted(){
   var jf=localLoad('gm_jf');if(jf instanceof Array)selJournals=new Set(jf);
   var jvf=localLoad('gm_jvf');if(jvf instanceof Array)jvJournals=new Set(jvf);
   var md=localLoad('gm_mode');mode=(md==='journal'||md==='guide')?md:'domain';
-  var th=localLoad('gm_th');theme=(th==='midnight'||th==='clinical')?th:'midnight';if(th!==theme)localStore('gm_th',theme);
+  var th=localLoad('gm_th');
+  if(th==='light'||th==='dark'){theme=th;}
+  else if(typeof th==='string'&&LEGACY_THEME[th]){theme=LEGACY_THEME[th];localStore('gm_th',theme);}
+  else{theme='light';localStore('gm_th',theme);}
   var ss=localLoad('gm_ss');if(ss&&typeof ss==='object')subSel=ss;
   var cj=localLoad('gm_ccj');ccj=(cj===false)?false:true;
+  var ts=localLoad('gm_ts');textScale=(ts===0||ts===1||ts===2)?ts:0;if(ts!==textScale)localStore('gm_ts',textScale);
 }
 function clearAll(){
   savedPool={};readSet=new Set();cache={};subSel={};
@@ -994,12 +1000,18 @@ function renderError(msg,id){
 }
 function unread(id){var c=getCached(id);if(!c)return 0;var n=0;for(var i=0;i<c.articles.length;i++){if(!readSet.has(c.articles[i].pmid))n++;}return n;}
 
+// Each lane carries a light-mode and dark-mode accent hex (see color/colorDark
+// on TOPICS entries) — the dark variant is stepped for OKLCH L 0.48-0.67 so it
+// still clears 3:1 against the dark surface; the light hex would under-contrast
+// there. Always read the lane accent through this, never t.color directly.
+function laneColor(t){return theme==='dark'?(t.colorDark||t.color):t.color;}
+
 function renderPills(t){
   var row=document.getElementById('sd-pill-row');
   row.innerHTML='';
   if(!t||!t.subdomains||!t.subdomains.length){row.style.display='none';return;}
   row.style.display='flex';
-  row.style.setProperty('--tc',t.color);
+  row.style.setProperty('--tc',laneColor(t));
   var si=subSel[t.id];
   var allPill=document.createElement('button');
   allPill.className='sd-pill'+((si===null||si===undefined)?' active':'');
@@ -1027,9 +1039,9 @@ function renderTabs(){
       var cnt=getCached(t.id)?unread(t.id):null;
       var btn=document.createElement('button');
       btn.className='tab'+(active?' active':'');
-      btn.style.setProperty('--tc',t.color);
+      btn.style.setProperty('--tc',laneColor(t));
       btn.title=t.label;
-      btn.innerHTML=esc(t.short)+((cnt>0)?'<span class="badge" style="--tc:'+t.color+'">'+cnt+'</span>':'');
+      btn.innerHTML=esc(t.short)+((cnt>0)?'<span class="badge" style="--tc:'+laneColor(t)+'">'+cnt+'</span>':'');
       btn.onclick=function(){activeId=t.id;showBM=false;renderTabs();renderPills(t);renderContent();loadTopic(t.id);};
       nav.appendChild(btn);
     });
@@ -1083,7 +1095,7 @@ function articleHTML(a,tc){
 function renderJChips(){
   var row=document.getElementById('jchip-row');
   row.style.display='flex';
-  row.style.setProperty('--tc',JOURNAL_VIEW_TOPIC.color);
+  row.style.setProperty('--tc',laneColor(JOURNAL_VIEW_TOPIC));
   row.innerHTML='';
   jvJournals.forEach(function(ta){
     var chip=document.createElement('span');chip.className='jchip';
@@ -1120,7 +1132,7 @@ function renderContent(){
   var si=subSel[activeId];
   var subLabel=(si!==null&&si!==undefined&&t.subdomains&&t.subdomains[si]&&t.subdomains[si].label);
   titleEl.textContent=subLabel?(t.label+' \u2014 '+subLabel):t.label;
-  titleEl.style.color=t.color;
+  titleEl.style.color=laneColor(t);
 
   if(mode==='journal'){document.getElementById('sd-pill-row').style.display='none';renderJChips();}
   else if(mode==='guide'){document.getElementById('sd-pill-row').style.display='none';document.getElementById('jchip-row').style.display='none';}
@@ -1141,7 +1153,7 @@ function renderContent(){
   if(notes.length){noticeEl.style.display='block';noticeEl.textContent=notes.join(' ');}
   else{noticeEl.style.display='none';}
 
-  el.innerHTML=arts.length?arts.map(function(a){return articleHTML(a,t.color);}).join(''):'<div class="empty-state"><h3>No articles found</h3><p>Try extending the date range, relaxing the study-type filter,<br>or turning off the CCJ filter.</p></div>';
+  el.innerHTML=arts.length?arts.map(function(a){return articleHTML(a,laneColor(t));}).join(''):'<div class="empty-state"><h3>No articles found</h3><p>Try extending the date range, relaxing the study-type filter,<br>or turning off the CCJ filter.</p></div>';
   renderTabs();
 }
 
@@ -1274,15 +1286,26 @@ document.getElementById('jp-clear').addEventListener('click',function(){
 // ---------------------------------------------------------------------------
 function applyTheme(name){
   theme=name;document.documentElement.setAttribute('data-theme',name);
-  var opts=document.querySelectorAll('.theme-opt');
-  for(var i=0;i<opts.length;i++)opts[i].classList.toggle('active',opts[i].getAttribute('data-theme')===name);
+  var sun=document.getElementById('icon-sun'),moon=document.getElementById('icon-moon');
+  if(sun)sun.style.display=name==='dark'?'none':'';
+  if(moon)moon.style.display=name==='dark'?'':'none';
   persist();
 }
 document.getElementById('btn-theme').addEventListener('click',function(e){
-  e.stopPropagation();var p=document.getElementById('theme-panel'),open=p.classList.contains('open');
-  closeAll();if(!open)p.classList.add('open');
+  e.stopPropagation();
+  applyTheme(theme==='light'?'dark':'light');
+  closeAll();
 });
-(function(){var opts=document.querySelectorAll('.theme-opt');for(var i=0;i<opts.length;i++){(function(el){el.addEventListener('click',function(){applyTheme(el.getAttribute('data-theme'));closeAll();});})(opts[i]);}})();
+function applyTextScale(step){
+  textScale=step;
+  var scales=[1,1.15,1.3];
+  document.documentElement.style.setProperty('--tsize',scales[step]||1);
+  localStore('gm_ts',textScale);
+}
+document.getElementById('btn-tsize').addEventListener('click',function(e){
+  e.stopPropagation();
+  applyTextScale((textScale+1)%3);
+});
 
 // ---------------------------------------------------------------------------
 // 14. AUDIT PANEL
@@ -1304,7 +1327,7 @@ function buildAudit(){
     var subH=audit.subLabel?('<div class="audit-section-label">Active subdomain</div><div class="audit-query-box" style="color:var(--logo-accent)">'+esc(audit.subLabel)+'</div>'):'';
     var transH=audit.querytranslation?('<div class="audit-section-label">NCBI query translation</div><div class="audit-translation-box">'+esc(audit.querytranslation)+'</div>'+((count>showing+10)?('<div class="audit-warning">&#9888; '+(count-showing)+' further records exist beyond the '+showing+' shown. Inspect translation for dropped terms.</div>'):'')):'<div class="audit-pending" style="margin-top:6px">Load this lane to see NCBI query translation.</div>';
     var w=document.createElement('div');w.className='audit-topic';
-    w.innerHTML='<div class="audit-topic-head" style="border-left:3px solid '+t.color+'"><span class="audit-topic-label" style="color:'+t.color+'">'+esc(t.label)+'</span>'+countH+'&nbsp;'+vH+'<span style="font-size:10px;color:var(--muted);margin-left:4px">'+(open?'&#9650;':'&#9660;')+'</span></div>'+
+    w.innerHTML='<div class="audit-topic-head" style="border-left:3px solid '+laneColor(t)+'"><span class="audit-topic-label" style="color:'+laneColor(t)+'">'+esc(t.label)+'</span>'+countH+'&nbsp;'+vH+'<span style="font-size:10px;color:var(--muted);margin-left:4px">'+(open?'&#9650;':'&#9660;')+'</span></div>'+
       '<div class="audit-topic-body'+(open?' open':'')+'" id="ab-audit-'+t.id+'">'+subH+'<div class="audit-section-label">Query sent to PubMed</div><div class="audit-query-box">'+esc((audit.query||t.query)+(audit.jf||''))+'</div>'+transH+'</div>';
     w.querySelector('.audit-topic-head').addEventListener('click',function(){if(auditOpen.has(t.id))auditOpen['delete'](t.id);else auditOpen.add(t.id);buildAudit();});
     body.appendChild(w);
@@ -1324,11 +1347,11 @@ document.getElementById('audit-close').addEventListener('click',function(){
 // 15. PANELS & CONTROLS
 // ---------------------------------------------------------------------------
 function closeAll(){
-  ['journal-panel','theme-panel','audit-panel'].forEach(function(id){document.getElementById(id).classList.remove('open');});
+  ['journal-panel','audit-panel'].forEach(function(id){document.getElementById(id).classList.remove('open');});
   ['btn-journals','btn-audit'].forEach(function(id){document.getElementById(id).classList.remove('active');});
 }
 document.addEventListener('click',function(e){
-  var inside=['journal-panel','theme-panel','audit-panel','btn-journals','btn-theme','btn-audit'];
+  var inside=['journal-panel','audit-panel','btn-journals','btn-theme','btn-audit'];
   var hit=false;for(var i=0;i<inside.length;i++){if(e.target.closest('#'+inside[i])){hit=true;break;}}
   if(!hit)closeAll();
 });
@@ -1383,6 +1406,7 @@ if(mode==='journal'){activeId='jv';}
 else if(mode==='guide'){activeId='gx';}
 else{activeId=(lastDomainId&&lastDomainId!=='jv'&&lastDomainId!=='gx')?lastDomainId:'acu';lastDomainId=activeId;}
 applyTheme(theme);
+applyTextScale(textScale);
 syncModeUI();
 updateJPcount();
 document.getElementById('btn-ccj').classList.toggle('active',ccj);
