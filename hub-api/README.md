@@ -29,6 +29,23 @@ do this). A bare `wrangler deploy` would target an environment with no D1
 binding at all — not "accidentally production," but still not a target
 you want to land on by omission.
 
+## Endpoints (staging, as of build-order items 1-2)
+
+| Method + path | Auth | What it does |
+|---|---|---|
+| `GET /health` | none | `{status, stage, version}` — proves the Worker is deployed and reachable |
+| `GET /auth/orcid/login` | none | Redirects to ORCID's authorize page (sets a short-lived CSRF state cookie) |
+| `GET /auth/orcid/callback` | none | ORCID redirects here with `?code=&state=`; exchanges the code for a token server-side, confirms identity, issues the session cookie |
+| `GET /me` | session cookie | `{signedIn, orcid, name}` or `401 {signedIn:false}` — check who (if anyone) is currently signed in |
+| `GET /auth/logout` | none | Clears the session cookie |
+| `POST /events` | session cookie | Body `{pmid, source_tool, topic_id?, cached_title?, cached_journal?}` — writes one `flag_interesting` judgment-event, returns the inserted row (`201`). `source_tool` must be one of `endo`/`gm`/`hub`. One hardcoded event type on purpose — see `src/index.js`'s header comment |
+| `GET /events?pmid=` | session cookie | Reads back all judgment-events for that PMID, newest first |
+
+There's no frontend calling any of this yet (that's the still-open "hub touchpoint" work in
+`BACKLOG.md`) — everything above was verified by hand: OAuth via a real browser session, `/events`
+via `fetch()` in DevTools Console on the Worker's own origin (so the `HttpOnly` session cookie
+is sent automatically without ever being exposed to script or copied out).
+
 ## One-time setup (requires a human with Cloudflare + ORCID accounts)
 
 1. `npm install`
@@ -40,16 +57,24 @@ you want to land on by omission.
 4. `npm run d1:migrate:staging` — applies `migrations/0001_init.sql`.
 5. Register (or confirm) an ORCID **sandbox** app at
    https://sandbox.orcid.org — copy `.dev.vars.example` to `.dev.vars` and
-   fill in the client id/secret for local dev.
-6. For a deployed staging Worker (not just local `wrangler dev`), set the
-   same secret server-side: `npx wrangler secret put ORCID_CLIENT_SECRET --env staging`.
+   fill in the client id/secret for local dev. (Sandbox registration only
+   accepts `@mailinator.com` addresses for account verification, and the
+   "register API credentials" step is gated on your account's *primary*
+   email being verified, not just any verified email on the account — a
+   real snag hit during setup, easy to mistake for a UI bug.)
+6. For a deployed staging Worker (not just local `wrangler dev`), set
+   secrets server-side:
+   ```
+   npx wrangler secret put ORCID_CLIENT_SECRET --env staging
+   npx wrangler secret put SESSION_SECRET --env staging   # any random string, e.g. openssl rand -base64 32
+   ```
 7. `npm run deploy:staging`, then confirm `GET https://<staging-url>/health`
    responds.
 
 Production (`bri-gest-hub-production` D1 database, production ORCID
 registry, `--env production` secrets and deploy) is deliberately not stood
-up in Phase 1 — see design doc section 7, item 4's note that "no
-production database exists yet at this stage, and that's fine."
+up yet — see design doc section 7, item 4's note that "no production
+database exists yet at this stage, and that's fine."
 
 ## Promotion (D8)
 
