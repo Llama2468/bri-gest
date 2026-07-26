@@ -2,3 +2,7 @@ node_modules/
 ~$*.docx
 .DS_Store
 .claude/settings.local.json
+
+# hub-api (Cloudflare Worker)
+hub-api/.wrangler/
+hub-api/.dev.vars

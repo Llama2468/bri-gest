@@ -1,0 +1,40 @@
+# Cloudflare Worker config for the bri-gest connected-hub API.
+#
+# There is deliberately no default/top-level deployable environment.
+# Every deploy or D1 command must explicitly pass --env staging or
+# --env production so it is never possible to land on an ambiguous
+# target by omission. See CONNECTED-HUB-DESIGN.md section 6 (D8).
+#
+# database_id values below are placeholders. Real values are filled in
+# after running `wrangler d1 create bri-gest-hub-staging --env staging`
+# (and the production equivalent, later, deliberately) while
+# authenticated via `wrangler login`.
+
+name = "bri-gest-hub-api"
+main = "src/index.js"
+compatibility_date = "2026-07-26"
+
+[env.staging]
+name = "bri-gest-hub-api-staging"
+# ORCID_CLIENT_ID is not secret (it's visible in the browser's redirect URL
+# anyway) so it lives here as a plain var; ORCID_CLIENT_SECRET is set via
+# `wrangler secret put ORCID_CLIENT_SECRET --env staging` and never committed.
+vars = { STAGE = "staging", HUB_VERSION = "hub-connected-v0.1", ORCID_AUTH_BASE = "https://sandbox.orcid.org", ORCID_API_BASE = "https://api.sandbox.orcid.org", ORCID_CLIENT_ID = "APP-YFEPH3WJOO6ETPBM", ORCID_REDIRECT_URI = "https://bri-gest-hub-api-staging.llama2468.workers.dev/auth/orcid/callback" }
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "bri-gest-hub-staging"
+database_id = "6355cb44-dff0-4b13-b86b-aa98411e8104"
+
+[env.production]
+name = "bri-gest-hub-api-production"
+# Deliberately not deployed this session — see design doc section 7. Values
+# below are filled in ahead of time (the URL is deterministic from the
+# `name` above + the account's workers.dev subdomain) so this block is
+# ready, not so it gets used yet.
+vars = { STAGE = "production", HUB_VERSION = "hub-connected-v0.1", ORCID_AUTH_BASE = "https://orcid.org", ORCID_API_BASE = "https://api.orcid.org", ORCID_CLIENT_ID = "REPLACE_ME_AFTER_ORCID_PRODUCTION_APP_REGISTRATION", ORCID_REDIRECT_URI = "https://bri-gest-hub-api-production.llama2468.workers.dev/auth/orcid/callback" }
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "bri-gest-hub-production"
+database_id = "REPLACE_ME_AFTER_WRANGLER_D1_CREATE_PRODUCTION"

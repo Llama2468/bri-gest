@@ -1,0 +1,16 @@
+# Copy this file to .dev.vars for local `wrangler dev` runs.
+# .dev.vars itself is gitignored — never commit real secrets here.
+#
+# Staging/local dev use the ORCID *sandbox* app registration (D1).
+# Production secrets are set separately with:
+#   wrangler secret put ORCID_CLIENT_SECRET --env production
+# and are never present in any file in this repo.
+
+ORCID_CLIENT_ID=
+ORCID_CLIENT_SECRET=
+ORCID_REDIRECT_URI=http://localhost:8787/auth/orcid/callback
+
+# Signs the session cookie issued after ORCID login (HMAC-SHA256). Any
+# random string works locally; `openssl rand -base64 32` or similar.
+# Staging/production each have their own, set via `wrangler secret put`.
+SESSION_SECRET=

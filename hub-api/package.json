@@ -1,0 +1,17 @@
+{
+  "name": "bri-gest-hub-api",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev --env staging",
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:production": "wrangler deploy --env production",
+    "d1:migrate:staging": "wrangler d1 migrations apply bri-gest-hub-staging --env staging",
+    "d1:migrate:production": "wrangler d1 migrations apply bri-gest-hub-production --env production",
+    "tail:staging": "wrangler tail --env staging"
+  },
+  "devDependencies": {
+    "wrangler": "^4.114.0"
+  }
+}

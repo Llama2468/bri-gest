@@ -1,12 +1,19 @@
 # Connected Hub — kickoff prompts
 
-Two prompts for opening the next session, depending on how much you want to do in one sitting.
-Both assume `CONNECTED-HUB-DESIGN.md` and `BACKLOG.md`'s "The connected hub" section exist —
+Three prompts for opening a session, depending on how much you want to do in one sitting.
+All assume `CONNECTED-HUB-DESIGN.md` and `BACKLOG.md`'s "The connected hub" section exist —
 read this file's own instructions and paste the prompt text into a fresh session.
+
+**Status as of 2026-07-27: Options A and B are both done** — D1–D8 confirmed, and build-order
+items 1–2 (identity + the first emission event) built, verified end-to-end, and pushed to
+`brigest-connected` with an open draft PR (#1). They're kept below for the historical record
+and because their hard-constraint language is still worth re-reading. **Option C is the live
+one** — the hub's one deliberate integration touchpoint, which is what's actually blocking
+PR #1 from leaving draft.
 
 ---
 
-## Option A — architecture review only (smaller first touchpoint)
+## Option A — architecture review only (smaller first touchpoint) — DONE 2026-07-26
 
 Use this if you want a session that's purely a decision-making conversation, no code, no
 branch yet. Good if D1–D8 need real back-and-forth rather than a quick rubber-stamp.
@@ -34,7 +41,7 @@ section 6 with whatever we actually decided, so the next session starts from con
 decisions instead of proposals.
 ```
 
-## Option B — full Phase 1 kickoff (branch + scaffold)
+## Option B — full Phase 1 kickoff (branch + scaffold) — DONE 2026-07-26/27
 
 Use this once D1–D8 are confirmed (either from an Option A session, or because you're
 comfortable deciding them inline). This is the "build order item 1" session from the design
@@ -85,7 +92,50 @@ Hard constraints, not suggestions:
 
 ---
 
-Either way, when the session ends, ask it to leave `CONNECTED-HUB-DESIGN.md` and
+## Option C — the hub's integration touchpoint (live option, 2026-07-27)
+
+Use this to pick up where Phase 1 and build-order items 1-2 left off. `hub-api/` already has a
+working staging Worker: ORCID OAuth, a session cookie, and `POST/GET /events` (see
+`hub-api/README.md`'s endpoint table) — all verified by hand via DevTools, with no frontend
+calling any of it yet. This session's job is exactly design doc §4's "one deliberate
+exception": a small frontend surface plus a single new link in the existing hub.
+
+```
+This is the connected-hub project, continuing from build-order items 1-2 (identity + the first
+emission event), both done and verified on the brigest-connected branch -- see
+CONNECTED-HUB-DESIGN.md, BACKLOG.md's "The connected hub" section, and hub-api/README.md's
+endpoint table for exactly what already works (ORCID OAuth, a session cookie, POST/GET
+/events against the staging Worker). Draft PR #1 is open but not mergeable yet -- design doc
+section 4's merge criteria item (b), "the one integration touchpoint in the hub is reviewed
+and deliberate, not incidental," isn't met yet. That's this session's job.
+
+Build a small frontend surface (suggest /connected/ per the design doc's directory-isolation
+rule) that a signed-in ORCID user can actually use to sign in and flag a PMID -- i.e. a real
+UI in front of the /auth/orcid/login, /me, and POST /events endpoints that currently only get
+exercised by hand. Then add the *one* deliberate edit to the existing hub (index.html) that
+design doc section 4 explicitly carves out as an exception to "don't touch the live tools" --
+a link/button pointing at /connected/, now that there's something real to link to.
+
+Hard constraints, not suggestions:
+- Everything still targets the staging environment. No production Cloudflare environment, D1
+  database, or ORCID registration gets created or deployed to this session.
+- The edit to index.html is the ONE exception to the "don't touch the live tools" rule, and
+  should be reviewed as exactly that -- a single, deliberate, minimal change (a link/button),
+  not an opportunity to touch anything else in that file. endo/index.html and gm/index.html
+  stay untouched entirely.
+- Per D8's staging environment requirement (section 4.1), the /connected/ frontend must show
+  a visible "STAGING" indicator -- this is talking to a non-production backend and that must
+  never be ambiguous to whoever's looking at the screen.
+- Keep using the browser-verification pattern already established (real ORCID sandbox login,
+  not a mocked identity) -- this project's non-goal list rules out anything that only works
+  for the person building it.
+- When the session ends, leave CONNECTED-HUB-DESIGN.md and BACKLOG.md accurate to whatever
+  state was actually reached, same as the prior sessions on this project.
+```
+
+---
+
+Whichever path you take, when the session ends, ask it to leave `CONNECTED-HUB-DESIGN.md` and
 `BACKLOG.md` accurate to whatever state was actually reached — same discipline this project
 already applies to `VERSION` constants and the syntax gate: a document that doesn't match
 the code is worse than no document, because it gets trusted.
