@@ -184,27 +184,31 @@ Raised 2026-07-26 in direct response to the drift just found and fixed above: th
 
 ## The connected hub — a different project
 
-**Full design now lives in [`CONNECTED-HUB-DESIGN.md`](CONNECTED-HUB-DESIGN.md)**, written
-2026-07-26 — architecture, repo/branching strategy, build order, and a first-draft
-enumeration of the seven previously-unnamed D1–D7 open decisions (they were referenced here
-but never actually listed anywhere in the repo; confirmed by searching the full working tree,
-every branch, and git history). Review and confirm/amend that document at the start of the
-next session, before writing any code.
+**Full design lives in [`CONNECTED-HUB-DESIGN.md`](CONNECTED-HUB-DESIGN.md)**, written
+2026-07-26. Section 6's D1–D8 architectural decisions — OAuth flow shape, judgment-event
+schema, where tools emit from, curriculum-node mapping, data retention, moderation, D1
+backup, and dev/staging/production topology — were reviewed one at a time and **confirmed**
+(no longer a first draft) before any code was written, per the design doc's own rule.
 
-**Added 2026-07-26, at explicit request, as a standing priority for all infrastructure work
-going forward (not just this project):** development/production environment hygiene — the
-design doc's §4.1 and new **D8** decision. Separate Cloudflare environments, separate D1
-databases, separate ORCID registrations per environment, a named promotion step, and the
-connected-hub component tracked with its own version identifier the same transparent way
-`endo-v5.9`/`gm-v1.1` are. Branch isolation protects the static frontend; it does not by
-itself protect a deployed Worker/D1 backend, which is a different failure surface and needs
-its own deliberate separation from day one, not retrofitted after something goes wrong.
+**Phase 1 of the build order is done, on the `brigest-connected` branch (commit `a8aa396`):**
+a Cloudflare Worker (`/hub-api/`) deployed to a **staging-only** environment at
+`bri-gest-hub-api-staging.llama2468.workers.dev`, a D1 database with the judgment-event
+schema applied, and ORCID OAuth working end-to-end against the **sandbox** registry —
+confirmed identity, token exchange happening server-side in the Worker, never in a frontend.
+No production environment, database, or ORCID registration exists yet; none of that is
+retrofitted, it's stood up deliberately when that phase actually starts. `index.html`,
+`endo/`, `gm/` are untouched — the branch's diff against `main` is purely additive.
+
+**Not yet built:** Phase 2 — the first real judgment-event emission (forwarding a saved
+article into the shared pool) — and everything after it (richer judgment types, the
+templating layer). See the design doc's build order (section 5) for why that sequencing is
+deliberate, not just the next item on a list.
 
 **These are not features of the endocrine or GM tools.** Bolting per-user save lists, sharing,
 or commenting onto a single-file `localStorage` app produces something that works for exactly
-one person and then has to be thrown away. This needs its own branch (`brigest-connected`,
-not yet created) and its own sessions — see the design doc's repo/branching section for why
-and how, so this work doesn't put the current polished, live main branch at risk.
+one person and then has to be thrown away. This work stays on its own branch and its own
+sessions until the merge criteria in the design doc's section 4 are met, so it doesn't put
+the current polished, live main branch at risk.
 
 ---
 
