@@ -161,49 +161,93 @@ a one-off checklist item to satisfy once and move past.
    architecturally specified in principle but deliberately not designed in detail yet, because
    designing it against an empty graph would just be guessing.
 
-## 6. Open architectural decisions (D1–D8)
+## 6. Architectural decisions (D1–D8) — confirmed 2026-07-26
 
 `BACKLOG.md` names seven ("D1–D7") as unresolved but never enumerated them — confirmed by
-searching the full working tree, every branch, and git history: no prior enumeration exists
-anywhere. D1–D7 below are a **proposed** first draft, reconstructed from the architecture
-above, for the user to confirm, edit, or replace at the start of the next session — not a
-recovered spec. D8 is new, added 2026-07-26 alongside §4.1 above and is not part of that
-original "seven" count.
+searching the full working tree, every branch, and git history: no prior enumeration existed
+anywhere before this doc. D1–D7 were drafted as a first-pass reconstruction, then reviewed and
+decided one at a time with the user in the session that also wrote this update. D8 was added
+alongside §4.1, also on 2026-07-26, and decided in the same pass. These are now settled
+decisions, not proposals — re-open only with a deliberate reason, not by default at the start
+of the next session.
 
-- **D1 — OAuth flow shape.** Public client (PKCE, no secret, token exchange still ideally
-  proxied through the Worker to avoid CORS/exposure issues) vs. confidential client (secret
-  held only in the Worker). Also: ORCID sandbox vs. production registry for development.
-- **D2 — Judgment-event schema.** Exact fields (ORCID iD, PMID, event type, timestamp,
-  source-tool, payload), and how the schema versions as new judgment types are added later
-  without breaking events already written. Also whether to denormalise any article metadata
-  (title/journal) alongside the PMID for display, or always re-fetch from PubMed at read time.
-- **D3 — Where tools emit from.** Do `endo/` and `gm/` call the Worker API directly from their
-  own pages (requires bridging ORCID auth state across three separately-deployed static
-  origins), or only ever emit via a deep-link back to the hub (simpler, no auth logic
-  duplicated into the standalone tools, small extra click of friction for the user)?
-- **D4 — RACP curriculum node IDs (sleeper dependency, already flagged).** These almost
-  certainly don't exist as a machine-readable set. Everything in the later templating phase
-  that maps judgment-events to curriculum nodes depends on this being resolved — by hand-built
-  mapping or by abandoning that mapping — and it needs resolving early, since discovering the
-  gap late would invalidate templating work already done.
-- **D5 — Data ownership, retention, and export.** Since this stores identified professional
-  judgments, not anonymous bookmarks: can a contributor export or delete their own
-  judgment-events later? Is there any retention policy at all for a personal project, or is
-  "permanent, append-only, CC BY" the deliberate answer?
-- **D6 — Moderation / trust once a second contributor exists.** Fully open and public among
-  registered users by default, or is there a review gate before a judgment-event is visible to
-  anyone but its author? Who can flag or remove bad data (spam, honest mistakes), given the
-  CC BY licence stance already decided (`BACKLOG.md` §4)?
-- **D7 — D1 schema evolution and backup.** Cloudflare D1 is still a relatively young product.
-  What's the migration strategy for schema changes, and the backup/export strategy so the
-  curation graph isn't a single point of failure tied to one Cloudflare account?
-- **D8 — Dev/staging/production topology, specifics.** §4.1's requirements are non-negotiable
-  in principle; D8 is the concrete shape: two-tier (staging + production) or three-tier
-  (dev + staging + production)? One shared Cloudflare account with named environments, or
-  fully separate accounts for stronger isolation? Where does the promotion step actually live —
-  a manual `wrangler deploy --env production`, a tagged release, a GitHub Actions workflow
-  gated on a branch or manual approval? Decide this concretely before the first Worker deploy,
-  not after.
+- **D1 — OAuth flow shape. Decided: confidential client only, no PKCE.** Token exchange
+  happens server-side in the Worker (already non-negotiable per §3.1), secret never in the
+  frontend. PKCE exists to protect clients that *can't* hold a secret; with a confidential
+  Worker-held secret it's not solving a live problem yet. Revisit if ORCID's registration flow
+  pushes toward it or once there's real traffic worth hardening further. Sandbox-vs-production
+  ORCID registry per environment is not part of this decision — it's D8 applied to ORCID,
+  already settled in principle by §4.1.
+- **D2 — Judgment-event schema. Decided: core fields + `schema_version`; title/journal cached
+  at write time, display-only.** Fields: ORCID iD, PMID, event_type, timestamp, source_tool,
+  payload (JSON, shape depends on event_type), schema_version (so old rows stay interpretable
+  as new judgment types are added). A best-effort title+journal cache is written alongside the
+  PMID at emission time so the hub can render a list without an NCBI round-trip — explicitly
+  documented as a stale-tolerant display cache, never a source of truth. Anything beyond a list
+  view (abstract, full metadata) still re-fetches from PubMed, keeping §2's "not a paper
+  library" intact.
+- **D3 — Where tools emit from. Decided: deep-link to the hub only, no direct emission.**
+  `endo/` and `gm/` never call the Worker API directly — that would require bridging ORCID auth
+  state across three separately-deployed static origins, real complexity landing inside the two
+  files this whole project must not put at risk (§2, §4). All auth/emission logic lives in the
+  hub; the standalone tools' only touchpoint is the single link/button already carved out as
+  the "one deliberate exception" in §4. Revisit only if usage data shows the extra click is an
+  actual adoption blocker.
+- **D4 — RACP curriculum node IDs (sleeper dependency). Decided: stays out of scope, but
+  events carry a lightweight topic anchor now.** Formal curriculum-node mapping is correctly
+  gated behind the build order (§5) — designing it against an empty graph would just be
+  guessing, per §5.4. What's decided now: the payload (per D2) carries the emitting tool's
+  existing topic/lane id (`endo`'s TOPICS id or `gm`'s lane id) at emission time, so future
+  curriculum-mapping work has a real starting point instead of an empty column to backfill.
+- **D5 — Data ownership, retention, and export. Decided: append-only with author-initiated
+  retraction events; no retention policy.** History is never mutated. Contributors can
+  self-service retract/withdraw their own past events via a retraction event type (tombstone,
+  not erasure) — keeps the graph's integrity property while giving ORCID-identified
+  contributors a real way to walk back something they no longer stand behind. True hard-delete
+  (physically removing rows) stays a manual, rare, ops-level action for cases like a legal
+  request — not a self-service feature. No time-based retention policy; low volume makes one
+  pure overhead for now.
+- **D6 — Moderation / trust. Decided: open by default, admin escape hatch, no review queue.**
+  Any ORCID-authenticated event is immediately visible to other registered users — no
+  pre-publish gate. ORCID gating is already the primary trust mechanism and a strong bar
+  relative to anonymous UGC; a personal review queue doesn't scale past one reviewer (you) and
+  contradicts the graph-of-record framing in D5. Self-correction for honest mistakes runs
+  through D5's retraction mechanism; a coarse, out-of-band admin capability (you, manually)
+  covers genuine bad-faith cases without becoming part of the normal flow.
+- **D7 — D1 schema evolution and backup. Decided: `wrangler d1 migrations` for schema changes;
+  periodic export outside Cloudflare for backup.** Migrations use Cloudflare's own standard
+  tooling — no real alternative worth considering at this scale. Backup is a full dump of the
+  append-only event log to somewhere outside Cloudflare, run periodically; cheap given the
+  append-only design (just "all rows since last export"), and directly addresses D1's
+  single-Cloudflare-account point-of-failure risk for data meant to be durable (D5). Starts as
+  a manually-triggered process for v0.1 — doesn't need automation before there's data anyone
+  would miss — with scheduling as a natural later upgrade.
+- **D8 — Dev/staging/production topology. Decided: three-tier, one Cloudflare account, manual
+  promotion + git tag.**
+  - **Tiers:** local dev (`wrangler dev`, local D1 via miniflare, ORCID sandbox credentials —
+    free, undeployed, isolated by construction) → staging (deployed Worker, its own D1
+    database, ORCID sandbox credentials, visible "STAGING" badge on any frontend surface
+    pointed at it) → production (deployed Worker, its own D1 database, ORCID *production*
+    registry credentials, no badge). Three tiers in concept; only staging and production are
+    actually deployed Cloudflare resources.
+  - **Account structure:** one shared Cloudflare account, two named environments
+    (`[env.staging]` / `[env.production]` in `wrangler.toml`) rather than fully separate
+    accounts. Named environments already deliver the isolation that matters — separate D1
+    bindings, separate secrets — without the billing/login/DNS overhead of full account
+    separation, which this project's risk profile doesn't warrant.
+  - **Database separation:** two D1 databases, e.g. `bri-gest-hub-staging` and
+    `bri-gest-hub-production`, distinct database IDs bound in their respective `wrangler.toml`
+    env blocks. Staging data is disposable/synthetic; nothing ever flows staging → production
+    except code.
+  - **Credential separation:** two separate ORCID app registrations (sandbox, production), two
+    separate secrets, set independently per environment — e.g.
+    `wrangler secret put ORCID_CLIENT_SECRET --env staging` and `--env production`. Never
+    shared across environments.
+  - **Promotion step:** manual — running `wrangler deploy --env production` deliberately,
+    paired with creating a git tag (`hub-connected-v0.1`, incrementing the same way
+    `endo-v5.9`/`gm-v1.1` do) at that moment. The tag is the observable record that promotion
+    happened and when. A GitHub Actions workflow gated on tag-push is a reasonable later
+    upgrade if this grows past one maintainer, but isn't justified for v0.1.
 
 ## 7. Definition of done for the first session on this branch
 
