@@ -1,0 +1,117 @@
+# GENERATED from bri-gest/endo/index.html JOURNAL_GROUPS by `python -m yir.journals`.
+# Do not edit by hand: change the Bri-gest selector, then regenerate. test_journals_sync enforces this.
+groups:
+- label: General High-Impact
+  route: endocrine_majr
+  journals:
+  - name: NEJM
+    ta: N Engl J Med
+    if: 96.2
+  - name: Lancet
+    ta: Lancet
+    if: 98.4
+  - name: JAMA
+    ta: JAMA
+    if: 63.1
+  - name: BMJ
+    ta: BMJ
+    if: 39.0
+  - name: Nature Medicine
+    ta: Nat Med
+    if: 87.2
+  - name: Ann Intern Med
+    ta: Ann Intern Med
+    if: 21.4
+  - name: JAMA Intern Med
+    ta: JAMA Intern Med
+    if: 22.5
+- label: Diabetes & Metabolism
+  route: all_designs
+  journals:
+  - name: Lancet Diabetes Endo
+    ta: Lancet Diabetes Endocrinol
+    if: 44.5
+  - name: Diabetes Care
+    ta: Diabetes Care
+    if: 16.2
+  - name: Diabetologia
+    ta: Diabetologia
+    if: 8.4
+  - name: Diabetes
+    ta: Diabetes
+    if: 7.7
+  - name: Metabolism
+    ta: Metabolism
+    if: 6.4
+  - name: JCEM
+    ta: J Clin Endocrinol Metab
+    if: 5.5
+  - name: Obesity Reviews
+    ta: Obes Rev
+    if: 8.9
+  - name: Obesity
+    ta: Obesity (Silver Spring)
+    if: 5.2
+- label: Endocrinology
+  route: all_designs
+  journals:
+  - name: Endocrine Reviews
+    ta: Endocr Rev
+    if: 22.0
+  - name: Eur J Endocrinol
+    ta: Eur J Endocrinol
+    if: 5.0
+  - name: Clin Endocrinol
+    ta: Clin Endocrinol (Oxf)
+    if: 3.4
+  - name: Endocrinology
+    ta: Endocrinology
+    if: 4.0
+  - name: Front Endocrinol
+    ta: Front Endocrinol (Lausanne)
+    if: 5.2
+  - name: Thyroid
+    ta: Thyroid
+    if: 5.3
+  - name: Neuroendocrinology
+    ta: Neuroendocrinology
+    if: 4.5
+- label: Bone & Mineral
+  route: all_designs
+  journals:
+  - name: J Bone Miner Res
+    ta: J Bone Miner Res
+    if: 5.4
+  - name: Osteoporos Int
+    ta: Osteoporos Int
+    if: 4.3
+  - name: Bone
+    ta: Bone
+    if: 4.0
+  - name: Calcif Tissue Int
+    ta: Calcif Tissue Int
+    if: 4.0
+- label: Cardiovascular
+  route: cardiometabolic_majr
+  journals:
+  - name: Eur Heart J
+    ta: Eur Heart J
+    if: 39.3
+  - name: Circulation
+    ta: Circulation
+    if: 35.5
+  - name: JACC
+    ta: J Am Coll Cardiol
+    if: 24.0
+- label: Oncology
+  route: endocrine_neoplasm_majr
+  journals:
+  - name: J Clin Oncol
+    ta: J Clin Oncol
+    if: 45.3
+  - name: JAMA Oncol
+    ta: JAMA Oncol
+    if: 28.4
+  - name: Ann Oncol
+    ta: Ann Oncol
+    if: 51.8

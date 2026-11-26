@@ -1,0 +1,3 @@
+# Manually maintained (open decision 4). intervention name (lower case) -> funded | registered | neither
+# Empty entries resolve to "unknown" (modifier 1.0, flagged in the run report).
+{}

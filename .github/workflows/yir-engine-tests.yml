@@ -1,0 +1,23 @@
+name: YIR engine tests
+
+on:
+  pull_request:
+    paths: ['yir-engine/**', 'endo/index.html', '.github/workflows/yir-engine-tests.yml']
+  push:
+    branches: [main]
+    paths: ['yir-engine/**', 'endo/index.html']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: yir-engine
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy scipy "pydantic>=2" pyyaml pytest ruff
+      - run: ruff check src tests
+      - run: python -m pytest -q

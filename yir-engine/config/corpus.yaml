@@ -1,0 +1,12 @@
+# Corpus parameters (YIR_SPEC §1a, §2). Harvest logic arrives in step 3.
+date_field: edat
+window: {from: "2026-01-01", to: "2026-11-26"}
+streams:
+  diabetes_metabolism: [diabetes_metabolism, obesity_metabolic, lipids]
+  endocrinology: [thyroid, pituitary, adrenal, bone_calcium, reproductive_endocrinology, neuroendocrine, genetics, acute_endocrinology, research_qi, pregnancy_endocrinology]
+  # pregnancy_endocrinology papers on GDM / diabetes in pregnancy are routed to diabetes_metabolism by tag (see stream.py, step 6)
+gdm_tags: [gestational diabetes, diabetes in pregnancy, pre-existing diabetes]
+top_n_per_stream: 100
+boundary_report: [90, 120]
+journal_caps: {"Front Endocrinol (Lausanne)": 15}
+programme_caps: {}

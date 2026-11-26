@@ -1,0 +1,49 @@
+# YIR scoring constants (YIR_SPEC §6). Approximate and tunable, not derived.
+scoring_version: "0.6.0"
+
+credibility:
+  start:
+    sr_ma_of_rcts: 1.0
+    sr_ma_mixed: 0.7
+    sr_ma_observational: 0.5
+    guideline_grade: 1.0
+    guideline_other: 0.6
+    rct_phase3: 0.85
+    rct_pragmatic: 0.85
+    rct_phase2: 0.6
+    rct_mechanistic: 0.6
+    secondary: 0.6
+  outcome: {hard: 0.0, validated_surrogate: -0.10, unvalidated_surrogate: -0.20, na: 0.0}
+  analysis: {primary: 0.0, secondary: -0.05, post_hoc: -0.10, na: 0.0}
+  # Evaluated in order; first match wins. n-less records (e.g. guidelines) take 0 (pilot lesson 8).
+  precision:
+    - {min_n: 1000, adj: 0.0}
+    - {min_events: 300, adj: 0.0}
+    - {min_n: 100, adj: -0.05}
+    - {min_n: 0, adj: -0.10}
+  masking: {blinded: 0.0, open_objective: 0.0, open_subjective: -0.10, na: 0.0}
+  sr_ma: {unregistered: -0.10, no_certainty_rating: -0.05}
+  floor: 0.2
+  validated_surrogates: [HbA1c, BMD, UACR, eGFR slope, LDL-C, body weight (obesity trials)]
+
+salience:
+  nz_modifier: {funded: 1.0, registered: 1.0, neither: 0.85, unknown: 1.0}
+
+attention:
+  lambda_half_months: 12      # λ = m / (m + 12)
+  journal_prior_source: if_percentile_within_brigest   # interim; target: sjr_category_percentile (config/journals_sjr.csv)
+
+composite:
+  weights: {C: 1.0, S: 1.5, A: 0.5}
+  aggregation: geometric      # geometric | arithmetic
+  geometric_floor: 0.02       # avoids a single zero annihilating the product
+
+sensitivity:
+  draws: 5000
+  seed: 20261126
+  weight_factor_range: [0.5, 2.0]   # log-uniform multiplier per weight
+  p_geometric: 0.5
+  top_n: 20
+  interval: [2.5, 97.5]
+  dominance_warn: 0.60
+  collinearity_warn: 0.70

@@ -1,0 +1,17 @@
+[project]
+name = "yir"
+version = "0.6.0"
+description = "Endocrine Year in Review engine (Bri-gest)"
+requires-python = ">=3.11"
+dependencies = ["numpy", "scipy", "pydantic>=2", "pyyaml", "jinja2", "lxml", "httpx", "anthropic"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ruff"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
