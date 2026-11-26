@@ -8,12 +8,16 @@ Bri-gest is a set of PubMed literature-surveillance tools for RACP Advanced Trai
 
 Live at https://Llama2468.github.io/bri-gest/, served directly from this repo via GitHub Pages.
 
+**Accepted exception: Year in Review (`yir/`).** The owner decided on 2026-11-26 that `yir/` may contain AI-assisted classification, take-homes and scores. The "verbatim abstracts, no AI summarisation" rule still applies to every digest tool (`endo/`, `gm/`, hub). `yir/` must keep its prominent AI-content notice, must not reproduce abstracts except as licence-gated in `yir-engine/YIR_SPEC.md` §7a, and must not be presented as a digest. Don't "fix" `yir/` towards the digest rule, and don't let AI content leak into the digests. `yir-engine/CLAUDE.md` adds YIR-specific rules.
+
 ## Layout
 
 ```
 index.html          Hub — landing page linking to both tools (currently unlinked from GM, see below)
 endo/index.html      Endocrine Bri-gest — v5.8, 10 RACP endocrinology/metabolism domains, 53 subdomains
 gm/index.html         General Medicine Bri-gest — v1.0, 15 lanes mapped to RACP GACM curriculum
+yir/index.html        Year in Review — pilot (yir-v0.1-pilot), built from yir-engine/; NOT a digest (see exception below)
+yir-engine/           YIR build spec (YIR_SPEC.md), CLAUDE.md, page template and fixtures; Python pipeline to come
 docs/                Reference .docx documents (currently stale relative to the code — see BACKLOG.md)
 GitHub repository redesign/   Design handoff for an in-progress editorial redesign (hub + shared digest shell)
 ```
