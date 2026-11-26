@@ -9,7 +9,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const FILES = ['index.html', 'gm/index.html', 'endo/index.html'];
+const FILES = ['index.html', 'gm/index.html', 'endo/index.html', 'yir/index.html'];
 const repoRoot = path.resolve(__dirname, '..', '..');
 
 let failed = false;
