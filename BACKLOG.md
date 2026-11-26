@@ -182,6 +182,16 @@ Raised 2026-07-26 in direct response to the drift just found and fixed above: th
 
 ---
 
+## Year in Review (YIR) — its own workstream
+
+*Added 2026-11-27 at Brian's request, as a pointer. YIR's detailed task list lives in `yir-engine/YIR_SPEC.md`, not here.*
+
+- **Live:** pilot at `/yir/` (`yir-v0.1-pilot`), not linked from the hub. It is an accepted exception to the no-AI rule (see `CLAUDE.md`).
+- **Engine:** iteration 1, steps 1–2 done (models, journal sync, C/S/A scoring, sensitivity; 17 offline tests, CI). Steps 3–7 (harvest → classify → enrich → select/build → CLI) are next, in Claude Code. Use the §13 kickoff prompt.
+- **Session rule applies:** YIR is one workstream. Don't mix it with endo/GM/hub or connected-hub work in the same session.
+
+---
+
 ## The connected hub — a different project
 
 **Full design now lives in [`CONNECTED-HUB-DESIGN.md`](CONNECTED-HUB-DESIGN.md)**, written

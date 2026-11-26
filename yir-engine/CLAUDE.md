@@ -1,6 +1,6 @@
 # CLAUDE.md — Endocrine Year-in-Review engine (lives at bri-gest/yir-engine/)
 
-The spec is `YIR_SPEC.md` (v0.6). The only output location is `../yir/`; never write elsewhere in the Bri-gest repo. The root Bri-gest `CLAUDE.md` still applies. Section numbers below refer to it. Build iteration 1 only (§11) unless told otherwise.
+The spec is `YIR_SPEC.md` (v0.7). **Read its "Status and handover" section first.** Steps 1–2 of iteration 1 are done and accepted. Resume at step 3 (§13). The only output location is `../yir/`; never write elsewhere in the Bri-gest repo. The root Bri-gest `CLAUDE.md` still applies. Section numbers below refer to it. Build iteration 1 only (§11) unless told otherwise.
 
 ## Non-negotiables
 - **Nothing auto-writes to the atlas.** LLM output is `status: unvetted` until a human decision in `review/decisions.csv` vets it.
@@ -15,7 +15,9 @@ The spec is `YIR_SPEC.md` (v0.6). The only output location is `../yir/`; never w
 - Config-driven constants: no magic numbers in code for weights, credibility adjustments, journals or thresholds. Read them from `config/*.yaml`.
 - Rate limits: NCBI ≤ 10 req/s with a key, OpenAlex batched (≤ 100 DOIs per call) with exponential backoff on 429, iCite in batches of ≤ 400 PMIDs.
 - Windows users: prefix Python commands with `PYTHONIOENCODING=utf-8`.
-- Use the stated working order (§13) and stop at the checkpoint after step 2.
+- Use the stated working order (§13). The current checkpoint is **after step 3**: show the harvest counts and the exclusion log before any LLM calls.
+- Don't modify `score.py`, `sensitivity.py`, `config/scoring.yaml` or `tests/golden/` unless asked. They're the accepted checkpoint.
+- Ruff in CI uses the current default rules: `X | None` (not `Optional`), `re.DOTALL`, dict literals, `int(np.rint(x))`.
 
 ## Checks before saying a step is done
 - `pytest -q` passes, and `ruff check` is clean.
