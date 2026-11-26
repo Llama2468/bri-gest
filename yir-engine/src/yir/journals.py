@@ -21,7 +21,7 @@ ROUTES = {
     "Oncology": "endocrine_neoplasm_majr",
 }
 
-_GROUP_RE = re.compile(r"\{\s*label:'([^']+)',\s*journals:\[(.*?)\]\s*\}", re.S)
+_GROUP_RE = re.compile(r"\{\s*label:'([^']+)',\s*journals:\[(.*?)\]\s*\}", re.DOTALL)
 _JOURNAL_RE = re.compile(r"\{name:'([^']+)',\s*ta:'([^']+)',\s*if:([0-9.]+)\}")
 
 

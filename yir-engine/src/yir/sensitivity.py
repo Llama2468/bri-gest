@@ -59,8 +59,8 @@ def analyse(rows: list[dict], cfg: dict) -> dict:
         if abs(v) > sc["collinearity_warn"]:
             warnings.append(f"collinearity: |rho({k})| = {abs(v):.2f} (> {sc['collinearity_warn']})")
 
-    per_paper = [{"pmid": r["pmid"], "rank": int(base_rank[i]), "rank_lo": int(round(q_lo[i])),
-                  "rank_hi": int(round(q_hi[i])), "p_topN": round(float(p_top[i]), 3)} for i, r in enumerate(rows)]
+    per_paper = [{"pmid": r["pmid"], "rank": int(base_rank[i]), "rank_lo": int(np.rint(q_lo[i])),
+                  "rank_hi": int(np.rint(q_hi[i])), "p_topN": round(float(p_top[i]), 3)} for i, r in enumerate(rows)]
     return {"per_paper": per_paper,
             "effective_importance": {k: round(float(s), 3) for k, s in zip(names, share)},
             "spearman_with_composite": {k: round(float(v), 3) for k, v in zip(names, rho)},

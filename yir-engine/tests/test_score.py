@@ -11,8 +11,9 @@ CFG = load_config()
 
 
 def _paper(**kw):
-    base = dict(pmid="1", doi="10.1000/x", title="t", journal="Front Endocrinol (Lausanne)", tier="C",
-                epub="2026-06-01", design="d", dclass="sr_ma", domain="thyroid", qtype="treatment", take="t", result="r")
+    base = {"pmid": "1", "doi": "10.1000/x", "title": "t", "journal": "Front Endocrinol (Lausanne)", "tier": "C",
+            "epub": "2026-06-01", "design": "d", "dclass": "sr_ma", "domain": "thyroid", "qtype": "treatment",
+            "take": "t", "result": "r"}
     base.update(kw)
     return Paper(**base)
 
