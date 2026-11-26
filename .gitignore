@@ -2,3 +2,9 @@ node_modules/
 ~$*.docx
 .DS_Store
 .claude/settings.local.json
+
+# yir-engine
+yir-engine/.env
+yir-engine/data/raw/
+__pycache__/
+.pytest_cache/

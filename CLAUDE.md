@@ -17,7 +17,7 @@ index.html          Hub — landing page linking to both tools (currently unlink
 endo/index.html      Endocrine Bri-gest — v5.8, 10 RACP endocrinology/metabolism domains, 53 subdomains
 gm/index.html         General Medicine Bri-gest — v1.0, 15 lanes mapped to RACP GACM curriculum
 yir/index.html        Year in Review — pilot (yir-v0.1-pilot), built from yir-engine/; NOT a digest (see exception below)
-yir-engine/           YIR build spec (YIR_SPEC.md), CLAUDE.md, page template and fixtures; Python pipeline to come
+yir-engine/           YIR Python pipeline: spec (YIR_SPEC.md v0.7), CLAUDE.md, template, fixtures; iteration 1 steps 1–2 done, 3–7 next
 docs/                Reference .docx documents (currently stale relative to the code — see BACKLOG.md)
 GitHub repository redesign/   Design handoff for an in-progress editorial redesign (hub + shared digest shell)
 ```

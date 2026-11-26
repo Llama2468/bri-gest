@@ -1,6 +1,6 @@
 # Endocrine Year-in-Review Engine: Build Specification
 
-**Version:** 0.6. It adds the evidence-graph layer (section 6a): identifiers captured now, trial families and atlas evidence links in iteration 2.
+**Version:** 0.7 (27 Nov 2026). It records the state of play and hands over to Claude Code for steps 3–7 of iteration 1. There are no design changes from 0.6.
 **Date:** 2026-11-26
 **Owner:** Brian Corley
 **Builder:** Claude Code
@@ -11,6 +11,37 @@
 - The "Endocrine Year in Review 2026" prototype artifact (pilot v0.1.1), the UI reference.
 
 **Relationship to atlas:** this implements pipeline milestone **M5.2**. It inherits the M5 invariant: LLM-extracted content is `unvetted` until approved, and nothing writes to atlas nodes automatically.
+
+## Status and handover (27 Nov 2026)
+
+**Where things stand**
+
+| Item | State | Where |
+|---|---|---|
+| Pilot page | **Live** at https://llama2468.github.io/bri-gest/yir/ (`yir-v0.1-pilot`). It uses pilot scoring, not C/S/A, and is not linked from the hub. | `yir/index.html` (built from `yir-engine/template/index.src.html` + `tests/fixtures/pilot_83.json`) |
+| Iteration 1, step 1: models, config, journal sync | **Done** | `src/yir/models.py`, `src/yir/journals.py`, `config/*.yaml` |
+| Iteration 1, step 2: C/S/A scoring + sensitivity | **Done.** Checkpoint reviewed and accepted by Brian on 27 Nov 2026. | `src/yir/score.py`, `src/yir/sensitivity.py`, `src/yir/checkpoint.py`, `tests/golden/checkpoint_10.json` |
+| Tests | 17 passing, all offline. CI runs ruff + pytest on `yir-engine/**` (`.github/workflows/yir-engine-tests.yml`). | `tests/` |
+| Iteration 1, steps 3–7 | **Not started.** Handed to Claude Code (section 13). | — |
+
+**Checkpoint result** (10 hand-filled pilot papers, `python -m yir.checkpoint`): effective importance C 55%, S 44%, A 1%. No dominance or collinearity warnings. The pilot's problem, where relevance explained ~77% of rank variance, is resolved. A carries ~1% because there are no citations yet and the journal prior barely varies within tier A. This is accepted for a current-year review and expected to rise as citations accrue.
+
+**Accepted at the checkpoint**
+
+- The 10 salience ratings in `tests/fixtures/appraisal_10.json` stand as the **test fixture** (proposed by Claude, accepted by Brian). They are not a calibration set: the 50-paper rater-agreement study (section 10) is separate.
+- A non-GRADE guideline or consensus starts at credibility **0.6** (e.g. ADA/EASD 2026 → C = 0.60).
+- **Interim attention prior:** J = impact-factor percentile within the Bri-gest journal list (`attention.journal_prior_source: if_percentile_within_brigest`). Replacing it with SJR category percentiles (`config/journals_sjr.csv`) is part of step 5.
+
+**Constraints Claude Code needs to know**
+
+- The pilot was built in a sandbox with no network access to PubMed, OpenAlex or Anthropic. Steps 3–7 need network access and the keys in `.env.example`. Live runs are CLI commands; tests stay offline.
+- Step 3 needs **recorded PubMed XML fixtures**, which don't exist yet. First write `scripts/record_fixtures.py`. It is the one live-network script: efetch XML for the 83 pilot PMIDs plus ~10 Mendelian randomisation decoys and ~5 erratum/comment records, saved to `tests/fixtures/raw_xml/`. Run it once with `NCBI_API_KEY`, then commit the XML.
+- CI ruff runs the current default rule set, which is stricter than older ruff. Use `X | None`, not `Optional[X]` (UP045). Use `re.DOTALL`, not `re.S`. Prefer dict literals over `dict()`. Use `int(np.rint(x))` for numpy rounding.
+- Bri-gest repo rules still apply: whole-file rewrites for tool HTML, `yir_*` storage keys, no `?.`/`??` in page JS, a single delegated `data-action` listener, `esc()` on all data strings. The page template already follows them. Keep it that way when step 6 generates `../yir/index.html`.
+
+### Changes from 0.6
+
+- A status and handover section; the §13 kickoff now resumes at step 3; §14 is updated. No design changes.
 
 ### Changes from 0.5
 
@@ -509,19 +540,21 @@ bri-gest/
 - A Pages deploy only publishes `yir/`. Nothing from `yir-engine/` (configs, prompts, review CSVs) is linked from the site.
 - Bri-gest's root `CLAUDE.md` still governs the rest of the repo. `yir-engine/CLAUDE.md` adds the YIR rules and doesn't override them.
 
-## 13. Claude Code kickoff (paste as the first message)
+## 13. Claude Code kickoff: resume at step 3 (paste as the first message)
 
-> Read `YIR_SPEC.md` (v0.6) and `yir-engine/CLAUDE.md`. Scaffold the repo per section 12. Implement iteration 1 (section 11) in this order:
+> Read `yir-engine/YIR_SPEC.md` (v0.7), starting with "Status and handover", then `yir-engine/CLAUDE.md` and the repo-root `CLAUDE.md`. Steps 1–2 of iteration 1 are done and accepted. Don't change `score.py`, `sensitivity.py` or the golden files unless I ask. Work on a branch (`yir-engine-it1-steps3-7`), one PR per step, with CI green before each PR.
 >
-> 1. schema + config loaders + tests on `tests/fixtures/pilot_83.json`
-> 2. `score.py` + `sensitivity.py` against hand-filled appraisal fields for 10 pilot papers (golden-file tests)
-> 3. harvest/dedupe/rules with recorded XML fixtures (no live calls in tests)
-> 4. classify with the schema and guards
-> 5. enrich
-> 6. stream assignment + two-stage selection with journal caps + build from the prototype template into `../yir/` (two lists, licence-gated abstracts on cards, `display_mode: public`)
-> 7. CLI and run report
+> **Finish line for this workstream:** `yir run --window 2026` produces `../yir/index.html` with two top-100 lists (Diabetes & Metabolism, Endocrinology), C/S/A profiles and rank bands, licence-gated abstracts, the Front Endocrinol cap applied, and a run report. Iteration-2 items (section 11 "Out") are out of scope.
 >
-> Stop after step 2 and show me the scoring output and the dominance/collinearity report before continuing.
+> Steps:
+>
+> 3. `scripts/record_fixtures.py` (one live run, then commit the XML) → `harvest.py`, `dedupe.py`, `rules.py` against the recorded XML. Include identifier capture (section 6a.1) and the Mendelian randomisation exclusion (lesson 9).
+> 4. `classify.py`: Anthropic API, strict JSON schema, the section 5 guards. On guard failure, the record goes to the review queue. Test with recorded LLM responses.
+> 5. `enrich.py`: OpenAlex (one call per stream, 100 DOIs) and iCite. Populate `config/journals_sjr.csv` and switch `journal_prior_source` to SJR.
+> 6. `stream.py`, `select.py` (two-stage selection, journal caps, boundary report, triage queue CSV), then `build.py`, rendering the template into `../yir/index.html`. Bump the page `VERSION` to `yir-v0.2`. Check at 360 px and 1280 px with no overflow or console errors, and run `node .github/scripts/check-syntax.js`.
+> 7. `cli.py` and the run report (section 9), plus the independent-review checklist (yir-engine `CLAUDE.md`).
+>
+> Stop after step 3 and show me the harvest counts per journal and stream, and the exclusion log by rule, before running any LLM calls.
 
 ## 14. Decisions
 
@@ -532,6 +565,13 @@ bri-gest/
 - Obesity, lipids and GDM sit in Diabetes & Metabolism (section 1a).
 - Front Endocrinol is capped at 15 per top 100 (section 1a).
 - YIR is hosted at `/yir/` in the Bri-gest repo (section 12).
+
+**Resolved (27 Nov 2026)**
+
+- Step-2 checkpoint accepted: C/S/A weights 1.0/1.5/0.5, geometric aggregation, the 10-paper fixture ratings.
+- A non-GRADE consensus or guideline starts at credibility 0.6.
+- The interim IF-percentile journal prior is used until SJR is added in step 5.
+- Steps 3–7 are handed to Claude Code.
 
 **Open**
 

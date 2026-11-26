@@ -1,0 +1,3 @@
+domains: [diabetes_metabolism, obesity_metabolic, lipids, thyroid, pituitary, adrenal, bone_calcium, reproductive_endocrinology, pregnancy_endocrinology, neuroendocrine, genetics, acute_endocrinology, research_qi]
+qtypes: [treatment, diagnostics, prognosis_risk, mechanism, new_entities_genetics, health_services, research_methods]
+dclasses: [guideline, sr_ma, rct, rct_p2, secondary]

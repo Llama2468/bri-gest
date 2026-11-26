@@ -1,0 +1,358 @@
+{
+ "scoring_version": "0.6.0",
+ "as_of": "2026-11-26",
+ "journal_prior_source": "if_percentile_within_brigest",
+ "rows": [
+  {
+   "pmid": "42419792",
+   "label": "Comparative effects of drugs for adults with overw",
+   "C": 0.9,
+   "S": 0.75,
+   "A": 0.75,
+   "composite": 79.7,
+   "C_parts": {
+    "start": [
+     "sr_ma_of_rcts",
+     1.0
+    ],
+    "outcome": [
+     "validated_surrogate",
+     -0.1
+    ],
+    "analysis": [
+     "primary",
+     0.0
+    ],
+    "masking": [
+     "na",
+     0.0
+    ],
+    "precision": [
+     99791,
+     0.0
+    ]
+   },
+   "rank": 1,
+   "rank_lo": 1,
+   "rank_hi": 1,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "42133304",
+   "label": "TOPaZ",
+   "C": 0.8,
+   "S": 0.6667,
+   "A": 0.9062,
+   "composite": 74.56,
+   "C_parts": {
+    "start": [
+     "rct_pragmatic",
+     0.85
+    ],
+    "outcome": [
+     "hard",
+     0.0
+    ],
+    "analysis": [
+     "primary",
+     0.0
+    ],
+    "masking": [
+     "open_objective",
+     0.0
+    ],
+    "precision": [
+     350,
+     -0.05
+    ]
+   },
+   "rank": 2,
+   "rank_lo": 2,
+   "rank_hi": 4,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "41747751",
+   "label": "RADIANT",
+   "C": 0.7,
+   "S": 0.75,
+   "A": 0.8125,
+   "composite": 74.28,
+   "C_parts": {
+    "start": [
+     "rct_pragmatic",
+     0.85
+    ],
+    "outcome": [
+     "validated_surrogate",
+     -0.1
+    ],
+    "analysis": [
+     "primary",
+     0.0
+    ],
+    "masking": [
+     "open_objective",
+     0.0
+    ],
+    "precision": [
+     188,
+     -0.05
+    ]
+   },
+   "rank": 3,
+   "rank_lo": 2,
+   "rank_hi": 3,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "42825450",
+   "label": "ADA/EASD 2026 T2D",
+   "C": 0.6,
+   "S": 0.8333,
+   "A": 0.5312,
+   "composite": 69.29,
+   "C_parts": {
+    "start": [
+     "guideline_other",
+     0.6
+    ]
+   },
+   "rank": 4,
+   "rank_lo": 2,
+   "rank_hi": 8,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "42594928",
+   "label": "COMBINE 4",
+   "C": 0.7,
+   "S": 0.6375,
+   "A": 0.8125,
+   "composite": 68.48,
+   "C_parts": {
+    "start": [
+     "rct_phase3",
+     0.85
+    ],
+    "outcome": [
+     "validated_surrogate",
+     -0.1
+    ],
+    "analysis": [
+     "primary",
+     0.0
+    ],
+    "masking": [
+     "open_objective",
+     0.0
+    ],
+    "precision": [
+     485,
+     -0.05
+    ]
+   },
+   "rank": 5,
+   "rank_lo": 4,
+   "rank_hi": 6,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "41500720",
+   "label": "Weight regain after cessation of medication for we",
+   "C": 0.55,
+   "S": 0.75,
+   "A": 0.75,
+   "composite": 67.63,
+   "C_parts": {
+    "start": [
+     "sr_ma_mixed",
+     0.7
+    ],
+    "outcome": [
+     "validated_surrogate",
+     -0.1
+    ],
+    "analysis": [
+     "primary",
+     0.0
+    ],
+    "masking": [
+     "na",
+     0.0
+    ],
+    "precision": [
+     9341,
+     0.0
+    ],
+    "sr_no_certainty": [
+     "no",
+     -0.05
+    ]
+   },
+   "rank": 6,
+   "rank_lo": 4,
+   "rank_hi": 7,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "41702641",
+   "label": "Vitamin D supplementation before in vitro fertilis",
+   "C": 0.8,
+   "S": 0.5833,
+   "A": 0.75,
+   "composite": 67.58,
+   "C_parts": {
+    "start": [
+     "rct_pragmatic",
+     0.85
+    ],
+    "outcome": [
+     "hard",
+     0.0
+    ],
+    "analysis": [
+     "primary",
+     0.0
+    ],
+    "masking": [
+     "blinded",
+     0.0
+    ],
+    "precision": [
+     876,
+     -0.05
+    ]
+   },
+   "rank": 7,
+   "rank_lo": 4,
+   "rank_hi": 8,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "42567173",
+   "label": "SELECT+FLOW+SOUL",
+   "C": 0.55,
+   "S": 0.6667,
+   "A": 0.8125,
+   "composite": 64.62,
+   "C_parts": {
+    "start": [
+     "secondary",
+     0.6
+    ],
+    "outcome": [
+     "hard",
+     0.0
+    ],
+    "analysis": [
+     "secondary",
+     -0.05
+    ],
+    "masking": [
+     "blinded",
+     0.0
+    ],
+    "precision": [
+     30787,
+     0.0
+    ]
+   },
+   "rank": 8,
+   "rank_lo": 7,
+   "rank_hi": 8,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "41730814",
+   "label": "GRACE",
+   "C": 0.55,
+   "S": 0.3542,
+   "A": 0.8125,
+   "composite": 47.1,
+   "C_parts": {
+    "start": [
+     "rct_phase3",
+     0.85
+    ],
+    "outcome": [
+     "unvalidated_surrogate",
+     -0.2
+    ],
+    "analysis": [
+     "primary",
+     0.0
+    ],
+    "masking": [
+     "blinded",
+     0.0
+    ],
+    "precision": [
+     62,
+     -0.1
+    ]
+   },
+   "rank": 9,
+   "rank_lo": 9,
+   "rank_hi": 9,
+   "p_topN": 1.0
+  },
+  {
+   "pmid": "42810355",
+   "label": "ZUPREME 1",
+   "C": 0.45,
+   "S": 0.2833,
+   "A": 0.8125,
+   "composite": 39.4,
+   "C_parts": {
+    "start": [
+     "rct_phase2",
+     0.6
+    ],
+    "outcome": [
+     "validated_surrogate",
+     -0.1
+    ],
+    "analysis": [
+     "primary",
+     0.0
+    ],
+    "masking": [
+     "blinded",
+     0.0
+    ],
+    "precision": [
+     493,
+     -0.05
+    ]
+   },
+   "rank": 10,
+   "rank_lo": 10,
+   "rank_hi": 10,
+   "p_topN": 1.0
+  }
+ ],
+ "sensitivity": {
+  "effective_importance": {
+   "C": 0.548,
+   "S": 0.441,
+   "A": 0.011
+  },
+  "spearman_with_composite": {
+   "C": 0.803,
+   "S": 0.72,
+   "A": -0.111
+  },
+  "collinearity": {
+   "C-S": 0.317,
+   "C-A": -0.107,
+   "S-A": -0.493
+  },
+  "warnings": [],
+  "settings": {
+   "draws": 5000,
+   "seed": 20261126,
+   "top_n": 20
+  }
+ }
+}
